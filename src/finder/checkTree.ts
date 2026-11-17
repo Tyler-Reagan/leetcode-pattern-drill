@@ -6,7 +6,6 @@ import { tree } from './tree'
 
 const MAX_QUESTIONS = 6
 
-/** Required leaves and their exact templateIds. */
 const EXPECTED_LEAVES: Record<string, string[]> = {
     'two-pointers-converging': ['two-pointers-one-input'],
     'two-pointers-two-inputs': ['two-pointers-two-inputs'],
@@ -23,7 +22,7 @@ const EXPECTED_LEAVES: Record<string, string[]> = {
     'binary-search-answer-minimize': ['binary-search-greedy-minimum'],
     'binary-search-answer-maximize': ['binary-search-greedy-maximum'],
     'sort-first': [],
-    'hashmap-frequency': ['ds-hash-map'],
+    'hashmap-frequency': [],
     'hashmap-sliding-window': ['hashmap-sliding-window'],
     'stack-matching': [],
     'monotonic-stack-increasing': ['stack-monotonic-increasing'],
@@ -78,7 +77,6 @@ const { rootId, nodes, leaves } = tree
 const isNode = (id: string) => Object.prototype.hasOwnProperty.call(nodes, id)
 const isLeaf = (id: string) => Object.prototype.hasOwnProperty.call(leaves, id)
 
-// --- Ids and basic shape ---
 if (!isNode(rootId)) fail(`rootId "${rootId}" is not a node`)
 
 for (const [key, node] of Object.entries(nodes)) {
@@ -106,7 +104,6 @@ for (const [key, leaf] of Object.entries(leaves)) {
     }
 }
 
-// --- Expected leaves and exact templateIds ---
 for (const [id, templateIds] of Object.entries(EXPECTED_LEAVES)) {
     const leaf = leaves[id]
     if (!leaf) {
@@ -121,7 +118,6 @@ for (const id of Object.keys(leaves)) {
     if (!(id in EXPECTED_LEAVES)) warnings.push(`extra leaf not in the required list: "${id}"`)
 }
 
-// --- Enumerate every root-to-leaf path (DFS, detecting cycles) ---
 const paths: string[][] = []
 const reachedNodes = new Set<string>()
 const reachedLeaves = new Set<string>()
@@ -145,7 +141,6 @@ if (isNode(rootId)) walk(rootId, [])
 for (const id of Object.keys(nodes)) if (!reachedNodes.has(id)) fail(`node "${id}" is unreachable from the root`)
 for (const id of Object.keys(leaves)) if (!reachedLeaves.has(id)) fail(`leaf "${id}" is unreachable from the root`)
 
-// --- Depth (question nodes per path) ---
 const questionsOn = (p: string[]) => p.length - 1
 const maxDepth = paths.reduce((m, p) => Math.max(m, questionsOn(p)), 0)
 const tooDeep = paths.filter((p) => questionsOn(p) > MAX_QUESTIONS)
@@ -165,7 +160,6 @@ const histogram = (values: number[]) => {
     return [...counts.entries()].sort((a, b) => a[0] - b[0]).map(([d, n]) => `${d} questions: ${n}`)
 }
 
-// --- Report ---
 const optionCounts = Object.values(nodes).map((n) => n.options.length)
 console.log('Pattern Finder tree check')
 console.log(`  nodes:  ${Object.keys(nodes).length}`)

@@ -1,6 +1,6 @@
 # Pattern Finder: leaves without templates
 
-15 of 49 leaves in src/finder/tree.ts have `templateIds: []`. Add a template and list its id in the leaf to close each one.
+16 of 49 leaves in src/finder/tree.ts have `templateIds: []`. Add a template and list its id in the leaf to close each one.
 
 ## Two Pointers
 
@@ -9,6 +9,11 @@
 ## Sliding Window
 
 - [ ] **Exactly K via at-most trick** (sliding-window-exactly-k). [docs](https://resources.devweekends.com/dsa-patterns/sliding-window)
+
+## HashMap
+
+- [ ] **Hash map lookup / frequency** (hashmap-frequency). [docs](https://resources.devweekends.com/dsa-patterns/hashmap)
+  The `ds-hash-map` template is a HashMap class, not a counting or complement-lookup skeleton, so it is not used here.
 
 ## Sorting
 

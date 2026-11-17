@@ -7,7 +7,7 @@ A reusable algorithmic approach that a LeetCode problem can be mapped to, such a
 A specific form of a pattern that a problem's wording points to, such as sliding window with a variable size, or binary search on the answer. A pattern variant is what a leaf of the finder identifies. Several pattern variants can share one template.
 
 **Template**
-A code skeleton for a pattern, held in the repo in six languages. Not every pattern variant has one.
+A code skeleton for a pattern, held in the repo in the supported languages. Not every pattern variant has one.
 
 **Cue**
 A phrase written like a LeetCode problem statement that signals a pattern, such as "sorted array, find a pair with sum X". Cues are the options a user chooses between.

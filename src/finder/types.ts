@@ -6,14 +6,12 @@ export interface FinderOption {
     next: string
 }
 
-/** A question in the decision tree. */
 export interface TreeNode {
     id: string
     question: string
     options: FinderOption[]
 }
 
-/** The end of a path: one pattern variant. */
 export interface Leaf {
     id: string
     name: string

@@ -186,195 +186,58 @@ import TwoPointersTwoInputsJS from '@code/javascript/array/two_pointers_two_inpu
 import TwoPointersTwoInputsJAVA from '@code/java/array/two_pointers_two_inputs.java?raw'
 import TwoPointersTwoInputsCPP from '@code/cpp/array/two_pointers_two_inputs.cpp?raw'
 
-/** Code templates keyed by the templateIds used in tree.ts. */
+const entry = (title: string, python: string, javascript: string, java: string, cpp: string): TemplateEntry =>
+    ({ title, code: { python, javascript, java, cpp } })
+
 const TEMPLATES: Record<string, TemplateEntry> = {
-    'backtracking': {
-        title: 'backtracking',
-        code: { python: BacktrackingPY, javascript: BacktrackingJS, java: BacktrackingJAVA, cpp: BacktrackingCPP },
-    },
-    'binary-search': {
-        title: 'binary search',
-        code: { python: BinarySearchPY, javascript: BinarySearchJS, java: BinarySearchJAVA, cpp: BinarySearchCPP },
-    },
-    'binary-search-greedy-maximum': {
-        title: 'greedy (maximum)',
-        code: { python: BinarySearchGreedyMaximumPY, javascript: BinarySearchGreedyMaximumJS, java: BinarySearchGreedyMaximumJAVA, cpp: BinarySearchGreedyMaximumCPP },
-    },
-    'binary-search-greedy-minimum': {
-        title: 'greedy (minimum)',
-        code: { python: BinarySearchGreedyMinimumPY, javascript: BinarySearchGreedyMinimumJS, java: BinarySearchGreedyMinimumJAVA, cpp: BinarySearchGreedyMinimumCPP },
-    },
-    'binary-search-left-insertion': {
-        title: 'duplicate elements, left-most insertion point',
-        code: { python: BinarySearchLeftInsertionPY, javascript: BinarySearchLeftInsertionJS, java: BinarySearchLeftInsertionJAVA, cpp: BinarySearchLeftInsertionCPP },
-    },
-    'binary-search-right-insertion': {
-        title: 'duplicate elements, right-most insertion point',
-        code: { python: BinarySearchRightInsertionPY, javascript: BinarySearchRightInsertionJS, java: BinarySearchRightInsertionJAVA, cpp: BinarySearchRightInsertionCPP },
-    },
-    'bitmanipulation-check-power-of-two': {
-        title: 'check if number is power of 2',
-        code: { python: BitmanipulationCheckPowerOfTwoPY, javascript: BitmanipulationCheckPowerOfTwoJS, java: BitmanipulationCheckPowerOfTwoJAVA, cpp: BitmanipulationCheckPowerOfTwoCPP },
-    },
-    'bitmanipulation-clear-kth-bit': {
-        title: 'clear kth bit',
-        code: { python: BitmanipulationClearKthBitPY, javascript: BitmanipulationClearKthBitJS, java: BitmanipulationClearKthBitJAVA, cpp: BitmanipulationClearKthBitCPP },
-    },
-    'bitmanipulation-count-set-bits': {
-        title: 'count set bits',
-        code: { python: BitmanipulationCountSetBitsPY, javascript: BitmanipulationCountSetBitsJS, java: BitmanipulationCountSetBitsJAVA, cpp: BitmanipulationCountSetBitsCPP },
-    },
-    'bitmanipulation-divide-power-of-two': {
-        title: 'divide by 2^k',
-        code: { python: BitmanipulationDividePowerOfTwoPY, javascript: BitmanipulationDividePowerOfTwoJS, java: BitmanipulationDividePowerOfTwoJAVA, cpp: BitmanipulationDividePowerOfTwoCPP },
-    },
-    'bitmanipulation-get-rightmost-bit': {
-        title: 'get rightmost bit',
-        code: { python: BitmanipulationGetRightmostBitPY, javascript: BitmanipulationGetRightmostBitJS, java: BitmanipulationGetRightmostBitJAVA, cpp: BitmanipulationGetRightmostBitCPP },
-    },
-    'bitmanipulation-multiply-power-of-two': {
-        title: 'multiply by 2^k',
-        code: { python: BitmanipulationMultiplyPowerOfTwoPY, javascript: BitmanipulationMultiplyPowerOfTwoJS, java: BitmanipulationMultiplyPowerOfTwoJAVA, cpp: BitmanipulationMultiplyPowerOfTwoCPP },
-    },
-    'bitmanipulation-set-kth-bit': {
-        title: 'set kth bit',
-        code: { python: BitmanipulationSetKthBitPY, javascript: BitmanipulationSetKthBitJS, java: BitmanipulationSetKthBitJAVA, cpp: BitmanipulationSetKthBitCPP },
-    },
-    'bitmanipulation-swap-variables': {
-        title: 'swap two variables',
-        code: { python: BitmanipulationSwapVariablesPY, javascript: BitmanipulationSwapVariablesJS, java: BitmanipulationSwapVariablesJAVA, cpp: BitmanipulationSwapVariablesCPP },
-    },
-    'bitmanipulation-test-kth-bit': {
-        title: 'test kth-bit',
-        code: { python: BitmanipulationTestKthBitPY, javascript: BitmanipulationTestKthBitJS, java: BitmanipulationTestKthBitJAVA, cpp: BitmanipulationTestKthBitCPP },
-    },
-    'bitmanipulation-toggle-kth-bit': {
-        title: 'toggle kth bit',
-        code: { python: BitmanipulationToggleKthBitPY, javascript: BitmanipulationToggleKthBitJS, java: BitmanipulationToggleKthBitJAVA, cpp: BitmanipulationToggleKthBitCPP },
-    },
-    'dp-bottom-up': {
-        title: 'DP bottom-up',
-        code: { python: DpBottomUpPY, javascript: DpBottomUpJS, java: DpBottomUpJAVA, cpp: DpBottomUpCPP },
-    },
-    'dp-kadane': {
-        title: 'Kadane (max-sum subarray)',
-        code: { python: DpKadanePY, javascript: DpKadaneJS, java: DpKadaneJAVA, cpp: DpKadaneCPP },
-    },
-    'dp-top-down': {
-        title: 'DP top-down',
-        code: { python: DpTopDownPY, javascript: DpTopDownJS, java: DpTopDownJAVA, cpp: DpTopDownCPP },
-    },
-    'ds-hash-map': {
-        title: 'hash map',
-        code: { python: DsHashMapPY, javascript: DsHashMapJS, java: DsHashMapJAVA, cpp: DsHashMapCPP },
-    },
-    'ds-trie': {
-        title: 'trie',
-        code: { python: DsTriePY, javascript: DsTrieJS, java: DsTrieJAVA, cpp: DsTrieCPP },
-    },
-    'ds-union-find': {
-        title: 'union find',
-        code: { python: DsUnionFindPY, javascript: DsUnionFindJS, java: DsUnionFindJAVA, cpp: DsUnionFindCPP },
-    },
-    'ds-union-find-optimized': {
-        title: 'union find optimized',
-        code: { python: DsUnionFindOptimizedPY, javascript: DsUnionFindOptimizedJS, java: DsUnionFindOptimizedJAVA, cpp: DsUnionFindOptimizedCPP },
-    },
-    'graph-bellman-ford': {
-        title: 'Bellman-Ford (shortest path)',
-        code: { python: GraphBellmanFordPY, javascript: GraphBellmanFordJS, java: GraphBellmanFordJAVA, cpp: GraphBellmanFordCPP },
-    },
-    'graph-bfs': {
-        title: 'BFS',
-        code: { python: GraphBfsPY, javascript: GraphBfsJS, java: GraphBfsJAVA, cpp: GraphBfsCPP },
-    },
-    'graph-dfs-iterative': {
-        title: 'DFS (iterative)',
-        code: { python: GraphDfsIterativePY, javascript: GraphDfsIterativeJS, java: GraphDfsIterativeJAVA, cpp: GraphDfsIterativeCPP },
-    },
-    'graph-dfs-recursive': {
-        title: 'DFS (recursive)',
-        code: { python: GraphDfsRecursivePY, javascript: GraphDfsRecursiveJS, java: GraphDfsRecursiveJAVA, cpp: GraphDfsRecursiveCPP },
-    },
-    'graph-dijkstra': {
-        title: 'Dijkstra (shortest path)',
-        code: { python: GraphDijkstraPY, javascript: GraphDijkstraJS, java: GraphDijkstraJAVA, cpp: GraphDijkstraCPP },
-    },
-    'graph-kahn': {
-        title: 'Kahn (topological sort)',
-        code: { python: GraphKahnPY, javascript: GraphKahnJS, java: GraphKahnJAVA, cpp: GraphKahnCPP },
-    },
-    'graph-kruskal': {
-        title: 'Kruskal (mst)',
-        code: { python: GraphKruskalPY, javascript: GraphKruskalJS, java: GraphKruskalJAVA, cpp: GraphKruskalCPP },
-    },
-    'graph-prim': {
-        title: 'Prim (mst)',
-        code: { python: GraphPrimPY, javascript: GraphPrimJS, java: GraphPrimJAVA, cpp: GraphPrimCPP },
-    },
-    'hashmap-find-number-of-subarrays': {
-        title: 'find number of subarrays that fit an exact criteria',
-        code: { python: HashmapFindNumberOfSubarraysPY, javascript: HashmapFindNumberOfSubarraysJS, java: HashmapFindNumberOfSubarraysJAVA, cpp: HashmapFindNumberOfSubarraysCPP },
-    },
-    'hashmap-sliding-window': {
-        title: 'sliding window',
-        code: { python: HashmapSlidingWindowPY, javascript: HashmapSlidingWindowJS, java: HashmapSlidingWindowJAVA, cpp: HashmapSlidingWindowCPP },
-    },
-    'heap-find-top-k-elements': {
-        title: 'find top k elements',
-        code: { python: HeapFindTopKElementsPY, javascript: HeapFindTopKElementsJS, java: HeapFindTopKElementsJAVA, cpp: HeapFindTopKElementsCPP },
-    },
-    'linkedlist-fast-and-slow-pointer': {
-        title: 'fast and slow pointer',
-        code: { python: LinkedlistFastAndSlowPointerPY, javascript: LinkedlistFastAndSlowPointerJS, java: LinkedlistFastAndSlowPointerJAVA, cpp: LinkedlistFastAndSlowPointerCPP },
-    },
-    'linkedlist-reverse': {
-        title: 'reverse linked list',
-        code: { python: LinkedlistReversePY, javascript: LinkedlistReverseJS, java: LinkedlistReverseJAVA, cpp: LinkedlistReverseCPP },
-    },
-    'prefix-sum': {
-        title: 'prefix sum',
-        code: { python: PrefixSumPY, javascript: PrefixSumJS, java: PrefixSumJAVA, cpp: PrefixSumCPP },
-    },
-    'sliding-window': {
-        title: 'sliding window',
-        code: { python: SlidingWindowPY, javascript: SlidingWindowJS, java: SlidingWindowJAVA, cpp: SlidingWindowCPP },
-    },
-    'stack-monotonic-decreasing': {
-        title: 'monotonic decreasing stack',
-        code: { python: StackMonotonicDecreasingPY, javascript: StackMonotonicDecreasingJS, java: StackMonotonicDecreasingJAVA, cpp: StackMonotonicDecreasingCPP },
-    },
-    'stack-monotonic-increasing': {
-        title: 'monotonic increasing stack',
-        code: { python: StackMonotonicIncreasingPY, javascript: StackMonotonicIncreasingJS, java: StackMonotonicIncreasingJAVA, cpp: StackMonotonicIncreasingCPP },
-    },
-    'string-building': {
-        title: 'efficient string building',
-        code: { python: StringBuildingPY, javascript: StringBuildingJS, java: StringBuildingJAVA, cpp: StringBuildingCPP },
-    },
-    'tree-bfs': {
-        title: 'BFS',
-        code: { python: TreeBfsPY, javascript: TreeBfsJS, java: TreeBfsJAVA, cpp: TreeBfsCPP },
-    },
-    'tree-dfs-iterative': {
-        title: 'DFS (iterative)',
-        code: { python: TreeDfsIterativePY, javascript: TreeDfsIterativeJS, java: TreeDfsIterativeJAVA, cpp: TreeDfsIterativeCPP },
-    },
-    'tree-dfs-recursive': {
-        title: 'DFS (recursive)',
-        code: { python: TreeDfsRecursivePY, javascript: TreeDfsRecursiveJS, java: TreeDfsRecursiveJAVA, cpp: TreeDfsRecursiveCPP },
-    },
-    'two-pointers-one-input': {
-        title: 'two pointers: one input, opposite ends',
-        code: { python: TwoPointersOneInputPY, javascript: TwoPointersOneInputJS, java: TwoPointersOneInputJAVA, cpp: TwoPointersOneInputCPP },
-    },
-    'two-pointers-two-inputs': {
-        title: 'two pointers: two inputs, exhaust both',
-        code: { python: TwoPointersTwoInputsPY, javascript: TwoPointersTwoInputsJS, java: TwoPointersTwoInputsJAVA, cpp: TwoPointersTwoInputsCPP },
-    },
+    'backtracking': entry('backtracking', BacktrackingPY, BacktrackingJS, BacktrackingJAVA, BacktrackingCPP),
+    'binary-search': entry('binary search', BinarySearchPY, BinarySearchJS, BinarySearchJAVA, BinarySearchCPP),
+    'binary-search-greedy-maximum': entry('greedy (maximum)', BinarySearchGreedyMaximumPY, BinarySearchGreedyMaximumJS, BinarySearchGreedyMaximumJAVA, BinarySearchGreedyMaximumCPP),
+    'binary-search-greedy-minimum': entry('greedy (minimum)', BinarySearchGreedyMinimumPY, BinarySearchGreedyMinimumJS, BinarySearchGreedyMinimumJAVA, BinarySearchGreedyMinimumCPP),
+    'binary-search-left-insertion': entry('duplicate elements, left-most insertion point', BinarySearchLeftInsertionPY, BinarySearchLeftInsertionJS, BinarySearchLeftInsertionJAVA, BinarySearchLeftInsertionCPP),
+    'binary-search-right-insertion': entry('duplicate elements, right-most insertion point', BinarySearchRightInsertionPY, BinarySearchRightInsertionJS, BinarySearchRightInsertionJAVA, BinarySearchRightInsertionCPP),
+    'bitmanipulation-check-power-of-two': entry('check if number is power of 2', BitmanipulationCheckPowerOfTwoPY, BitmanipulationCheckPowerOfTwoJS, BitmanipulationCheckPowerOfTwoJAVA, BitmanipulationCheckPowerOfTwoCPP),
+    'bitmanipulation-clear-kth-bit': entry('clear kth bit', BitmanipulationClearKthBitPY, BitmanipulationClearKthBitJS, BitmanipulationClearKthBitJAVA, BitmanipulationClearKthBitCPP),
+    'bitmanipulation-count-set-bits': entry('count set bits', BitmanipulationCountSetBitsPY, BitmanipulationCountSetBitsJS, BitmanipulationCountSetBitsJAVA, BitmanipulationCountSetBitsCPP),
+    'bitmanipulation-divide-power-of-two': entry('divide by 2^k', BitmanipulationDividePowerOfTwoPY, BitmanipulationDividePowerOfTwoJS, BitmanipulationDividePowerOfTwoJAVA, BitmanipulationDividePowerOfTwoCPP),
+    'bitmanipulation-get-rightmost-bit': entry('get rightmost bit', BitmanipulationGetRightmostBitPY, BitmanipulationGetRightmostBitJS, BitmanipulationGetRightmostBitJAVA, BitmanipulationGetRightmostBitCPP),
+    'bitmanipulation-multiply-power-of-two': entry('multiply by 2^k', BitmanipulationMultiplyPowerOfTwoPY, BitmanipulationMultiplyPowerOfTwoJS, BitmanipulationMultiplyPowerOfTwoJAVA, BitmanipulationMultiplyPowerOfTwoCPP),
+    'bitmanipulation-set-kth-bit': entry('set kth bit', BitmanipulationSetKthBitPY, BitmanipulationSetKthBitJS, BitmanipulationSetKthBitJAVA, BitmanipulationSetKthBitCPP),
+    'bitmanipulation-swap-variables': entry('swap two variables', BitmanipulationSwapVariablesPY, BitmanipulationSwapVariablesJS, BitmanipulationSwapVariablesJAVA, BitmanipulationSwapVariablesCPP),
+    'bitmanipulation-test-kth-bit': entry('test kth-bit', BitmanipulationTestKthBitPY, BitmanipulationTestKthBitJS, BitmanipulationTestKthBitJAVA, BitmanipulationTestKthBitCPP),
+    'bitmanipulation-toggle-kth-bit': entry('toggle kth bit', BitmanipulationToggleKthBitPY, BitmanipulationToggleKthBitJS, BitmanipulationToggleKthBitJAVA, BitmanipulationToggleKthBitCPP),
+    'dp-bottom-up': entry('DP bottom-up', DpBottomUpPY, DpBottomUpJS, DpBottomUpJAVA, DpBottomUpCPP),
+    'dp-kadane': entry('Kadane (max-sum subarray)', DpKadanePY, DpKadaneJS, DpKadaneJAVA, DpKadaneCPP),
+    'dp-top-down': entry('DP top-down', DpTopDownPY, DpTopDownJS, DpTopDownJAVA, DpTopDownCPP),
+    'ds-hash-map': entry('hash map', DsHashMapPY, DsHashMapJS, DsHashMapJAVA, DsHashMapCPP),
+    'ds-trie': entry('trie', DsTriePY, DsTrieJS, DsTrieJAVA, DsTrieCPP),
+    'ds-union-find': entry('union find', DsUnionFindPY, DsUnionFindJS, DsUnionFindJAVA, DsUnionFindCPP),
+    'ds-union-find-optimized': entry('union find optimized', DsUnionFindOptimizedPY, DsUnionFindOptimizedJS, DsUnionFindOptimizedJAVA, DsUnionFindOptimizedCPP),
+    'graph-bellman-ford': entry('Bellman-Ford (shortest path)', GraphBellmanFordPY, GraphBellmanFordJS, GraphBellmanFordJAVA, GraphBellmanFordCPP),
+    'graph-bfs': entry('BFS', GraphBfsPY, GraphBfsJS, GraphBfsJAVA, GraphBfsCPP),
+    'graph-dfs-iterative': entry('DFS (iterative)', GraphDfsIterativePY, GraphDfsIterativeJS, GraphDfsIterativeJAVA, GraphDfsIterativeCPP),
+    'graph-dfs-recursive': entry('DFS (recursive)', GraphDfsRecursivePY, GraphDfsRecursiveJS, GraphDfsRecursiveJAVA, GraphDfsRecursiveCPP),
+    'graph-dijkstra': entry('Dijkstra (shortest path)', GraphDijkstraPY, GraphDijkstraJS, GraphDijkstraJAVA, GraphDijkstraCPP),
+    'graph-kahn': entry('Kahn (topological sort)', GraphKahnPY, GraphKahnJS, GraphKahnJAVA, GraphKahnCPP),
+    'graph-kruskal': entry('Kruskal (mst)', GraphKruskalPY, GraphKruskalJS, GraphKruskalJAVA, GraphKruskalCPP),
+    'graph-prim': entry('Prim (mst)', GraphPrimPY, GraphPrimJS, GraphPrimJAVA, GraphPrimCPP),
+    'hashmap-find-number-of-subarrays': entry('find number of subarrays that fit an exact criteria', HashmapFindNumberOfSubarraysPY, HashmapFindNumberOfSubarraysJS, HashmapFindNumberOfSubarraysJAVA, HashmapFindNumberOfSubarraysCPP),
+    'hashmap-sliding-window': entry('sliding window', HashmapSlidingWindowPY, HashmapSlidingWindowJS, HashmapSlidingWindowJAVA, HashmapSlidingWindowCPP),
+    'heap-find-top-k-elements': entry('find top k elements', HeapFindTopKElementsPY, HeapFindTopKElementsJS, HeapFindTopKElementsJAVA, HeapFindTopKElementsCPP),
+    'linkedlist-fast-and-slow-pointer': entry('fast and slow pointer', LinkedlistFastAndSlowPointerPY, LinkedlistFastAndSlowPointerJS, LinkedlistFastAndSlowPointerJAVA, LinkedlistFastAndSlowPointerCPP),
+    'linkedlist-reverse': entry('reverse linked list', LinkedlistReversePY, LinkedlistReverseJS, LinkedlistReverseJAVA, LinkedlistReverseCPP),
+    'prefix-sum': entry('prefix sum', PrefixSumPY, PrefixSumJS, PrefixSumJAVA, PrefixSumCPP),
+    'sliding-window': entry('sliding window', SlidingWindowPY, SlidingWindowJS, SlidingWindowJAVA, SlidingWindowCPP),
+    'stack-monotonic-decreasing': entry('monotonic decreasing stack', StackMonotonicDecreasingPY, StackMonotonicDecreasingJS, StackMonotonicDecreasingJAVA, StackMonotonicDecreasingCPP),
+    'stack-monotonic-increasing': entry('monotonic increasing stack', StackMonotonicIncreasingPY, StackMonotonicIncreasingJS, StackMonotonicIncreasingJAVA, StackMonotonicIncreasingCPP),
+    'string-building': entry('efficient string building', StringBuildingPY, StringBuildingJS, StringBuildingJAVA, StringBuildingCPP),
+    'tree-bfs': entry('BFS', TreeBfsPY, TreeBfsJS, TreeBfsJAVA, TreeBfsCPP),
+    'tree-dfs-iterative': entry('DFS (iterative)', TreeDfsIterativePY, TreeDfsIterativeJS, TreeDfsIterativeJAVA, TreeDfsIterativeCPP),
+    'tree-dfs-recursive': entry('DFS (recursive)', TreeDfsRecursivePY, TreeDfsRecursiveJS, TreeDfsRecursiveJAVA, TreeDfsRecursiveCPP),
+    'two-pointers-one-input': entry('two pointers: one input, opposite ends', TwoPointersOneInputPY, TwoPointersOneInputJS, TwoPointersOneInputJAVA, TwoPointersOneInputCPP),
+    'two-pointers-two-inputs': entry('two pointers: two inputs, exhaust both', TwoPointersTwoInputsPY, TwoPointersTwoInputsJS, TwoPointersTwoInputsJAVA, TwoPointersTwoInputsCPP),
 }
 
-/** Templates for a leaf, in the order its templateIds lists them. Unknown leaves give []. */
 export function getTemplates(leafId: string): TemplateEntry[] {
     const leaf = tree.leaves[leafId]
     if (!leaf) return []

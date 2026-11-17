@@ -1,14 +1,7 @@
 import type { FinderTree } from './types'
 
-/**
- * Decision tree for the Pattern Finder.
- *
- * Routing follows the devweekends overview flowchart: input shape first,
- * then goal type, then variant. Cues are phrased like LeetCode problem
- * statements, taken from the keyword tables in /dsa-patterns/*.
- * Some leaves and nodes are reachable from more than one question (the tree
- * is a DAG), so a problem can be found from whichever cue the user notices.
- */
+// Some nodes and leaves are reachable from more than one question (the tree is a DAG),
+// so a problem can be found from whichever cue the user notices.
 export const tree: FinderTree = {
     rootId: 'q-input',
 
@@ -26,7 +19,6 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Array & string ----------
         'q-array': {
             id: 'q-array',
             question: 'What does it ask about the array or string?',
@@ -148,7 +140,6 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Linked list ----------
         'q-list': {
             id: 'q-list',
             question: 'What do you do with the list?',
@@ -160,7 +151,6 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Tree ----------
         'q-tree': {
             id: 'q-tree',
             question: 'What does it ask about the tree?',
@@ -171,7 +161,6 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Graph & grid ----------
         'q-graph': {
             id: 'q-graph',
             question: 'What does it ask about the graph or grid?',
@@ -194,7 +183,6 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Design & streams ----------
         'q-design': {
             id: 'q-design',
             question: 'What must the structure support?',
@@ -208,20 +196,19 @@ export const tree: FinderTree = {
             ],
         },
 
-        // ---------- Integer / bits ----------
         'q-number': {
             id: 'q-number',
             question: 'What does it ask about n?',
             options: [
                 { cue: 'power of two, count set bits, XOR tricks', next: 'bit-manipulation' },
                 { cue: 'ways to climb n stairs, nth term from smaller terms', next: 'q-dp' },
-                { cue: 'integer square root, guess the number in 1..n', next: 'binary-search-classic' },
+                { cue: 'integer square root: the largest x with x*x <= n', next: 'binary-search-answer-maximize' },
+                { cue: 'guess the number in 1..n', next: 'binary-search-classic' },
             ],
         },
     },
 
     leaves: {
-        // ---------- Array & string ----------
         'two-pointers-converging': {
             id: 'two-pointers-converging',
             name: 'Two pointers, converging',
@@ -304,7 +291,6 @@ export const tree: FinderTree = {
             templateIds: ['string-building'],
         },
 
-        // ---------- Search ----------
         'binary-search-classic': {
             id: 'binary-search-classic',
             name: 'Binary search, find target',
@@ -360,7 +346,6 @@ export const tree: FinderTree = {
             templateIds: [],
         },
 
-        // ---------- Data structures ----------
         'hashmap-frequency': {
             id: 'hashmap-frequency',
             name: 'Hash map lookup / frequency',
@@ -368,7 +353,7 @@ export const tree: FinderTree = {
             summary:
                 'Counting, duplicates, anagrams, grouping, or unsorted two-sum. Store counts or complements so each lookup is O(1).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/hashmap',
-            templateIds: ['ds-hash-map'],
+            templateIds: [],
         },
         'hashmap-sliding-window': {
             id: 'hashmap-sliding-window',
@@ -488,7 +473,6 @@ export const tree: FinderTree = {
             templateIds: [],
         },
 
-        // ---------- Graph & tree ----------
         'tree-dfs-recursive': {
             id: 'tree-dfs-recursive',
             name: 'Tree DFS, recursive',
@@ -580,7 +564,6 @@ export const tree: FinderTree = {
             templateIds: ['graph-kruskal', 'graph-prim'],
         },
 
-        // ---------- Advanced ----------
         backtracking: {
             id: 'backtracking',
             name: 'Backtracking',
