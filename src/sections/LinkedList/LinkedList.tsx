@@ -14,12 +14,6 @@ import ReverseLinkedListJAVA from '@code/java/linked_list/reverse_linked_list.ja
 import FastAndSlowPointerCPP from '@code/cpp/linked_list/fast_and_slow_pointer.cpp?raw'
 import ReverseLinkedListCPP from '@code/cpp/linked_list/reverse_linked_list.cpp?raw'
 
-import FastAndSlowPointerRUBY from '@code/ruby/linked_list/fast_and_slow_pointer.rb?raw'
-import ReverseLinkedListRUBY from '@code/ruby/linked_list/reverse_linked_list.rb?raw'
-
-import FastAndSlowPointerLUA from '@code/lua/linked_list/fast_and_slow_pointer.lua?raw'
-import ReverseLinkedListLUA from '@code/lua/linked_list/reverse_linked_list.lua?raw'
-
 export default function LinkedList() {
     return (
         <div className={styles.container}>
@@ -30,8 +24,6 @@ export default function LinkedList() {
                     <Tabs.Tab code={FastAndSlowPointerJS} language="javascript" />
                     <Tabs.Tab code={FastAndSlowPointerJAVA} language="java" />
                     <Tabs.Tab code={FastAndSlowPointerCPP} language="cpp" />
-                    <Tabs.Tab code={FastAndSlowPointerRUBY} language="ruby" />
-                    <Tabs.Tab code={FastAndSlowPointerLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="linkedlist-reverse">
@@ -40,8 +32,6 @@ export default function LinkedList() {
                     <Tabs.Tab code={ReverseLinkedListJS} language="javascript" />
                     <Tabs.Tab code={ReverseLinkedListJAVA} language="java" />
                     <Tabs.Tab code={ReverseLinkedListCPP} language="cpp" />
-                    <Tabs.Tab code={ReverseLinkedListRUBY} language="ruby" />
-                    <Tabs.Tab code={ReverseLinkedListLUA} language="lua" />
                 </Tabs>
             </section>
         </div>

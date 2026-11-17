@@ -9,9 +9,7 @@ import CopyButton from '@components/CopyButton/CopyButton'
 import SvgPython from '@icons/Python'
 import SvgJavascript from '@/icons/Javascript'
 import SvgCpp from '@icons/Cpp'
-import SvgLua from '@icons/Lua'
 import SvgJava from '@/icons/Java'
-import SvgRuby from '@/icons/Ruby'
 
 interface TabsProps {
     title: string
@@ -20,7 +18,7 @@ interface TabsProps {
 
 interface TabProps {
     code: string
-    language: 'python' | 'javascript' | 'java' | 'cpp' | 'ruby' | 'lua'
+    language: 'python' | 'javascript' | 'java' | 'cpp'
 }
 
 const LANGUAGE_ICONS = {
@@ -28,23 +26,17 @@ const LANGUAGE_ICONS = {
     javascript: SvgJavascript,
     java: SvgJava,
     cpp: SvgCpp,
-    ruby: SvgRuby,
-    lua: SvgLua
 }
 
 export default function Tabs({ title, children }: TabsProps) {
     const { selectedLanguage, setSelectedLanguage } = useLanguage()
     const tabs = Children.toArray(children) as ReactElement<TabProps>[]
-    const activeIndex = tabs.findIndex(
+    const matchIndex = tabs.findIndex(
         (tab) => tab.props.language === selectedLanguage
     )
-    let code = ''
-    try {
-        code = tabs[activeIndex].props.code
-    } catch (e) {
-        // debugger
-    }
-    const language = tabs[activeIndex].props.language
+    const activeIndex = matchIndex === -1 ? 0 : matchIndex
+    const code = tabs[activeIndex]?.props.code ?? ''
+    const language = tabs[activeIndex]?.props.language
 
     const changeTab = (index: number) => {
         setSelectedLanguage(tabs[index].props.language)

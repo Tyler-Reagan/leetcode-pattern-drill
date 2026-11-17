@@ -26,18 +26,6 @@ import SlidingWindowCPP from '@code/cpp/array/sliding_window.cpp?raw'
 import PrefixSumCPP from '@code/cpp/array/prefix_sum.cpp?raw'
 import StringBuildingCPP from '@code/cpp/array/string_building.cpp?raw'
 
-import TwoPointersOneInputRUBY from '@code/ruby/array/two_pointers_one_input.rb?raw'
-import TwoPointersTwoInputsRUBY from '@code/ruby/array/two_pointers_two_inputs.rb?raw'
-import SlidingWindowRUBY from '@code/ruby/array/sliding_window.rb?raw'
-import PrefixSumRUBY from '@code/ruby/array/prefix_sum.rb?raw'
-import StringBuildingRUBY from '@code/ruby/array/string_building.rb?raw'
-
-import TwoPointersOneInputLUA from '@code/lua/array/two_pointers_one_input.lua?raw'
-import TwoPointersTwoInputsLUA from '@code/lua/array/two_pointers_two_inputs.lua?raw'
-import SlidingWindowLUA from '@code/lua/array/sliding_window.lua?raw'
-import PrefixSumLUA from '@code/lua/array/prefix_sum.lua?raw'
-import StringBuildingLUA from '@code/lua/array/string_building.lua?raw'
-
 export default function Array() {
     return (
         <div className={styles.container}>
@@ -48,8 +36,6 @@ export default function Array() {
                     <Tabs.Tab code={TwoPointersOneInputJS} language="javascript" />
                     <Tabs.Tab code={TwoPointersOneInputJAVA} language="java" />
                     <Tabs.Tab code={TwoPointersOneInputCPP} language="cpp" />
-                    <Tabs.Tab code={TwoPointersOneInputRUBY} language="ruby" />
-                    <Tabs.Tab code={TwoPointersOneInputLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="array-two-pointers-two-inputs">
@@ -58,8 +44,6 @@ export default function Array() {
                     <Tabs.Tab code={TwoPointersTwoInputsJS} language="javascript" />
                     <Tabs.Tab code={TwoPointersTwoInputsJAVA} language="java" />
                     <Tabs.Tab code={TwoPointersTwoInputsCPP} language="cpp" />
-                    <Tabs.Tab code={TwoPointersTwoInputsRUBY} language="ruby" />
-                    <Tabs.Tab code={TwoPointersTwoInputsLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="array-sliding-window">
@@ -68,8 +52,6 @@ export default function Array() {
                     <Tabs.Tab code={SlidingWindowJS} language="javascript" />
                     <Tabs.Tab code={SlidingWindowJAVA} language="java" />
                     <Tabs.Tab code={SlidingWindowCPP} language="cpp" />
-                    <Tabs.Tab code={SlidingWindowRUBY} language="ruby" />
-                    <Tabs.Tab code={SlidingWindowLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="array-prefix-sum">
@@ -78,8 +60,6 @@ export default function Array() {
                     <Tabs.Tab code={PrefixSumJS} language="javascript" />
                     <Tabs.Tab code={PrefixSumJAVA} language="java" />
                     <Tabs.Tab code={PrefixSumCPP} language="cpp" />
-                    <Tabs.Tab code={PrefixSumRUBY} language="ruby" />
-                    <Tabs.Tab code={PrefixSumLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="array-string-building">
@@ -88,8 +68,6 @@ export default function Array() {
                     <Tabs.Tab code={StringBuildingJS} language="javascript" />
                     <Tabs.Tab code={StringBuildingJAVA} language="java" />
                     <Tabs.Tab code={StringBuildingCPP} language="cpp" />
-                    <Tabs.Tab code={StringBuildingRUBY} language="ruby" />
-                    <Tabs.Tab code={StringBuildingLUA} language="lua" />
                 </Tabs>
             </section>
         </div>

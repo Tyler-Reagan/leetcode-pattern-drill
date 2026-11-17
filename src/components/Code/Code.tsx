@@ -9,20 +9,16 @@ import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
 import java from 'highlight.js/lib/languages/java'
 import cpp from 'highlight.js/lib/languages/cpp'
-import ruby from 'highlight.js/lib/languages/ruby'
-import lua from 'highlight.js/lib/languages/lua'
 import python from './Python'
 
 hljs.registerLanguage('python', python)
 hljs.registerLanguage('javascript', javascript)
 hljs.registerLanguage('java', java)
 hljs.registerLanguage('cpp', cpp)
-hljs.registerLanguage('ruby', ruby)
-hljs.registerLanguage('lua', lua)
 
 interface CodeProps {
     code: string
-    language: 'python' | 'javascript' | 'java' | 'cpp' | 'ruby' | 'lua'
+    language: 'python' | 'javascript' | 'java' | 'cpp'
 }
 
 export default function Code({ code, language }: CodeProps) {

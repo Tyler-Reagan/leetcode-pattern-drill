@@ -46,28 +46,6 @@ import DivideByPowerOfTwoCPP from '@code/cpp/bit_manipulation/divide_power_of_tw
 import CheckPowerOfTwoCPP from '@code/cpp/bit_manipulation/check_power_of_two.cpp?raw'
 import SwapVariablesCPP from '@code/cpp/bit_manipulation/swap_variables.cpp?raw'
 
-import TestKthBitRUBY from '@code/ruby/bit_manipulation/test_kth_bit.rb?raw'
-import SetKthBitRUBY from '@code/ruby/bit_manipulation/set_kth_bit.rb?raw'
-import ClearKthBitRUBY from '@code/ruby/bit_manipulation/clear_kth_bit.rb?raw'
-import ToggleKthBitRUBY from '@code/ruby/bit_manipulation/toggle_kth_bit.rb?raw'
-import GetRightmostBitRUBY from '@code/ruby/bit_manipulation/get_rightmost_bit.rb?raw'
-import CountSetBitsRUBY from '@code/ruby/bit_manipulation/count_set_bits.rb?raw'
-import MultiplyByPowerOfTwoRUBY from '@code/ruby/bit_manipulation/multiply_power_of_two.rb?raw'
-import DivideByPowerOfTwoRUBY from '@code/ruby/bit_manipulation/divide_power_of_two.rb?raw'
-import CheckPowerOfTwoRUBY from '@code/ruby/bit_manipulation/check_power_of_two.rb?raw'
-import SwapVariablesRUBY from '@code/ruby/bit_manipulation/swap_variables.rb?raw'
-
-import TestKthBitLUA from '@code/lua/bit_manipulation/test_kth_bit.lua?raw'
-import SetKthBitLUA from '@code/lua/bit_manipulation/set_kth_bit.lua?raw'
-import ClearKthBitLUA from '@code/lua/bit_manipulation/clear_kth_bit.lua?raw'
-import ToggleKthBitLUA from '@code/lua/bit_manipulation/toggle_kth_bit.lua?raw'
-import GetRightmostBitLUA from '@code/lua/bit_manipulation/get_rightmost_bit.lua?raw'
-import CountSetBitsLUA from '@code/lua/bit_manipulation/count_set_bits.lua?raw'
-import MultiplyByPowerOfTwoLUA from '@code/lua/bit_manipulation/multiply_power_of_two.lua?raw'
-import DivideByPowerOfTwoLUA from '@code/lua/bit_manipulation/divide_power_of_two.lua?raw'
-import CheckPowerOfTwoLUA from '@code/lua/bit_manipulation/check_power_of_two.lua?raw'
-import SwapVariablesLUA from '@code/lua/bit_manipulation/swap_variables.lua?raw'
-
 export default function BitManipulation() {
     return (
         <div className={styles.container}>
@@ -78,8 +56,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={TestKthBitJS} language="javascript" />
                     <Tabs.Tab code={TestKthBitJAVA} language="java" />
                     <Tabs.Tab code={TestKthBitCPP} language="cpp" />
-                    <Tabs.Tab code={TestKthBitRUBY} language="ruby" />
-                    <Tabs.Tab code={TestKthBitLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-set-kth-bit">
@@ -88,8 +64,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={SetKthBitJS} language="javascript" />
                     <Tabs.Tab code={SetKthBitJAVA} language="java" />
                     <Tabs.Tab code={SetKthBitCPP} language="cpp" />
-                    <Tabs.Tab code={SetKthBitRUBY} language="ruby" />
-                    <Tabs.Tab code={SetKthBitLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-clear-kth-bit">
@@ -98,8 +72,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={ClearKthBitJS} language="javascript" />
                     <Tabs.Tab code={ClearKthBitJAVA} language="java" />
                     <Tabs.Tab code={ClearKthBitCPP} language="cpp" />
-                    <Tabs.Tab code={ClearKthBitRUBY} language="ruby" />
-                    <Tabs.Tab code={ClearKthBitLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-toggle-kth-bit">
@@ -108,8 +80,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={ToggleKthBitJS} language="javascript" />
                     <Tabs.Tab code={ToggleKthBitJAVA} language="java" />
                     <Tabs.Tab code={ToggleKthBitCPP} language="cpp" />
-                    <Tabs.Tab code={ToggleKthBitRUBY} language="ruby" />
-                    <Tabs.Tab code={ToggleKthBitLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-get-rightmost-bit">
@@ -118,8 +88,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={GetRightmostBitJS} language="javascript" />
                     <Tabs.Tab code={GetRightmostBitJAVA} language="java" />
                     <Tabs.Tab code={GetRightmostBitCPP} language="cpp" />
-                    <Tabs.Tab code={GetRightmostBitRUBY} language="ruby" />
-                    <Tabs.Tab code={GetRightmostBitLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-count-set-bits">
@@ -128,8 +96,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={CountSetBitsJS} language="javascript" />
                     <Tabs.Tab code={CountSetBitsJAVA} language="java" />
                     <Tabs.Tab code={CountSetBitsCPP} language="cpp" />
-                    <Tabs.Tab code={CountSetBitsRUBY} language="ruby" />
-                    <Tabs.Tab code={CountSetBitsLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-multiply-power-of-two">
@@ -138,8 +104,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={MultiplyByPowerOfTwoJS} language="javascript" />
                     <Tabs.Tab code={MultiplyByPowerOfTwoJAVA} language="java" />
                     <Tabs.Tab code={MultiplyByPowerOfTwoCPP} language="cpp" />
-                    <Tabs.Tab code={MultiplyByPowerOfTwoRUBY} language="ruby" />
-                    <Tabs.Tab code={MultiplyByPowerOfTwoLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-divide-power-of-two">
@@ -148,8 +112,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={DivideByPowerOfTwoJS} language="javascript" />
                     <Tabs.Tab code={DivideByPowerOfTwoJAVA} language="java" />
                     <Tabs.Tab code={DivideByPowerOfTwoCPP} language="cpp" />
-                    <Tabs.Tab code={DivideByPowerOfTwoRUBY} language="ruby" />
-                    <Tabs.Tab code={DivideByPowerOfTwoLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-check-power-of-two">
@@ -158,8 +120,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={CheckPowerOfTwoJS} language="javascript" />
                     <Tabs.Tab code={CheckPowerOfTwoJAVA} language="java" />
                     <Tabs.Tab code={CheckPowerOfTwoCPP} language="cpp" />
-                    <Tabs.Tab code={CheckPowerOfTwoRUBY} language="ruby" />
-                    <Tabs.Tab code={CheckPowerOfTwoLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="bitmanipulation-swap-variables">
@@ -168,8 +128,6 @@ export default function BitManipulation() {
                     <Tabs.Tab code={SwapVariablesJS} language="javascript" />
                     <Tabs.Tab code={SwapVariablesJAVA} language="java" />
                     <Tabs.Tab code={SwapVariablesCPP} language="cpp" />
-                    <Tabs.Tab code={SwapVariablesRUBY} language="ruby" />
-                    <Tabs.Tab code={SwapVariablesLUA} language="lua" />
                 </Tabs>
             </section>
         </div>

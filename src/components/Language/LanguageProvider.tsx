@@ -6,7 +6,9 @@ import {
     useEffect,
 } from 'react'
 
-type Language = 'python' | 'javascript' | 'java' | 'cpp' | 'ruby'
+type Language = 'python' | 'javascript' | 'java' | 'cpp'
+
+const LANGUAGES: Language[] = ['python', 'javascript', 'java', 'cpp']
 
 interface LanguageContextType {
     selectedLanguage: Language
@@ -22,8 +24,9 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
+    const stored = localStorage.getItem('selectedLanguage') as Language | null
     const initialLanguage: Language =
-        (localStorage.getItem('selectedLanguage') as Language) || 'python'
+        stored && LANGUAGES.includes(stored) ? stored : 'python'
 
     const [selectedLanguage, setSelectedLanguage] = useState<Language>(initialLanguage)
 

@@ -46,28 +46,6 @@ import TrieCPP from '@code/cpp/data_structures/trie.cpp?raw'
 import UnionFindCPP from '@code/cpp/data_structures/union_find.cpp?raw'
 import UnionFindOptimizedCPP from '@code/cpp/data_structures/union_find_optimized.cpp?raw'
 
-import ArrayRUBY from '@code/ruby/data_structures/array.rb?raw'
-import BinaryTreeRUBY from '@code/ruby/data_structures/binary_tree.rb?raw'
-import BinarySearchTreeRUBY from '@code/ruby/data_structures/binary_search_tree.rb?raw'
-import LinkedListRUBY from '@code/ruby/data_structures/linked_list.rb?raw'
-import DoublyLinkedListRUBY from '@code/ruby/data_structures/doubly_linked_list.rb?raw'
-import GraphRUBY from '@code/ruby/data_structures/graph.rb?raw'
-import HashMapRUBY from '@code/ruby/data_structures/hash_map.rb?raw'
-import TrieRUBY from '@code/ruby/data_structures/trie.rb?raw'
-import UnionFindRUBY from '@code/ruby/data_structures/union_find.rb?raw'
-import UnionFindOptimizedRUBY from '@code/ruby/data_structures/union_find_optimized.rb?raw'
-
-import ArrayLUA from '@code/lua/data_structures/array.lua?raw'
-import BinaryTreeLUA from '@code/lua/data_structures/binary_tree.lua?raw'
-import BinarySearchTreeLUA from '@code/lua/data_structures/binary_search_tree.lua?raw'
-import LinkedListLUA from '@code/lua/data_structures/linked_list.lua?raw'
-import DoublyLinkedListLUA from '@code/lua/data_structures/doubly_linked_list.lua?raw'
-import GraphLUA from '@code/lua/data_structures/graph.lua?raw'
-import HashMapLUA from '@code/lua/data_structures/hash_map.lua?raw'
-import TrieLUA from '@code/lua/data_structures/trie.lua?raw'
-import UnionFindLUA from '@code/lua/data_structures/union_find.lua?raw'
-import UnionFindOptimizedLUA from '@code/lua/data_structures/union_find_optimized.lua?raw'
-
 export default function DataStructures() {
     return (
         <div className={styles.container}>
@@ -78,8 +56,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={ArrayJS} language="javascript" />
                     <Tabs.Tab code={ArrayJAVA} language="java" />
                     <Tabs.Tab code={ArrayCPP} language="cpp" />
-                    <Tabs.Tab code={ArrayRUBY} language="ruby" />
-                    <Tabs.Tab code={ArrayLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-hash-map">
@@ -88,8 +64,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={HashMapJS} language="javascript" />
                     <Tabs.Tab code={HashMapJAVA} language="java" />
                     <Tabs.Tab code={HashMapCPP} language="cpp" />
-                    <Tabs.Tab code={HashMapRUBY} language="ruby" />
-                    <Tabs.Tab code={HashMapLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-linked-list">
@@ -98,8 +72,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={LinkedListJS} language="javascript" />
                     <Tabs.Tab code={LinkedListJAVA} language="java" />
                     <Tabs.Tab code={LinkedListCPP} language="cpp" />
-                    <Tabs.Tab code={LinkedListRUBY} language="ruby" />
-                    <Tabs.Tab code={LinkedListLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-doubly-linked-list">
@@ -108,8 +80,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={DoublyLinkedListJS} language="javascript" />
                     <Tabs.Tab code={DoublyLinkedListJAVA} language="java" />
                     <Tabs.Tab code={DoublyLinkedListCPP} language="cpp" />
-                    <Tabs.Tab code={DoublyLinkedListRUBY} language="ruby" />
-                    <Tabs.Tab code={DoublyLinkedListLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-binary-tree">
@@ -118,8 +88,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={BinaryTreeJS} language="javascript" />
                     <Tabs.Tab code={BinaryTreeJAVA} language="java" />
                     <Tabs.Tab code={BinaryTreeCPP} language="cpp" />
-                    <Tabs.Tab code={BinaryTreeRUBY} language="ruby" />
-                    <Tabs.Tab code={BinaryTreeLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-binary-search-tree">
@@ -128,8 +96,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={BinarySearchTreeJS} language="javascript" />
                     <Tabs.Tab code={BinarySearchTreeJAVA} language="java" />
                     <Tabs.Tab code={BinarySearchTreeCPP} language="cpp" />
-                    <Tabs.Tab code={BinarySearchTreeRUBY} language="ruby" />
-                    <Tabs.Tab code={BinarySearchTreeLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-graph">
@@ -138,8 +104,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={GraphJS} language="javascript" />
                     <Tabs.Tab code={GraphJAVA} language="java" />
                     <Tabs.Tab code={GraphCPP} language="cpp" />
-                    <Tabs.Tab code={GraphRUBY} language="ruby" />
-                    <Tabs.Tab code={GraphLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-union-find">
@@ -148,8 +112,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={UnionFindJS} language="javascript" />
                     <Tabs.Tab code={UnionFindJAVA} language="java" />
                     <Tabs.Tab code={UnionFindCPP} language="cpp" />
-                    <Tabs.Tab code={UnionFindRUBY} language="ruby" />
-                    <Tabs.Tab code={UnionFindLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-union-find-optimized">
@@ -158,8 +120,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={UnionFindOptimizedJS} language="javascript" />
                     <Tabs.Tab code={UnionFindOptimizedJAVA} language="java" />
                     <Tabs.Tab code={UnionFindOptimizedCPP} language="cpp" />
-                    <Tabs.Tab code={UnionFindOptimizedRUBY} language="ruby" />
-                    <Tabs.Tab code={UnionFindOptimizedLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="ds-trie">
@@ -168,8 +128,6 @@ export default function DataStructures() {
                     <Tabs.Tab code={TrieJS} language="javascript" />
                     <Tabs.Tab code={TrieJAVA} language="java" />
                     <Tabs.Tab code={TrieCPP} language="cpp" />
-                    <Tabs.Tab code={TrieRUBY} language="ruby" />
-                    <Tabs.Tab code={TrieLUA} language="lua" />
                 </Tabs>
             </section>
         </div>

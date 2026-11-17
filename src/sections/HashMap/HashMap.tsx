@@ -14,12 +14,6 @@ import SlidingWindowJAVA from '@code/java/hash_map/sliding_window.java?raw'
 import FindNumberOfSubarraysCPP from '@code/cpp/hash_map/find_number_of_subarrays.cpp?raw'
 import SlidingWindowCPP from '@code/cpp/hash_map/sliding_window.cpp?raw'
 
-import FindNumberOfSubarraysRUBY from '@code/ruby/hash_map/find_number_of_subarrays.rb?raw'
-import SlidingWindowRUBY from '@code/ruby/hash_map/sliding_window.rb?raw'
-
-import FindNumberOfSubarraysLUA from '@code/lua/hash_map/find_number_of_subarrays.lua?raw'
-import SlidingWindowLUA from '@code/lua/hash_map/sliding_window.lua?raw'
-
 export default function HashMap() {
     return (
         <div className={styles.container}>
@@ -30,8 +24,6 @@ export default function HashMap() {
                     <Tabs.Tab code={FindNumberOfSubarraysJS} language="javascript" />
                     <Tabs.Tab code={FindNumberOfSubarraysJAVA} language="java" />
                     <Tabs.Tab code={FindNumberOfSubarraysCPP} language="cpp" />
-                    <Tabs.Tab code={FindNumberOfSubarraysRUBY} language="ruby" />
-                    <Tabs.Tab code={FindNumberOfSubarraysLUA} language="lua" />
                 </Tabs>
             </section>
             <section id="hashmap-sliding-window">
@@ -40,8 +32,6 @@ export default function HashMap() {
                     <Tabs.Tab code={SlidingWindowJS} language="javascript" />
                     <Tabs.Tab code={SlidingWindowJAVA} language="java" />
                     <Tabs.Tab code={SlidingWindowCPP} language="cpp" />
-                    <Tabs.Tab code={SlidingWindowRUBY} language="ruby" />
-                    <Tabs.Tab code={SlidingWindowLUA} language="lua" />
                 </Tabs>
             </section>
         </div>
