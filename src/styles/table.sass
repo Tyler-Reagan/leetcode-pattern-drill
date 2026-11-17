@@ -1,11 +1,8 @@
-table, th, td, tr
-    transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
-
 table
     border-collapse: collapse
     font-family: var(--table-font-family)
     font-size: var(--table-font-size)
+    font-variant-numeric: tabular-nums
     position: relative
     width: 100%
 
@@ -15,13 +12,32 @@ td:not(:first-child)
 th, td
     background-clip: padding-box
     overflow: hidden
-    padding: 8px
+    padding: 8px 10px
     text-align: center
+    transition-duration: var(--style-transition-duration)
+    transition-property: var(--style-transition-property)
 
     &:not(:last-child)
-        border-right: 4px solid var(--table-border-color)
+        border-right: 1px solid var(--table-border-color)
 
 tr
     &:not(:last-child)
         th, td
-            border-bottom: 4px solid var(--table-border-color)
+            border-bottom: 1px solid var(--table-border-color)
+
+// The Big-O tables in src/sections carry a few hard-coded rounded corners and a hover
+// lift from the old look. The sections are content and stay untouched, so the shell
+// flattens those here: square corners, no lift, a plain row highlight.
+#root div:has(> table)
+    border-radius: var(--pd-radius)
+    padding: 0
+
+#root tr:hover
+    transform: none
+
+    > th, > td
+        border-radius: 0
+
+#root tr:has(> td):hover
+    outline: 1px solid var(--pd-text-muted)
+    outline-offset: -1px

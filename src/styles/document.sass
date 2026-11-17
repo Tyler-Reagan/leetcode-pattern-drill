@@ -5,47 +5,71 @@
     background-repeat: no-repeat
 
 html
-    font-family: var(--font-family-monospace)
-    scroll-padding-top: calc(var(--topbar-height) + 8px)
-    scroll-behavior: smooth
+    background-color: var(--pd-ground)
+    font-family: var(--pd-font-body)
+    scroll-padding-top: calc(var(--topbar-height) + 16px)
+    -webkit-text-size-adjust: 100%
+
+    @media (prefers-reduced-motion: no-preference)
+        scroll-behavior: smooth
 
 body
-    background-attachment: fixed
-    background-image: var(--background-image)
-    background-size: cover
-    color: var(--text-color)
+    background-color: var(--pd-ground)
+    caret-color: var(--pd-accent)
+    color: var(--pd-text)
     font-size: var(--font-size)
     font-weight: var(--font-weight)
     line-height: var(--line-height)
     text-rendering: optimizeLegibility
+    -webkit-font-smoothing: antialiased
     overflow-wrap: break-word
     margin: 0
-    transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
     width: 100%
 
-section
-    transition-property: var(--style-transition-property)
-    transition-duration: var(--style-transition-duration)
+::selection
+    background-color: var(--pd-accent)
+    color: var(--pd-on-accent)
 
-    @media (min-width: 768px)
-        padding-left: var(--gutter-spacing)
-        padding-right: var(--gutter-spacing)
+// Scrollbars carry the palette too.
+*
+    scrollbar-color: var(--pd-rule) transparent
+    scrollbar-width: thin
 
-    @media (max-width: 768px)
-        padding-left: 0
-        padding-right: 0
+:focus
+    outline: none
+
+:focus-visible
+    outline: 2px solid var(--pd-focus)
+    outline-offset: 2px
 
 main
-    height: 100vh
+    min-height: 100vh
 
 pre
     margin: 0
 
-@keyframes gradient
-    0%
-        background-position: 0% 0%
-    50%
-        background-position: 100% 100%
-    100%
-        background-position: 0% 0%
+kbd
+    font-size: 0.875em
+
+hr
+    border: 0
+    border-top: 1px solid var(--pd-rule)
+
+input,
+select,
+textarea
+    font: inherit
+    color: inherit
+
+// Reduced motion: no transitions, and animations finish at once (their end events
+// still fire, which the sidebar, tooltip and copy button rely on).
+@media (prefers-reduced-motion: reduce)
+    *,
+    *::before,
+    *::after
+        animation-duration: 0.01ms !important
+        animation-iteration-count: 1 !important
+        animation-delay: 0ms !important
+        transition-duration: 0.01ms !important
+        transition-delay: 0ms !important
+        scroll-behavior: auto !important

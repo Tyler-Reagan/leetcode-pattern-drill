@@ -1,97 +1,151 @@
+// Pattern Drill design tokens.
+//
+// The --pd-* tokens are the system. Everything below them (--text-color, --glass-*,
+// --accordion-*, --table-*, ...) is the legacy vocabulary the Reference sections and
+// older components still read; each one is redefined in terms of --pd-* so those
+// surfaces come out flat, ruled and solid without editing the sections.
+
 :root
-    --accordion-button-font-size: 1.25rem
-    --button-padding-x: 16px
+    // Type
+    --pd-font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif
+    --pd-font-body: 'Barlow', system-ui, sans-serif
+    --pd-font-mono: firacode, ui-monospace, monospace
+    --pd-radius: 2px
+
+    // Layout
+    --topbar-height: 57px
+    --sidebar-width: 280px
+    --gutter-spacing: 2rem
+    --content-gutter: 32px
+    --content-margin-left: calc(var(--sidebar-width) + var(--content-gutter))
+    --content-margin-right: var(--content-gutter)
+    --content-margin-top: calc(var(--topbar-height) + 32px)
+    --content-margin-bottom: 32px
+
+    // Motion: colour and border only; no transforms or filters on hover.
+    --style-transition-property: background-color, border-color, color, fill, stroke, outline-color
+    --style-transition-duration: 120ms
+
+    // Legacy: type
+    --font-family-sans-serif: var(--pd-font-body)
+    --font-family-monospace: var(--pd-font-mono)
+    --font-size: 1rem
+    --font-weight: 400
+    --line-height: 1.5
+    --header-font-weight: 600
+    --h1-font-family: var(--pd-font-display)
+    --h3-font-family: var(--pd-font-display)
+    --h1-font-size: 2rem
+    --h2-font-size: 1.75rem
+    --h3-font-size: 1.25rem
+    --accordion-button-font-size: 1.0625rem
+    --button-font-size: 1rem
+    --button-padding-x: 12px
     --button-padding-y: 4px
-    --button-border-radius: 4px
-    --button-font-size: 1.375rem
+    --button-border-radius: var(--pd-radius)
     --bigo-chart-label-font-size: 1.5rem
-    --brand-color: var(--color-white-alpha-4)
-    --card-border-radius: 6px
-    --card-font-size: 1.125rem
+    --card-border-radius: var(--pd-radius)
+    --card-font-size: 1rem
     --card-padding: 20px
-    --code-border-color: var(--color-white-alpha-3)
-    --code-font-size: 1.125rem
-    --code-line-height: normal
+    --code-font-size: 0.9375rem
+    --code-line-height: 1.55
+    --table-font-family: var(--pd-font-body)
+    --table-font-size: 1rem
+    --topbar-brand-font-size: 1.375rem
+    --topbar-padding: 0 24px
+
+    // Legacy: surfaces. No glass, no blur, no glow, no gradients.
+    --glass-backdrop-filter: none
+    --glass-border-radius: var(--pd-radius)
+    --glass-box-shadow: none
+    --glass-tr-box-shadow: none
+    --glass-border: 1px solid var(--pd-rule)
+    --glass-background-color: var(--pd-panel)
+    --background-image: none
+    --section-header-background: var(--pd-panel)
+    --table-wrapper-backdrop-filter: none
+    --table-wrapper-background-color: var(--pd-ground)
+    --table-wrapper-border-color: var(--pd-rule)
+    --table-border-color: var(--pd-rule)
+    --table-cell-text-color: var(--pd-text)
+    --link-overflow-mask: none
+
+    // Legacy: text and controls
+    --text-color: var(--pd-text)
+    --brand-color: var(--pd-text)
+    --link-hover-color: var(--pd-accent-text)
+    --link-hover-background-color: var(--pd-raised)
+    --accordion-button-background-color: transparent
+    --accordion-button-chevron-color: var(--pd-text-muted)
+    --accordion-content-background-color: transparent
+    --nav-icon-link-color: var(--pd-rule)
+    --nav-icon-link-hover-color: var(--pd-raised)
+    --nav-icon-link-active-color: var(--pd-panel)
+    --nav-link-active-color: var(--pd-accent-text)
+    --toggler-icon-color: var(--pd-text)
+    --svg-github-fill: var(--pd-text)
+    --topbar-title-color: var(--pd-text)
+    --topbar-title-hover-color: var(--pd-accent-text)
+    --tab-button-border-bottom-color: var(--pd-rule)
+    --copy-button-background-color: transparent
+    --copy-button-hover-background-color: var(--pd-raised)
+    --copy-button-active-background-color: var(--pd-panel)
+    --copy-button-svg-fill-color: var(--pd-text-muted)
+
+    // Legacy: code. Code blocks sit on a deep slate-green inset in both themes so
+    // the highlight.js palette keeps its contrast.
+    --code-border-color: var(--pd-rule)
     --code-line-hover-color: var(--color-code-mist)
     --code-line-number-color: var(--color-code-carbon)
     --code-line-number-hover-color: var(--color-code-slate)
-    --copy-button-background-color: var(--color-white-alpha-6)
-    --copy-button-hover-background-color: var(--color-white-alpha-7)
-    --copy-button-active-background-color: var(--color-frost-white)
-    --copy-button-svg-fill-color: var(--color-black-alpha-5)
-    --content-margin-left: 308px
-    --content-margin-right: 4px
-    --content-margin-top: calc(var(--topbar-height) + 8px)
-    --content-margin-bottom: 4px
-    --font-family-sans-serif: 'Segoe UI', Roboto, sans-serif
-    --font-family-monospace: firacode, monospace
-    --font-size: 1rem
-    --font-weight: 400
-    --glass-backdrop-filter: blur(8px)
-    --glass-border-radius: 12px
-    --glass-box-shadow: 0 4px 30px var(--color-black-alpha-1)
-    --gutter-spacing: 2rem
-    --h1-font-family: silkscreen, monospace
-    --h3-font-family: firacode, monospace
-    --h1-font-size: 2rem
-    --h2-font-size: 2rem
-    --h3-font-size: 1.5rem
-    --header-font-weight: 500
-    --line-height: 1.5
-    --link-hover-color: var(--color-azure)
-    --link-overflow-mask: var(--gradient-mask-right)
-    --tab-button-border-bottom-color: var(--color-white-alpha-6)
-    --table-border-color: var(--color-white-alpha-6)
-    --table-font-family: var(--font-family-sans-serif)
-    --table-font-size: 1.25rem
-    --table-wrapper-border-color: var(--color-black-alpha-3)
-    --table-wrapper-backdrop-filter: blur(32px)
-    --topbar-title-color: var(--color-white-alpha-8)
-    --topbar-title-hover-color: var(--gradient-pastel-rainbow)
-    --topbar-brand-font-size: var(--h1-font-size)
-    --topbar-brand-gradient: var(--gradient-oceanic-blue)
-    --topbar-height: 64px
-    --topbar-padding: 6px 32px
-    --section-header-background: var(--gradient-pastel-rainbow-transparent)
-    --sidebar-width: 300px
-    --style-transition-property: background, background-color, background-image, border-color, border-radius, box-shadow, color, fill, height, max-height, opacity, stroke, transform, outline, filter, backdrop-filter, width, top, right, bottom, left, outline-color, column-gap, gap
-    --style-transition-duration: 300ms
-
-[data-theme=light]
-    --accordion-button-background-color: var(--color-white-alpha-5)
-    --accordion-button-chevron-color: var(--color-black-alpha-4)
-    --accordion-content-background-color: var(--color-white-alpha-7)
-    --background-image: url('@images/bg-cotton-orb.webp')
-    --glass-background-color: var(--color-white-alpha-2)
-    --glass-border: 1px solid var(--color-white-alpha-3)
-    --glass-tr-box-shadow: 0 4px 12px var(--color-black-alpha-1)
-    --link-hover-background-color: var(--color-white-alpha-7)
-    --table-cell-text-color: var(--color-gunmetal)
-    --table-wrapper-background-color: var(--color-white-alpha-4)
-    --text-color: var(--color-comet)
-    --nav-icon-link-color: var(--color-white-alpha-9)
-    --nav-icon-link-hover-color: var(--color-white-alpha-7)
-    --nav-icon-link-active-color: var(--color-white-alpha-8)
-    --nav-link-active-color: var(--color-white-alpha-8)
-    --toggler-icon-color: var(--color-black-alpha-6)
-    --svg-github-fill: #181616
-    color-scheme: light
+    --code-gutter-rule: #2f4a40
 
 [data-theme=dark]
-    --accordion-button-background-color: var(--color-black-alpha-4)
-    --accordion-button-chevron-color: var(--color-white-alpha-4)
-    --accordion-content-background-color: var(--color-black-alpha-2)
-    --background-image: url('@images/bg-city-night.webp')
-    --glass-background-color: var(--color-black-alpha-2)
-    --glass-border: 1px solid var(--color-black-alpha-3)
-    --glass-tr-box-shadow: 0 2px 8px var(--color-white-alpha-9)
-    --link-hover-background-color: var(--color-black-alpha-4)
-    --table-cell-text-color: var(--color-frost-white)
-    --table-wrapper-background-color: var(--color-black-alpha-1)
-    --text-color: var(--color-platinum)
-    --nav-icon-link-color: var(--color-white-alpha-8)
-    --nav-icon-link-hover-color: var(--color-white-alpha-4)
-    --nav-icon-link-active-color: var(--color-black-alpha-6)
-    --nav-link-active-color: var(--color-black-alpha-6)
-    --toggler-icon-color: var(--color-white-alpha-8)
-    --svg-github-fill: var(--color-white)
+    color-scheme: dark
+    --pd-ground: #121c18
+    --pd-panel: #172420
+    --pd-raised: #1d2d28
+    --pd-text: #e9e4d4
+    --pd-text-muted: #a8b0a4
+    --pd-rule: #2f4a40
+    --pd-accent: #c8623a
+    --pd-accent-text: #e07a50
+    --pd-on-accent: #0b120f
+    --pd-warn: #e0a63a
+    --pd-over: #ef8e84
+    --pd-focus: #e9e4d4
+
+    --code-background: #0e1613
+
+    // Big-O complexity key (table cells). Flat, opaque, dark-tinted fills that keep
+    // bone text above 7:1.
+    --color-green-alpha: #1f4030
+    --color-olive-green-alpha: #2f4026
+    --color-yellow-alpha: #423b1c
+    --color-orange-alpha: #4d321b
+    --color-red-alpha: #50231d
+    --color-gray-alpha: #24302b
+
+[data-theme=light]
+    color-scheme: light
+    --pd-ground: #eef1ec
+    --pd-panel: #e3e8e1
+    --pd-raised: #d8e0d6
+    --pd-text: #16231e
+    --pd-text-muted: #4b5a52
+    --pd-rule: #b7c5bb
+    --pd-accent: #a9461f
+    --pd-accent-text: #963d19
+    --pd-on-accent: #f6f3ea
+    --pd-warn: #80560a
+    --pd-over: #a8322a
+    --pd-focus: #16231e
+
+    --code-background: #16211d
+
+    --color-green-alpha: #cfe3d2
+    --color-olive-green-alpha: #dde6c8
+    --color-yellow-alpha: #ece2b6
+    --color-orange-alpha: #eed3b8
+    --color-red-alpha: #ecc6be
+    --color-gray-alpha: #dbe1da

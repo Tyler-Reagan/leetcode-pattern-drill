@@ -22,6 +22,7 @@
     <title>Pattern Drill</title>
     <meta name="description" content="Find the pattern in 30 seconds. A timed decision tree for LeetCode problems." />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta name="theme-color" content="#121c18" />
 
     <meta property="og:site_name" content="Pattern Drill" />
     <meta property="og:title" content="Pattern Drill" />
@@ -36,102 +37,67 @@
     <link rel="manifest" href="/favicon/site.webmanifest">
 
     <style>
+        /* Pre-React loader: the app ground plus a thin rust bar pulsing on the top edge.
+           React replaces #root's contents on first render. */
         :root {
-            /* --initial-background-color: #2c292d; */
-            --initial-background: linear-gradient(135deg, #262626, #1a1a1a);
-            --pacman-color: #ffd866;
-            --pacman-size: var(--ball-size) * 2.5;
-            --ball-size: 15px;
+            color-scheme: dark;
+            --boot-ground: #121c18;
+            --boot-track: #2f4a40;
+            --boot-bar: #c8623a;
+            --boot-text: #e9e4d4;
         }
 
+        [data-theme=light] {
+            color-scheme: light;
+            --boot-ground: #eef1ec;
+            --boot-track: #b7c5bb;
+            --boot-bar: #a9461f;
+            --boot-text: #16231e;
+        }
+
+        html,
         body {
-            background: var(--initial-background);
+            background-color: var(--boot-ground);
+            color: var(--boot-text);
+            margin: 0;
         }
 
-        [data-theme=light] body {
-            background: linear-gradient(135deg, #f4f4f6, #e4e4ea);
+        .boot-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            overflow: hidden;
+            background-color: var(--boot-track);
         }
 
-        .pacman-loader {
+        .boot-loader::before {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--boot-bar);
+            animation: boot-pulse 1.2s ease-in-out infinite alternate;
         }
 
-        .pacman-loader > div:nth-child(1),
-        .pacman-loader > div:nth-child(2) {
-            border: calc(var(--ball-size) * 2.5) solid var(--pacman-color);
-            border-right-color: transparent;
-            border-radius: 50%;
-            width: 0;
-            height: 0;
-            left: calc(-1 * var(--ball-size) * 4);
-            position: relative;
-            animation: rotate-pacman-half-up .5s infinite;
-        }
-
-        .pacman-loader > div:nth-child(2) {
-            margin-top: calc(-1 * var(--pacman-size) * 2);
-            animation-name: rotate-pacman-half-down;
-        }
-
-        .pacman-loader > div:nth-child(3),
-        .pacman-loader > div:nth-child(4),
-        .pacman-loader > div:nth-child(5) {
-            background-color: var(--pacman-color);
-            border-radius: 50%;
-            width: var(--ball-size);
-            height: var(--ball-size);
-            top: calc(var(--ball-size) * 2);
-            left: calc(var(--pacman-size) * 2);
-            position: absolute;
-            animation: pacman-balls 1s infinite linear;
-        }
-
-        .pacman-loader > div:nth-child(3) {
-            animation-delay: -.66s;
-        }
-
-        .pacman-loader > div:nth-child(4) {
-            animation-delay: -.33s;
-        }
-
-        @keyframes rotate-pacman-half-up {
-            0% {
-                transform: rotate(270deg);
+        @keyframes boot-pulse {
+            from {
+                opacity: 0.25;
             }
 
-            50% {
-                transform: rotate(360deg);
-            }
-
-            100% {
-                transform: rotate(270deg);
+            to {
+                opacity: 1;
             }
         }
 
-        @keyframes rotate-pacman-half-down {
-            0% {
-                transform: rotate(90deg);
-            }
-
-            50% {
-                transform: rotate(0);
-            }
-
-            100% {
-                transform: rotate(90deg);
-            }
-        }
-
-        @keyframes pacman-balls {
-            75% {
-                opacity: .7;
-            }
-
-            100% {
-                transform: translateX(calc(-1 * (var(--pacman-size) * 2.5)));
+        @media (prefers-reduced-motion: reduce) {
+            .boot-loader::before {
+                animation: none;
+                width: 100%;
+                opacity: 0.6;
             }
         }
     </style>
@@ -140,13 +106,7 @@
 <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-        <div class="pacman-loader">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+        <div class="boot-loader" role="progressbar" aria-label="Loading Pattern Drill"></div>
     </div>
     <script type="module" src="/src/main.tsx"></script>
 </body>

@@ -1,33 +1,30 @@
+// Raw colour values. Components read the semantic tokens in themes.sass, not these.
 :root
     --color-black: #000000
     --color-white: #ffffff
     --color-frost-white: #f8f8f8
     --color-platinum: #e0e0e0
-    --color-azure: #03a9f4
-    --color-comet: #5a5d7a
     --color-gunmetal: #2e3140
     --color-red: #ff4d4d
     --color-green: #3fc86f
     --color-orange: #ffa116
+
+    // Syntax palette (highlight.js). Code always sits on a deep slate-green ground,
+    // in both themes, so these stay light. Comments and line numbers are lifted
+    // from the stock values to clear contrast on that ground.
     --color-code-red: #ff6188
     --color-code-orange: #fc9867
     --color-code-yellow: #ffd866
     --color-code-green: #a9dc76
     --color-code-blue: #78dce8
     --color-code-purple: #ab9df2
-    --color-code-mist: #fcfcfa0c
-    --color-code-linen: #fdf9f3
-    --color-code-slate: #c1c0c0
-    --color-code-venus: #939293
-    --color-code-dull: #727072
-    --color-code-carbon: #5b595c
-    --color-code-dark: #2c292d
-    --color-red-alpha: rgba(255, 77, 77, 0.7)
-    --color-green-alpha: rgba(63, 200, 111, 0.7)
-    --color-olive-green-alpha: rgba(169, 220, 118, 0.7)
-    --color-orange-alpha: rgba(255, 161, 22, 0.7)
-    --color-yellow-alpha: rgba(255, 216, 102, 0.7)
-    --color-gray-alpha: rgba(190, 190, 190, 0.7)
+    --color-code-mist: rgba(233, 228, 212, 0.06)
+    --color-code-linen: #f3efe3
+    --color-code-slate: #c1c4bc
+    --color-code-venus: #9aa39c
+    --color-code-dull: #8c968f
+    --color-code-carbon: #62746b
+
     --color-black-alpha-1: rgba(0, 0, 0, 0.1)
     --color-black-alpha-2: rgba(0, 0, 0, 0.2)
     --color-black-alpha-3: rgba(0, 0, 0, 0.3)
@@ -46,7 +43,3 @@
     --color-white-alpha-7: rgba(255, 255, 255, 0.7)
     --color-white-alpha-8: rgba(255, 255, 255, 0.8)
     --color-white-alpha-9: rgba(255, 255, 255, 0.9)
-    --gradient-oceanic-blue: linear-gradient(to right, #56ccf2, #2f80ed)
-    --gradient-pastel-rainbow: linear-gradient(135deg, #ffb6c1, #ffcc99, #ffff99, #ccffcc, #99ccff, #cc99ff)
-    --gradient-pastel-rainbow-transparent: linear-gradient(135deg, rgba(255, 183, 197, 0.5), rgba(255, 240, 245, 0.5), rgba(204, 255, 144, 0.5), rgba(128, 216, 255, 0.5))
-    --gradient-mask-right: linear-gradient(90deg, #000 90%, transparent)

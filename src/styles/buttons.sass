@@ -5,11 +5,12 @@ a[role='button']
     justify-content: center
     background: transparent
     border: none
+    border-radius: var(--pd-radius)
     box-shadow: none
     color: inherit
     font-family: inherit
+    font-size: inherit
     cursor: pointer
-    outline: none
     margin: 0
     padding: 0
     text-decoration: none
@@ -22,15 +23,23 @@ a[role='button']
         width: 1em
         vertical-align: middle
 
+    &:disabled
+        cursor: not-allowed
+        opacity: 0.5
+
 a:not([role='button'])
     color: inherit
     cursor: pointer
-    text-decoration: none
+    text-decoration: underline
+    text-decoration-color: var(--pd-rule)
+    text-decoration-thickness: 1px
+    text-underline-offset: 0.2em
     transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
+    transition-property: var(--style-transition-property), text-decoration-color
 
     &:hover
         color: var(--link-hover-color)
+        text-decoration-color: currentColor
 
     &:active
         color: inherit
