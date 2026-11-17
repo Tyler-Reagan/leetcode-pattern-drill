@@ -1,19 +1,16 @@
-<p align="center">
-    <img src="src/images/banner.webp" alt="leetcode cheatsheet banner" width="768" height="420">
-</p>
+## Pattern Drill
 
-## LeetCode Cheatsheet
-A comprehensive cheatsheet for LeetCode enthusiasts, featuring essential algorithms, data structures, and problem-solving techniques.
+Pattern Drill is a timed tool for recognizing which algorithm pattern a LeetCode problem calls for.
 
-## Features
-- Big O time and space complexities for common algorithms
-- Code templates for frequently used algorithms
-- Implementations of various data structures
-- Sorting algorithms with explanations
+- **Pattern Finder**: a decision tree you can walk through in about 30 seconds to identify a problem's pattern and the template to reach for.
+- **Reference**: a cheatsheet of code templates for each pattern in Python, JavaScript, Java, and C++.
 
 ## Building the Project
-To build the LeetCode Cheatsheet project, follow these steps:
 
 ```bash
-$ npm run build
-```   
+$ npm install
+$ npm run dev     # local development server
+$ npm run build   # production build (output in docs/)
+```
+
+Based on [jwl-7/leetcode-cheatsheet](https://github.com/jwl-7/leetcode-cheatsheet) (MIT).

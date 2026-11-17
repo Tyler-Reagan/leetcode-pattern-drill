@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
     plugins: [react()],
-    base: "/leetcode-cheatsheet/",
+    base: "/leetcode-pattern-drill/",
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),

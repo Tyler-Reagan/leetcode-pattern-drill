@@ -18,11 +18,14 @@ A programming language the app offers templates in. The list is shared by the wh
 **Pattern finder**
 The view of the app where a user identifies a pattern variant by answering a sequence of cue questions.
 
+**Reference**
+The view of the app that holds the full cheatsheet: every pattern's explanation and templates, browsed freely rather than reached through the finder. It is the secondary view; the pattern finder is the front door.
+
 **Leaf**
 The end of a path in the finder's decision tree. A leaf is exactly one pattern variant.
 
 **Drill run**
-One attempt at the finder, from starting the countdown at the root to reaching a leaf or resetting.
+One attempt at the finder, from starting the countdown at the root to reaching a leaf or resetting. The user supplies the problem themselves, from their own LeetCode practice; the app does not pick or track problems.
 
 **Budget**
 The 30 seconds a drill run is meant to fit within. Going past it is overtime; it does not end the run.

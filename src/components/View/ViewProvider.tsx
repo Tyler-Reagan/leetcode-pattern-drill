@@ -14,7 +14,7 @@ interface ViewProviderProps {
 const ViewContext = createContext<ViewContextType | undefined>(undefined)
 
 export function ViewProvider({ children }: ViewProviderProps) {
-    const [view, setView] = useState<View>('cheatsheet')
+    const [view, setView] = useState<View>('finder')
 
     return (
         <ViewContext.Provider value={{ view, setView }}>

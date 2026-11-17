@@ -58,17 +58,18 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
     const renderTitle = () => {
         return !isScreenMd && (
             <a href="main" onClick={handleTitleClick} role="button">
-                <h1 className={styles.title}>LeetCode Cheatsheet</h1>
+                <h1 className={styles.title}>Pattern Drill</h1>
             </a>
         )
     }
     const renderGitHubButton = () => {
         return (
             <a
-                href="/leetcode-cheatsheet"
+                href="https://github.com/Tyler-Reagan/leetcode-pattern-drill"
                 aria-label="GitHub source"
                 className={styles.iconLink}
                 target="_blank"
+                rel="noopener noreferrer"
             >
                 <Github />
             </a>
@@ -77,7 +78,7 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
     const renderViewToggle = () => {
         return (
             <button className={styles.viewToggle} onClick={handleViewToggle}>
-                {view === 'finder' ? 'Cheatsheet' : 'Pattern Finder'}
+                {view === 'finder' ? 'Reference' : 'Pattern Finder'}
             </button>
         )
     }
