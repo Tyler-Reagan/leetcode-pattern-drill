@@ -9,7 +9,6 @@ import clsx from '@/utils/clsx'
 import getNavBarHeight from '@utils/getNavBarHeight'
 import { cancelPendingScroll } from '@utils/scrollWhenSettled'
 import scrollTo from '@utils/scrollTo'
-import Brand from '@components/Brand/Brand'
 import ThemeSwitch from '@components/ThemeSwitch/ThemeSwitch'
 import Github from '@icons/Github'
 
@@ -54,7 +53,6 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         window.scrollTo({ top: 0 })
     }
 
-    const renderBrand = () => !isScreenMd && <Brand />
     const renderTitle = () => {
         return !isScreenMd && (
             <a href="main" onClick={handleTitleClick} role="button">
@@ -106,7 +104,6 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
                     <span className={clsx(hamburgerClasses, styles.hamburgerMiddle)} />
                     <span className={clsx(hamburgerClasses, styles.hamburgerBottom)} />
                 </div>
-                {renderBrand()}
                 {renderTitle()}
                 {renderButtons()}
             </div>
