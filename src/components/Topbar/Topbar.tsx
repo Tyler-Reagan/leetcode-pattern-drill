@@ -1,9 +1,9 @@
 import styles from './Topbar.module.sass'
 
-import { useLayoutEffect, MouseEvent, RefObject, useRef } from 'react'
-import { useMediaQuery } from 'react-responsive'
+import { useLayoutEffect, ChangeEvent, MouseEvent, RefObject, useRef } from 'react'
 import { useSidebar } from '@components/Sidebar/SidebarProvider'
-import { useView } from '@components/View/ViewProvider'
+import { useView, type View } from '@components/View/ViewProvider'
+import { LANGUAGES, useLanguage } from '@components/Language/LanguageProvider'
 
 import clsx from '@/utils/clsx'
 import getNavBarHeight from '@utils/getNavBarHeight'
@@ -12,20 +12,29 @@ import scrollTo from '@utils/scrollTo'
 import ThemeSwitch from '@components/ThemeSwitch/ThemeSwitch'
 import Github from '@icons/Github'
 
+type Language = (typeof LANGUAGES)[number]
+
 interface TopbarProps {
-    forwardedRef: RefObject<HTMLDivElement>
+    forwardedRef: RefObject<HTMLButtonElement | null>
+}
+
+const VIEWS: { id: View, label: string }[] = [
+    { id: 'finder', label: 'Pattern Finder' },
+    { id: 'cheatsheet', label: 'Reference' },
+]
+
+const LANGUAGE_NAMES: Record<Language, string> = {
+    python: 'Python',
+    javascript: 'JavaScript',
+    java: 'Java',
+    cpp: 'C++',
 }
 
 export default function Topbar({ forwardedRef }: TopbarProps) {
     const ref = useRef<HTMLElement | null>(null)
-    const { isSidebarOpen, toggleSidebar } = useSidebar()
+    const { isSidebarOpen, showSidebar, hideSidebar, toggleSidebar } = useSidebar()
     const { view, setView } = useView()
-    const isScreenMd = useMediaQuery({ maxWidth: 768 })
-
-    const hamburgerClasses = clsx(
-        styles.hamburgerIcon,
-        !isSidebarOpen && styles.collapsed
-    )
+    const { selectedLanguage, setSelectedLanguage } = useLanguage()
 
     useLayoutEffect(() => {
         if (!ref.current) return
@@ -47,65 +56,80 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         scrollTo('main', getNavBarHeight() - 2)
     }
     const handleHamburgerClick = () => toggleSidebar()
-    const handleViewToggle = () => {
+    const handleViewSelect = (next: View) => {
+        if (next === view) return
         cancelPendingScroll()
-        setView(view === 'finder' ? 'cheatsheet' : 'finder')
+        setView(next)
+        // The sidebar indexes the Reference: open it there on wide screens, close it on the Finder.
+        if (next === 'finder') hideSidebar()
+        else if (!window.matchMedia('(max-width: 768px)').matches) showSidebar()
         window.scrollTo({ top: 0 })
     }
-
-    const renderTitle = () => {
-        return !isScreenMd && (
-            <a href="main" onClick={handleTitleClick} role="button">
-                <h1 className={styles.title}>Pattern Drill</h1>
-            </a>
-        )
-    }
-    const renderGitHubButton = () => {
-        return (
-            <a
-                href="https://github.com/Tyler-Reagan/leetcode-pattern-drill"
-                aria-label="GitHub source"
-                className={styles.iconLink}
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <Github />
-            </a>
-        )
-    }
-    const renderViewToggle = () => {
-        return (
-            <button className={styles.viewToggle} onClick={handleViewToggle}>
-                {view === 'finder' ? 'Reference' : 'Pattern Finder'}
-            </button>
-        )
-    }
-    const renderButtons = () => {
-        return !isScreenMd ? (
-            <div className={styles.buttonContainer}>
-                {renderViewToggle()}
-                {renderGitHubButton()}
-                <ThemeSwitch />
-            </div>
-        ) : (
-            <>
-                {renderViewToggle()}
-                <ThemeSwitch />
-                {renderGitHubButton()}
-            </>
-        )
+    const handleLanguageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSelectedLanguage(event.target.value as Language)
     }
 
     return (
         <header ref={ref} className={styles.topbar}>
             <div className={styles.container}>
-                <div ref={forwardedRef} className={styles.hamburger} onClick={handleHamburgerClick}>
-                    <span className={clsx(hamburgerClasses, styles.hamburgerTop)} />
-                    <span className={clsx(hamburgerClasses, styles.hamburgerMiddle)} />
-                    <span className={clsx(hamburgerClasses, styles.hamburgerBottom)} />
+                {/* The sidebar indexes Reference sections, which are unmounted in the Finder. */}
+                {view === 'cheatsheet' && (
+                    <button
+                        ref={forwardedRef}
+                        type="button"
+                        className={styles.hamburger}
+                        onClick={handleHamburgerClick}
+                        aria-label={isSidebarOpen ? 'Hide reference sections' : 'Show reference sections'}
+                        aria-expanded={isSidebarOpen}
+                        aria-controls="reference-sections"
+                    >
+                        <span className={clsx(styles.hamburgerIcon, styles.hamburgerTop, isSidebarOpen && styles.open)} />
+                        <span className={clsx(styles.hamburgerIcon, styles.hamburgerMiddle, isSidebarOpen && styles.open)} />
+                        <span className={clsx(styles.hamburgerIcon, styles.hamburgerBottom, isSidebarOpen && styles.open)} />
+                    </button>
+                )}
+
+                <a href={import.meta.env.BASE_URL} className={styles.wordmark} onClick={handleTitleClick}>
+                    <h1 className={styles.title}>Pattern Drill</h1>
+                </a>
+
+                <div className={styles.segmented} role="group" aria-label="View">
+                    {VIEWS.map(({ id, label }) => (
+                        <button
+                            key={id}
+                            type="button"
+                            className={styles.segment}
+                            aria-pressed={view === id}
+                            onClick={() => handleViewSelect(id)}
+                        >
+                            {label}
+                        </button>
+                    ))}
                 </div>
-                {renderTitle()}
-                {renderButtons()}
+
+                <div className={styles.tools}>
+                    <label className={styles.select}>
+                        <span className={styles.visuallyHidden}>Template language</span>
+                        <select value={selectedLanguage} onChange={handleLanguageChange}>
+                            {LANGUAGES.map((language) => (
+                                <option key={language} value={language}>{LANGUAGE_NAMES[language]}</option>
+                            ))}
+                        </select>
+                        <svg className={styles.selectChevron} viewBox="0 0 12 12" aria-hidden="true">
+                            <path d="M2.5 4.5 6 8l3.5-3.5" />
+                        </svg>
+                    </label>
+                    <ThemeSwitch />
+                    <a
+                        href="https://github.com/Tyler-Reagan/leetcode-pattern-drill"
+                        aria-label="GitHub source"
+                        className={styles.iconLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <Github />
+                    </a>
+                </div>
             </div>
         </header>
     )

@@ -1,21 +1,24 @@
 import styles from './Sidebar.module.sass'
 
-import { RefObject, useRef, useState } from 'react'
+import { RefObject, useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useClickOutside } from '@/hooks/useClickOutside'
 import { useSidebar } from '@components/Sidebar/SidebarProvider'
+import { useView } from '@components/View/ViewProvider'
 
 import clsx from '@utils/clsx'
 import SidebarLinks from './SidebarLinks'
 
 interface SidebarProps {
-    hamburgerButtonRef: RefObject<HTMLDivElement>
+    hamburgerButtonRef: RefObject<HTMLButtonElement | null>
 }
 
 export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
     const ref = useRef<HTMLElement>(null)
     const { isSidebarOpen, showSidebar, hideSidebar } = useSidebar()
-    const [shouldHide, setShouldHide] = useState<boolean>(false)
+    const { view } = useView()
+    // Starts hidden when the sidebar starts closed, so it does not play its exit on load.
+    const [shouldHide, setShouldHide] = useState<boolean>(() => !isSidebarOpen)
 
     const classes = clsx(
         styles.sidebar,
@@ -25,8 +28,13 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
 
     const handleMediaQueryChange = (matches: boolean) => {
         if (matches && isSidebarOpen) hideSidebar()
-        else if (!matches && !isSidebarOpen) showSidebar()
+        else if (!matches && !isSidebarOpen && view === 'cheatsheet') showSidebar()
     }
+
+    // The sidebar only indexes the Reference; it never stays open on the Finder.
+    useEffect(() => {
+        if (view === 'finder' && isSidebarOpen) hideSidebar()
+    }, [view, isSidebarOpen, hideSidebar])
 
     const isScreenMd = useMediaQuery({ maxWidth: 768 }, undefined, handleMediaQueryChange)
 
@@ -41,7 +49,15 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
     useClickOutside([ref, hamburgerButtonRef], hideSidebarMd)
 
     return (
-        <nav ref={ref} className={classes} onAnimationStart={handleAnimationStart} onAnimationEndCapture={handleAnimationEnd}>
+        <nav
+            ref={ref}
+            id="reference-sections"
+            aria-label="Reference sections"
+            className={classes}
+            onAnimationStart={handleAnimationStart}
+            onAnimationEndCapture={handleAnimationEnd}
+        >
+            <h2 className={styles.heading}>Reference</h2>
             <div className={styles.scrollContainer}>
                 <SidebarLinks />
             </div>

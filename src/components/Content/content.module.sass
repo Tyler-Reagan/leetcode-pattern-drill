@@ -1,15 +1,23 @@
 .main
     display: flex
     flex-direction: column
-    row-gap: 48px
+    row-gap: 56px
     margin-bottom: var(--content-margin-bottom)
     margin-left: var(--content-margin-left)
     margin-right: var(--content-margin-right)
     margin-top: var(--content-margin-top)
-    transition: margin 300ms ease
+    // fill the viewport between the margins (the global `main` 100vh rule overflowed by them)
+    min-height: calc(100dvh - var(--content-margin-top) - var(--content-margin-bottom))
+    min-width: 0
 
     &.sidebarHidden
-        margin-left: 4px
+        margin-left: var(--content-gutter)
 
     @media (max-width: 768px)
-        margin-left: 4px
+        margin-left: 16px
+        margin-right: 16px
+        margin-top: calc(var(--topbar-height) + 20px)
+        min-height: calc(100dvh - var(--topbar-height) - 20px - var(--content-margin-bottom))
+
+        &.sidebarHidden
+            margin-left: 16px

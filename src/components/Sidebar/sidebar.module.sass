@@ -1,59 +1,56 @@
 .sidebar
     position: fixed
-    top: calc(4px + var(--topbar-height) + 4px)
-    bottom: 4px
-    left: 4px
-    background-color: var(--glass-background-color)
-    backdrop-filter: var(--glass-backdrop-filter)
-    border: var(--glass-border)
-    border-radius: var(--glass-border-radius)
-    box-shadow: var(--glass-box-shadow)
-    padding: 8px
+    top: var(--topbar-height)
+    bottom: 0
+    left: 0
+    background-color: var(--pd-panel)
+    border-right: 1px solid var(--pd-rule)
+    display: flex
+    flex-direction: column
+    padding: 0
     margin: 0
-    transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
     width: var(--sidebar-width)
-    z-index: 999
+    z-index: 998
     transform: translateX(-100%)
-    animation: sidebar-enter 300ms forwards
+    animation: sidebar-enter 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards
 
     &.exit
-        animation: sidebar-exit 300ms forwards
+        animation: sidebar-exit 180ms cubic-bezier(0.7, 0, 0.84, 0) forwards
 
     &.hide
         display: none
 
+    @media (max-width: 768px)
+        width: min(var(--sidebar-width), 86vw)
+
+.heading
+    border-bottom: 1px solid var(--pd-rule)
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 0.875rem
+    font-weight: 600
+    letter-spacing: 0.1em
+    text-transform: uppercase
+    margin: 0
+    padding: 14px 14px 10px
+
 .scrollContainer
     display: flex
-    position: static
-    z-index: 1
-    row-gap: 4px
     flex-direction: column
     overflow-y: auto
     overscroll-behavior: contain
-    max-height: 100%
+    flex: 1 1 auto
+    min-height: 0
     width: 100%
-    border-radius: 4px
-    transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
-    z-index: 999
 
 @keyframes sidebar-enter
     from
-        transform: translateX(calc(-1 * (var(--sidebar-width) + 4px)))
-        opacity: 0.7
-        backdrop-filter: blur(20px)
+        transform: translateX(-100%)
     to
         transform: translateX(0)
-        opacity: 1
-        backdrop-filter: var(--glass-backdrop-filter)
 
 @keyframes sidebar-exit
     from
         transform: translateX(0)
-        opacity: 1
-        backdrop-filter: var(--glass-backdrop-filter)
     to
-        transform: translateX(calc(-1 * (var(--sidebar-width) + 4px)))
-        opacity: 0.7
-        backdrop-filter: blur(20px)
+        transform: translateX(-100%)
