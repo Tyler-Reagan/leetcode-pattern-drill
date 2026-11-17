@@ -1,231 +1,326 @@
 import styles from './patternfinder.module.sass'
 
-import { useEffect, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 
-import { tree } from '@/finder/tree'
 import { getTemplates } from '@/finder/templates'
-import type { FinderOption, Leaf, TreeNode } from '@/finder/types'
+import type { Leaf, TreeNode } from '@/finder/types'
 
 import clsx from '@utils/clsx'
 import Tabs from '@components/Tabs/Tabs'
 import { LANGUAGES } from '@components/Language/LanguageProvider'
-import useCountdown from './useCountdown'
+import useFinderRun, { formatClock, type FinderRun } from './useFinderRun'
 
-const BUDGET_SECONDS = 30
-const WARN_SECONDS = 10
+type Tone = 'idle' | 'ok' | 'warn' | 'over'
 
-interface Step {
-    question: string
-    option: FinderOption
+function Kbd({ children }: { children: ReactNode }) {
+    return <kbd className={styles.kbd} aria-hidden="true">{children}</kbd>
 }
 
-const pad = (n: number) => String(n).padStart(2, '0')
-
-function formatClock(totalSeconds: number) {
-    const seconds = Math.max(0, totalSeconds)
-    return `${Math.floor(seconds / 60)}:${pad(seconds % 60)}`
-}
-
-export default function PatternFinder() {
-    const clock = useCountdown(BUDGET_SECONDS * 1000)
-    const [started, setStarted] = useState(false)
-    const [steps, setSteps] = useState<Step[]>([])
-    const [showTemplate, setShowTemplate] = useState(false)
-    const stageRef = useRef<HTMLHeadingElement>(null)
-
-    const currentId = steps.length > 0 ? steps[steps.length - 1].option.next : tree.rootId
-    const leaf: Leaf | undefined = started ? tree.leaves[currentId] : undefined
-    const node: TreeNode | undefined = started ? tree.nodes[currentId] : undefined
-
-    // Option buttons unmount on every step, so hand focus to the new heading.
-    useEffect(() => {
-        stageRef.current?.focus()
-    }, [started, currentId])
-
-    const handleStart = () => {
-        setStarted(true)
-        clock.start()
-    }
-    const handlePick = (option: FinderOption) => {
-        if (!node) return
-        setSteps([...steps, { question: node.question, option }])
-        if (tree.leaves[option.next]) clock.stop()
-    }
-    const handleBacktrack = () => {
-        if (steps.length === 0) return
-        setSteps(steps.slice(0, -1))
-        setShowTemplate(false)
-        if (leaf) clock.resume()
-    }
-    const handleReset = () => {
-        clock.reset()
-        setStarted(false)
-        setSteps([])
-        setShowTemplate(false)
-    }
-
-    const elapsedClock = formatClock(Math.floor(clock.elapsedMs / 1000))
-    const overSeconds = Math.floor(clock.overtimeMs / 1000)
-
-    const renderTimer = () => {
-        const seconds = Math.ceil(clock.remainingMs / 1000)
-        const state = clock.isOvertime ? 'over' : seconds <= WARN_SECONDS ? 'warn' : 'ok'
-        const classes = clsx(
-            styles.timer,
-            state === 'warn' && styles.warn,
-            state === 'over' && styles.over
-        )
-
-        return (
-            <div className={classes} role="timer" aria-live="off" aria-label="Time on the clock">
-                <span className={styles.timerValue}>
-                    {clock.isOvertime ? `+${formatClock(overSeconds)}` : formatClock(seconds)}
-                </span>
-                <span className={styles.timerCaption}>{clock.isOvertime ? 'over budget' : 'left'}</span>
-            </div>
-        )
-    }
-
-    const renderBreadcrumb = () => {
-        if (steps.length === 0) return null
-
-        return (
-            <nav aria-label="Your path so far">
-                <ol className={styles.breadcrumb}>
-                    {steps.map((step, index) => (
-                        <li key={index} className={styles.crumb} title={step.question}>
-                            {step.option.cue}
-                        </li>
-                    ))}
-                </ol>
-            </nav>
-        )
-    }
-
-    const renderIdle = () => (
-        <section className={styles.card}>
-            <h2 ref={stageRef} tabIndex={-1} className={styles.heading}>Pattern Finder</h2>
-            <p className={styles.lead}>
-                Read the problem, then pick the cue that sounds most like it. Each answer narrows
-                the field until you land on one pattern variant. You have {BUDGET_SECONDS} seconds.
-            </p>
-            <div className={styles.actions}>
-                <button className={clsx(styles.button, styles.primary)} onClick={handleStart}>
-                    Start
-                </button>
-            </div>
-        </section>
+// Every character of the clock sits in its own fixed cell, so the digits never reflow.
+// The first cell is reserved for the overtime sign.
+function ClockCells({ text, sign, tone, caption, label }: {
+    text: string
+    sign: boolean
+    tone: Tone
+    caption: string
+    label: string
+}) {
+    return (
+        <div className={clsx(styles.timer, styles[tone])} role="timer" aria-live="off" aria-label={label}>
+            <span className={styles.cells} aria-hidden="true">
+                <span className={clsx(styles.cell, styles.signCell)}>{sign ? '+' : ''}</span>
+                {text.split('').map((char, index) => (
+                    char === ':'
+                        ? <span key={index} className={styles.colon}>:</span>
+                        : <span key={index} className={styles.cell}>{char}</span>
+                ))}
+            </span>
+            <span className={styles.timerCaption} aria-hidden="true">{caption}</span>
+        </div>
     )
+}
 
-    const renderQuestion = (current: TreeNode) => (
-        <section className={styles.card}>
-            <div className={styles.topRow}>
-                <span className={styles.step}>Question {steps.length + 1}</span>
-                {renderTimer()}
-            </div>
-            {renderBreadcrumb()}
-            <h2 ref={stageRef} tabIndex={-1} className={styles.heading}>{current.question}</h2>
-            <ul className={styles.options}>
-                {current.options.map((option) => (
-                    <li key={option.cue}>
-                        <button className={styles.cue} onClick={() => handlePick(option)}>
-                            {option.cue}
+function RunClock({ run }: { run: FinderRun }) {
+    if (!run.started) {
+        const text = formatClock(run.budget)
+        return <ClockCells text={text} sign={false} tone="idle" caption="budget" label={`Budget ${text}`} />
+    }
+    if (run.leaf) {
+        const text = formatClock(run.elapsedSeconds)
+        return (
+            <ClockCells
+                text={text}
+                sign={false}
+                tone={run.isOvertime ? 'over' : 'ok'}
+                caption="taken"
+                label={`Time taken ${text}`}
+            />
+        )
+    }
+    if (run.isOvertime) {
+        const text = formatClock(run.overSeconds)
+        return <ClockCells text={text} sign tone="over" caption="over budget" label={`${text} over budget`} />
+    }
+    const text = formatClock(run.remainingSeconds)
+    return (
+        <ClockCells
+            text={text}
+            sign={false}
+            tone={run.isWarn ? 'warn' : 'ok'}
+            caption="left"
+            label={`${text} left`}
+        />
+    )
+}
+
+// The path as a quiet station line: a muted dot per answered cue (a button that backtracks to
+// that question), one accent dot for where you are, and a dashed tail to a hollow end dot.
+function StationLine({ run }: { run: FinderRun }) {
+    const { started, steps, leaf, node } = run
+    const broken = started && !leaf && !node
+    const atQuestion = !leaf && !broken
+
+    return (
+        <nav className={styles.line} aria-label="Your path so far">
+            <ol className={styles.stops}>
+                {steps.map((step, index) => (
+                    <li key={index} className={clsx(styles.stop, styles.answered)}>
+                        <button
+                            type="button"
+                            className={styles.stopButton}
+                            title={`${step.question} ${step.option.cue}`}
+                            aria-label={`Back to question ${index + 1}: ${step.question} You picked: ${step.option.cue}`}
+                            onClick={() => run.backtrackTo(index)}
+                        >
+                            <span className={styles.dot} aria-hidden="true" />
+                            <span className={styles.cue}>{step.option.cue}</span>
                         </button>
                     </li>
                 ))}
-            </ul>
-            <div className={styles.actions}>
-                <button className={styles.button} onClick={handleBacktrack} disabled={steps.length === 0}>
-                    Backtrack
-                </button>
-                <button className={styles.button} onClick={handleReset}>Reset</button>
-            </div>
-        </section>
-    )
 
-    const renderDocsLink = (current: Leaf) => (
-        <a className={styles.docsLink} href={current.docsUrl} target="_blank" rel="noreferrer">
+                {atQuestion && (
+                    <li className={clsx(styles.stop, styles.current, styles.dashedNext)} aria-current="step">
+                        <span className={styles.stopInner}>
+                            <span className={styles.dot} aria-hidden="true" />
+                            <span className={styles.srOnly}>
+                                {started ? `Question ${steps.length + 1}, current` : 'Ready to start'}
+                            </span>
+                        </span>
+                    </li>
+                )}
+
+                {leaf && (
+                    <li className={clsx(styles.stop, styles.reached)} aria-current="step">
+                        <span className={styles.stopInner}>
+                            <span className={styles.dot} aria-hidden="true" />
+                            <span className={styles.srOnly}>Result: {leaf.name}</span>
+                        </span>
+                    </li>
+                )}
+
+                {atQuestion && (
+                    <li className={clsx(styles.stop, styles.end)} aria-hidden="true">
+                        <span className={styles.stopInner}>
+                            <span className={styles.dot} />
+                        </span>
+                    </li>
+                )}
+
+                {broken && (
+                    <li className={clsx(styles.stop, styles.fault)} aria-current="step">
+                        <span className={styles.stopInner}>
+                            <span className={styles.dot} aria-hidden="true" />
+                            <span className={styles.srOnly}>This path leads nowhere</span>
+                        </span>
+                    </li>
+                )}
+            </ol>
+        </nav>
+    )
+}
+
+function Strip({ label, value, run }: { label: string; value: string; run: FinderRun }) {
+    return (
+        <header className={styles.strip}>
+            <p className={styles.stripTitle}>
+                {label}<span className={styles.stripValue}>{value}</span>
+            </p>
+            <RunClock run={run} />
+        </header>
+    )
+}
+
+function Footer({ run }: { run: FinderRun }) {
+    return (
+        <footer className={styles.footer}>
+            {run.started && (run.node || run.leaf) && (
+                <button
+                    type="button"
+                    className={styles.plain}
+                    onClick={run.backtrack}
+                    disabled={run.steps.length === 0}
+                    aria-keyshortcuts="Backspace"
+                >
+                    Backtrack <Kbd>Bksp</Kbd>
+                </button>
+            )}
+            <button type="button" className={styles.plain} onClick={run.reset} aria-keyshortcuts="Escape">
+                Reset <Kbd>Esc</Kbd>
+            </button>
+        </footer>
+    )
+}
+
+function DocsLink({ leaf }: { leaf: Leaf }) {
+    return (
+        <a className={styles.docsLink} href={leaf.docsUrl} target="_blank" rel="noreferrer">
             Read the docs for this pattern
         </a>
     )
+}
 
-    const renderTemplates = (current: Leaf) => {
-        const templates = getTemplates(current.id)
+function Templates({ leaf }: { leaf: Leaf }) {
+    const templates = getTemplates(leaf.id)
 
-        if (templates.length === 0) {
-            return (
-                <div className={styles.note}>
-                    <p><strong>No template yet</strong> for this pattern variant.</p>
-                    <p>{current.summary}</p>
-                    {renderDocsLink(current)}
-                </div>
-            )
-        }
-
+    if (templates.length === 0) {
         return (
-            <div className={styles.templates}>
-                {templates.map((entry, index) => (
-                    <Tabs key={`${current.id}-${index}`} title={entry.title}>
-                        {LANGUAGES.map((language) => (
-                            <Tabs.Tab key={language} language={language} code={entry.code[language]} />
-                        ))}
-                    </Tabs>
-                ))}
-                {renderDocsLink(current)}
+            <div className={clsx(styles.templates, styles.note)}>
+                <p><strong>No template yet</strong> for this pattern variant.</p>
+                <p>{leaf.summary}</p>
+                <DocsLink leaf={leaf} />
             </div>
         )
     }
 
-    const renderTimeTaken = () => (
-        <p className={clsx(styles.taken, clock.isOvertime && styles.takenOver)}>
-            Time taken <strong>{elapsedClock}</strong>
-            {clock.isOvertime
-                ? ` (+${formatClock(overSeconds)} over the ${BUDGET_SECONDS}s budget)`
-                : ` (within the ${BUDGET_SECONDS}s budget)`}
-        </p>
+    return (
+        <div className={styles.templates}>
+            {templates.map((entry, index) => (
+                <Tabs key={`${leaf.id}-${index}`} title={entry.title}>
+                    {LANGUAGES.map((language) => (
+                        <Tabs.Tab key={language} language={language} code={entry.code[language]} />
+                    ))}
+                </Tabs>
+            ))}
+            <DocsLink leaf={leaf} />
+        </div>
     )
+}
 
-    const renderLeaf = (current: Leaf) => (
-        <section className={styles.card}>
-            <p className={styles.srOnly} role="status" aria-live="polite">
-                Pattern found: {current.name}, {current.pattern}. Time taken {elapsedClock}.
-            </p>
-            {renderBreadcrumb()}
-            <p className={styles.patternLabel}>{current.pattern}</p>
-            <h2 ref={stageRef} tabIndex={-1} className={styles.heading}>{current.name}</h2>
-            <p className={styles.lead}>{current.summary}</p>
-            {renderTimeTaken()}
-            <div className={styles.actions}>
-                <button className={styles.button} onClick={handleReset}>Reset</button>
-                <button className={styles.button} onClick={handleBacktrack}>Backtrack</button>
-                <button
-                    className={clsx(styles.button, styles.primary)}
-                    aria-expanded={showTemplate}
-                    onClick={() => setShowTemplate(!showTemplate)}
-                >
-                    {showTemplate ? 'Hide template' : 'View template'}
-                </button>
+export default function PatternFinder() {
+    const run = useFinderRun()
+
+    const renderIdle = () => (
+        <>
+            <Strip run={run} label="Procedure" value="Ready" />
+            <div className={styles.body} key="idle">
+                <h2 ref={run.stageRef} tabIndex={-1} className={styles.question}>
+                    Name the pattern in {run.budget} seconds
+                </h2>
+                <p className={styles.lead}>
+                    Open the problem, then pick the cue that sounds most like it. Overtime is shown, not enforced.
+                </p>
+                <div className={styles.actions}>
+                    <button type="button" className={styles.primary} onClick={run.start} aria-keyshortcuts="Enter">
+                        Start <Kbd>Enter</Kbd>
+                    </button>
+                </div>
             </div>
-            {showTemplate && renderTemplates(current)}
-        </section>
+        </>
     )
 
-    const renderBroken = () => (
-        <section className={styles.card}>
-            <h2 ref={stageRef} tabIndex={-1} className={styles.heading}>Something went wrong</h2>
-            <p className={styles.lead}>This path leads nowhere. Reset and try again.</p>
-            <div className={styles.actions}>
-                <button className={styles.button} onClick={handleReset}>Reset</button>
+    const renderQuestion = (node: TreeNode) => (
+        <>
+            <Strip run={run} label="Procedure" value={`Q${run.steps.length + 1}`} />
+            <div className={styles.body} key={node.id}>
+                <h2 ref={run.stageRef} tabIndex={-1} className={styles.question}>{node.question}</h2>
+                <ol className={styles.options}>
+                    {node.options.map((option, index) => (
+                        <li key={option.cue}>
+                            <button
+                                type="button"
+                                className={styles.option}
+                                onClick={() => run.pick(option)}
+                                aria-keyshortcuts={index < 9 ? String(index + 1) : undefined}
+                            >
+                                {index < 9 && <Kbd>{index + 1}</Kbd>}
+                                <span className={styles.optionCue}>{option.cue}</span>
+                            </button>
+                        </li>
+                    ))}
+                </ol>
             </div>
-        </section>
+            <Footer run={run} />
+        </>
     )
 
-    const renderStage = () => {
-        if (!started) return renderIdle()
-        if (leaf) return renderLeaf(leaf)
-        if (node) return renderQuestion(node)
-        return renderBroken()
+    const renderLeaf = (leaf: Leaf) => {
+        const taken = formatClock(run.elapsedSeconds)
+
+        return (
+            <>
+                <p className={styles.srOnly} role="status" aria-live="polite">
+                    Pattern found: {leaf.name}, {leaf.pattern}. Time taken {taken}.
+                </p>
+                <Strip run={run} label="Memory item" value="Result" />
+                <div className={styles.body} key={leaf.id}>
+                    <h2 ref={run.stageRef} tabIndex={-1} className={styles.resultName}>{leaf.name}</h2>
+                    <dl className={styles.fields}>
+                        <div className={styles.field}>
+                            <dt>Pattern</dt>
+                            <dd>{leaf.pattern}</dd>
+                        </div>
+                        <div className={styles.field}>
+                            <dt>Time taken</dt>
+                            <dd>
+                                <span className={styles.figure}>{taken}</span>
+                                {run.isOvertime
+                                    ? <span className={styles.overNote}>+{formatClock(run.overSeconds)} over the {run.budget}s budget</span>
+                                    : <span className={styles.okNote}>within the {run.budget}s budget</span>}
+                            </dd>
+                        </div>
+                    </dl>
+                    <p className={styles.summary}>{leaf.summary}</p>
+                    <div className={styles.actions}>
+                        <button
+                            type="button"
+                            className={styles.primary}
+                            aria-expanded={run.showTemplate}
+                            aria-keyshortcuts="T"
+                            onClick={run.toggleTemplate}
+                        >
+                            {run.showTemplate ? 'Hide template' : 'View template'} <Kbd>T</Kbd>
+                        </button>
+                    </div>
+                    {run.showTemplate && <Templates leaf={leaf} />}
+                </div>
+                <Footer run={run} />
+            </>
+        )
     }
 
-    return <div className={styles.finder}>{renderStage()}</div>
+    const renderBroken = () => (
+        <>
+            <Strip run={run} label="Procedure" value="Fault" />
+            <div className={styles.body} key="broken">
+                <h2 ref={run.stageRef} tabIndex={-1} className={styles.question}>This path leads nowhere</h2>
+                <p className={styles.lead}>The cue you picked has no next check. Reset and run the procedure again.</p>
+            </div>
+            <Footer run={run} />
+        </>
+    )
+
+    let stage: ReactNode
+    if (!run.started) stage = renderIdle()
+    else if (run.leaf) stage = renderLeaf(run.leaf)
+    else if (run.node) stage = renderQuestion(run.node)
+    else stage = renderBroken()
+
+    return (
+        <div className={styles.finder}>
+            <StationLine run={run} />
+            <section className={styles.card} aria-label="Procedure">
+                {stage}
+            </section>
+        </div>
+    )
 }
