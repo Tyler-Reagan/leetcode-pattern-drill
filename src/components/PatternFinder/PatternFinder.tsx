@@ -4,15 +4,15 @@ import { useEffect, useRef, useState } from 'react'
 
 import { tree } from '@/finder/tree'
 import { getTemplates } from '@/finder/templates'
-import type { FinderOption, Language, Leaf, TreeNode } from '@/finder/types'
+import type { FinderOption, Leaf, TreeNode } from '@/finder/types'
 
 import clsx from '@utils/clsx'
 import Tabs from '@components/Tabs/Tabs'
+import { LANGUAGES } from '@components/Language/LanguageProvider'
 import useCountdown from './useCountdown'
 
 const BUDGET_SECONDS = 30
 const WARN_SECONDS = 10
-const LANGUAGES: Language[] = ['python', 'javascript', 'java', 'cpp']
 
 interface Step {
     question: string
@@ -39,7 +39,7 @@ export default function PatternFinder() {
 
     // Option buttons unmount on every step, so hand focus to the new heading.
     useEffect(() => {
-        stageRef.current?.focus({ preventScroll: true })
+        stageRef.current?.focus()
     }, [started, currentId])
 
     const handleStart = () => {
@@ -64,9 +64,11 @@ export default function PatternFinder() {
         setShowTemplate(false)
     }
 
+    const elapsedClock = formatClock(Math.floor(clock.elapsedMs / 1000))
+    const overSeconds = Math.floor(clock.overtimeMs / 1000)
+
     const renderTimer = () => {
         const seconds = Math.ceil(clock.remainingMs / 1000)
-        const overSeconds = Math.floor(clock.overtimeMs / 1000)
         const state = clock.isOvertime ? 'over' : seconds <= WARN_SECONDS ? 'warn' : 'ok'
         const classes = clsx(
             styles.timer,
@@ -174,24 +176,19 @@ export default function PatternFinder() {
         )
     }
 
-    const renderTimeTaken = () => {
-        const taken = formatClock(Math.floor(clock.elapsedMs / 1000))
-        const over = Math.floor(clock.overtimeMs / 1000)
-
-        return (
-            <p className={clsx(styles.taken, clock.isOvertime && styles.takenOver)}>
-                Time taken <strong>{taken}</strong>
-                {clock.isOvertime
-                    ? ` (+${formatClock(over)} over the ${BUDGET_SECONDS}s budget)`
-                    : ` (within the ${BUDGET_SECONDS}s budget)`}
-            </p>
-        )
-    }
+    const renderTimeTaken = () => (
+        <p className={clsx(styles.taken, clock.isOvertime && styles.takenOver)}>
+            Time taken <strong>{elapsedClock}</strong>
+            {clock.isOvertime
+                ? ` (+${formatClock(overSeconds)} over the ${BUDGET_SECONDS}s budget)`
+                : ` (within the ${BUDGET_SECONDS}s budget)`}
+        </p>
+    )
 
     const renderLeaf = (current: Leaf) => (
         <section className={styles.card}>
             <p className={styles.srOnly} role="status" aria-live="polite">
-                Pattern found: {current.name}, {current.pattern}. Time taken {formatClock(Math.floor(clock.elapsedMs / 1000))}.
+                Pattern found: {current.name}, {current.pattern}. Time taken {elapsedClock}.
             </p>
             {renderBreadcrumb()}
             <p className={styles.patternLabel}>{current.pattern}</p>

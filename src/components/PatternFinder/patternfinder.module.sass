@@ -1,9 +1,16 @@
 .finder
+    --finder-link: var(--color-azure)
+    --finder-danger: var(--color-red)
     align-self: center
     display: flex
     flex-direction: column
     max-width: 960px
     width: 100%
+
+    // azure and red on the light glass fall below 4.5:1
+    :global([data-theme='light']) &
+        --finder-link: #0277bd
+        --finder-danger: #c62828
 
 .card
     background-color: var(--glass-background-color)
@@ -28,6 +35,7 @@
     line-height: 1.25
     margin: 0
     outline: none
+    scroll-margin-top: calc(var(--topbar-height) + 16px)
 
     @media (max-width: 768px)
         font-size: 1.5rem
@@ -38,7 +46,7 @@
     margin: 0
 
 .patternLabel
-    color: var(--color-azure)
+    color: var(--finder-link)
     font-family: var(--h3-font-family)
     font-size: 1rem
     letter-spacing: 0.04em
@@ -55,8 +63,6 @@
     font-family: var(--h3-font-family)
     font-size: 1rem
     opacity: 0.8
-
-// Timer
 
 .timer
     align-items: baseline
@@ -75,9 +81,12 @@
         color: var(--color-gunmetal)
 
     &.over
-        background-color: var(--color-red)
-        border-color: var(--color-red)
+        background-color: #d32f2f
+        border-color: #d32f2f
         color: var(--color-white)
+
+        .timerCaption
+            opacity: 1
 
 .timerValue
     font-family: var(--font-family-monospace)
@@ -88,8 +97,6 @@
 .timerCaption
     font-size: 0.875rem
     opacity: 0.85
-
-// Breadcrumb
 
 .breadcrumb
     display: flex
@@ -107,8 +114,6 @@
         content: '\203A'
         margin-right: 8px
         opacity: 0.6
-
-// Options and buttons
 
 .options
     display: grid
@@ -175,14 +180,12 @@
         .button
             width: 100%
 
-// Leaf detail
-
 .taken
     font-size: var(--card-font-size)
     margin: 0
 
 .takenOver strong
-    color: var(--color-red)
+    color: var(--finder-danger)
 
 .note
     background-color: var(--accordion-content-background-color)
@@ -203,9 +206,10 @@
     flex-direction: column
     gap: 24px
 
-.docsLink
+.finder .docsLink
+    // beats the global `a:not([role=button])` colour rule
     align-self: flex-start
-    color: var(--color-azure)
+    color: var(--finder-link)
     font-size: var(--card-font-size)
     text-decoration: underline
     text-underline-offset: 3px

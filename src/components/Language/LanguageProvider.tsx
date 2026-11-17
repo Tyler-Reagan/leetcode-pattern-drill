@@ -8,7 +8,16 @@ import {
 
 type Language = 'python' | 'javascript' | 'java' | 'cpp'
 
-const LANGUAGES: Language[] = ['python', 'javascript', 'java', 'cpp']
+export const LANGUAGES: Language[] = ['python', 'javascript', 'java', 'cpp']
+
+function readStoredLanguage(): Language {
+    try {
+        const stored = localStorage.getItem('selectedLanguage') as Language | null
+        return stored && LANGUAGES.includes(stored) ? stored : 'python'
+    } catch {
+        return 'python'
+    }
+}
 
 interface LanguageContextType {
     selectedLanguage: Language
@@ -24,14 +33,14 @@ interface LanguageProviderProps {
 }
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
-    const stored = localStorage.getItem('selectedLanguage') as Language | null
-    const initialLanguage: Language =
-        stored && LANGUAGES.includes(stored) ? stored : 'python'
-
-    const [selectedLanguage, setSelectedLanguage] = useState<Language>(initialLanguage)
+    const [selectedLanguage, setSelectedLanguage] = useState<Language>(readStoredLanguage)
 
     useEffect(() => {
-        localStorage.setItem('selectedLanguage', selectedLanguage)
+        try {
+            localStorage.setItem('selectedLanguage', selectedLanguage)
+        } catch {
+            // storage is unavailable (blocked cookies, sandboxed frame)
+        }
     }, [selectedLanguage])
 
     return (

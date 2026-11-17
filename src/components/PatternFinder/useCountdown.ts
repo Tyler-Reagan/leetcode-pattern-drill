@@ -2,12 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 const TICK_MS = 100
 
-/**
- * Stopwatch measured against a budget. Time is always derived from
- * performance.now() timestamps, never accumulated per tick, so a throttled
- * or paused interval cannot make the clock drift. The interval only decides
- * when to re-render; while running, `elapsedMs` is quantised to whole seconds.
- */
+// Time derives from performance.now(), not summed ticks, so a throttled interval
+// cannot drift. The interval only triggers re-renders, quantised to whole seconds.
 export default function useCountdown(budgetMs: number) {
     const bankedMs = useRef(0)
     const runningSince = useRef<number | null>(null)
@@ -31,7 +27,6 @@ export default function useCountdown(budgetMs: number) {
         return () => clearInterval(id)
     }, [isRunning])
 
-    /** Begin from zero. */
     const start = useCallback(() => {
         bankedMs.current = 0
         runningSince.current = performance.now()
@@ -39,7 +34,6 @@ export default function useCountdown(budgetMs: number) {
         setIsRunning(true)
     }, [])
 
-    /** Freeze the clock at its exact current value. */
     const stop = useCallback(() => {
         if (runningSince.current !== null) {
             bankedMs.current = read()
@@ -49,7 +43,6 @@ export default function useCountdown(budgetMs: number) {
         setIsRunning(false)
     }, [])
 
-    /** Continue from the stopped value without resetting. */
     const resume = useCallback(() => {
         if (runningSince.current === null) {
             runningSince.current = performance.now()
@@ -58,7 +51,6 @@ export default function useCountdown(budgetMs: number) {
         setIsRunning(true)
     }, [])
 
-    /** Zero the clock and stop it. */
     const reset = useCallback(() => {
         bankedMs.current = 0
         runningSince.current = null

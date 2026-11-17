@@ -7,6 +7,7 @@ import { useView } from '@components/View/ViewProvider'
 
 import clsx from '@/utils/clsx'
 import getNavBarHeight from '@utils/getNavBarHeight'
+import { cancelPendingScroll } from '@utils/scrollWhenSettled'
 import scrollTo from '@utils/scrollTo'
 import Brand from '@components/Brand/Brand'
 import ThemeSwitch from '@components/ThemeSwitch/ThemeSwitch'
@@ -48,6 +49,7 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
     }
     const handleHamburgerClick = () => toggleSidebar()
     const handleViewToggle = () => {
+        cancelPendingScroll()
         setView(view === 'finder' ? 'cheatsheet' : 'finder')
         window.scrollTo({ top: 0 })
     }
