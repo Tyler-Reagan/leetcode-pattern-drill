@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import clsx from '@utils/clsx'
 
 interface TooltipProps {
-    anchorRef: RefObject<HTMLElement>
+    anchorRef: RefObject<HTMLElement | null>
     content: string
     showTooltip: boolean
 }

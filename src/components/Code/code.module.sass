@@ -1,26 +1,29 @@
 .code
-    border: 0.5px solid var(--code-border-color)
-    border-radius: 6px
+    border: 1px solid var(--code-border-color)
+    border-radius: var(--pd-radius)
     font-size: var(--code-font-size)
     line-height: var(--code-line-height)
     position: relative
-    padding-left: 2em
+    padding-left: 3em
 
     ::selection
-        background-color: var(--code-line-hover-color)
+        background-color: var(--pd-accent)
+        color: var(--pd-on-accent)
 
 .line
     display: block
-    border-left: 0.5px solid var(--code-line-number-color)
+    border-left: 1px solid var(--code-gutter-rule)
     padding-left: 1em
     min-height: 1em
+    cursor: default
 
     &::before
         content: attr(data-line-number)
         position: absolute
         color: var(--code-line-number-color)
-        left: -5px
-        width: 2em
+        font-variant-numeric: tabular-nums
+        left: 0
+        width: 2.4em
         text-align: right
         user-select: none
 
@@ -30,3 +33,6 @@
 
         &::before
             color: var(--code-line-number-hover-color)
+
+    &[focused]
+        box-shadow: inset 2px 0 0 var(--pd-accent)

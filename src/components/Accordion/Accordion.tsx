@@ -23,7 +23,7 @@ export default function Accordion({ title, children }: AccordionProps) {
 
     return (
         <div className={styles.accordion}>
-            <button className={buttonClasses} onClick={handleClick}>
+            <button type="button" className={buttonClasses} onClick={handleClick} aria-expanded={isOpen}>
                 <span>{title}</span>
                 <Chevron />
             </button>

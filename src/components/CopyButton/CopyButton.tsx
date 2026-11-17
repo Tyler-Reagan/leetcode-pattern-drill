@@ -79,7 +79,9 @@ export default function CopyButton({ onClick }: CopyButtonProps) {
 
     return (
         <button
-            aria-label="copy button"
+            type="button"
+            aria-label={checkState === 'hide' ? 'Copy code' : 'Copied'}
+            title="Copy code"
             className={styles.copyButton}
             onClick={handleClick}
         >

@@ -1,51 +1,49 @@
 .copyButton
     background-color: var(--copy-button-background-color)
-    border: none
-    border-bottom: 2px solid var(--tab-button-border-bottom-color)
-    border-radius: 8px
-    box-shadow: none
-    padding-left: var(--button-padding-x)
-    padding-right: var(--button-padding-x)
-    padding-top: var(--button-padding-y)
-    padding-bottom: var(--button-padding-y)
-    height: 48px
-    width: 70px
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    padding: 0 10px
+    height: 40px
+    width: 48px
     display: inline-flex
     align-items: center
     justify-content: center
-    outline: none
+    flex-shrink: 0
 
     &:hover
         background-color: var(--copy-button-hover-background-color)
+        border-color: var(--pd-text-muted)
+        color: var(--pd-text)
 
     &:active
         background-color: var(--copy-button-active-background-color)
 
 .copySvg
-    height: 100%
-    width: 100%
+    height: 18px
+    width: 18px
     opacity: 1
-    fill: var(--copy-button-svg-fill-color)
+    fill: currentColor
 
 .checkSvg
-    height: 100%
-    width: 100%
+    height: 20px
+    width: 20px
 
 .checkSvgPath
-    stroke: var(--copy-button-svg-fill-color)
+    stroke: var(--pd-accent-text)
     stroke-width: 2
     fill: none
-    stroke-linecap: round
-    stroke-linejoin: round
+    stroke-linecap: square
+    stroke-linejoin: miter
     stroke-dasharray: 16
     stroke-dashoffset: 16
-    animation: draw var(--style-transition-duration) ease-in-out forwards
+    animation: draw 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards
 
 .enter
-    animation: fade-in 150ms forwards
+    animation: fade-in 120ms forwards
 
 .exit
-    animation: fade-out 150ms forwards
+    animation: fade-out 120ms forwards
 
 @keyframes fade-in
     from

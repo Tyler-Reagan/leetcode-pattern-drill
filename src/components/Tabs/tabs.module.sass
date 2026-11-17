@@ -1,48 +1,85 @@
 .container
-    background-color: var(--glass-background-color)
-    backdrop-filter: var(--glass-backdrop-filter)
-    border: var(--glass-border)
-    border-radius: var(--glass-border-radius)
-    box-shadow: var(--glass-box-shadow)
+    background-color: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
     padding: 20px
     transition-duration: var(--style-transition-duration)
     transition-property: var(--style-transition-property)
 
+    @media (max-width: 576px)
+        padding: 16px 12px
+
 .buttonContainer
     display: flex
     flex-direction: row
+    align-items: flex-end
     justify-content: space-between
+    gap: 12px
+    margin-bottom: 12px
 
 .tabButtonContainer
     display: flex
     flex-direction: row
-    gap: 12px
-    margin-bottom: 12px
+    flex-wrap: wrap
+    gap: 0
 
 .tabButton
-    background-color: rgba(255, 255, 255, 0.6)
-    border-bottom: 2px solid var(--tab-button-border-bottom-color)
-    border-radius: 8px
-    font-size: var(--button-font-size)
-    padding-left: var(--button-padding-x)
-    padding-right: var(--button-padding-x)
-    padding-top: var(--button-padding-y)
-    padding-bottom: var(--button-padding-y)
-    transition-duration: var(--style-transition-duration)
-    transition-property: var(--style-transition-property)
+    gap: 6px
+    background-color: transparent
+    border: 1px solid var(--pd-rule)
+    border-radius: 0
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 0.9375rem
+    font-weight: 600
+    letter-spacing: 0.06em
+    text-transform: uppercase
+    height: 40px
+    min-width: 64px
+    padding: 0 12px
     position: relative
-    height: 48px
-    width: 70px
+
+    & + &
+        margin-left: -1px
+
+    &:first-child
+        border-top-left-radius: var(--pd-radius)
+        border-bottom-left-radius: var(--pd-radius)
+
+    &:last-child
+        border-top-right-radius: var(--pd-radius)
+        border-bottom-right-radius: var(--pd-radius)
 
     svg
-        width: 100%
-        height: 100%
+        height: 18px
+        width: 18px
+        flex-shrink: 0
 
     &:hover
-        background-color: rgba(248, 248, 248, 0.8)
+        background-color: var(--pd-raised)
+        color: var(--pd-text)
 
-    &:active
-        background-color: var(--color-frost-white)
+    &:focus-visible
+        z-index: 2
 
     &[aria-selected='true']
-        border-bottom: 2px solid var(--color-azure)
+        background-color: var(--pd-raised)
+        border-color: var(--pd-text-muted)
+        color: var(--pd-text)
+        z-index: 1
+
+        &::after
+            content: ''
+            position: absolute
+            left: -1px
+            right: -1px
+            bottom: -1px
+            height: 2px
+            background-color: var(--pd-accent)
+
+    @media (max-width: 420px)
+        min-width: 0
+        padding: 0 9px
+
+        svg
+            display: none

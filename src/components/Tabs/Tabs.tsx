@@ -28,6 +28,13 @@ const LANGUAGE_ICONS = {
     cpp: SvgCpp,
 }
 
+const LANGUAGE_LABELS = {
+    python: { short: 'Py', full: 'Python' },
+    javascript: { short: 'JS', full: 'JavaScript' },
+    java: { short: 'Java', full: 'Java' },
+    cpp: { short: 'C++', full: 'C++' },
+}
+
 export default function Tabs({ title, children }: TabsProps) {
     const { selectedLanguage, setSelectedLanguage } = useLanguage()
     const tabs = Children.toArray(children) as ReactElement<TabProps>[]
@@ -46,25 +53,27 @@ export default function Tabs({ title, children }: TabsProps) {
     const renderTabButtons = () => {
         return tabs.map((tab, index) => {
             const LanguageIcon = LANGUAGE_ICONS[tab.props.language]
-            const label = `view ${tab.props.language} code`
+            const { short, full } = LANGUAGE_LABELS[tab.props.language]
 
             return (
                 <button
+                    type="button"
                     role="tab"
-                    aria-label={label}
+                    aria-label={`${full} code`}
                     aria-selected={index === activeIndex}
                     className={styles.tabButton}
                     key={index}
                     onClick={() => changeTab(index)}
                 >
                     <LanguageIcon />
+                    <span>{short}</span>
                 </button>
             )
         })
     }
 
     return (
-        <div role="tablist" className={styles.container}>
+        <div className={styles.container}>
             <h3>{title}</h3>
             <div className={styles.buttonContainer}>
                 <div role="tablist" className={styles.tabButtonContainer}>
