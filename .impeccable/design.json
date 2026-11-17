@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T16:39:26.721002+00:00",
+  "title": "Design System: Pattern Drill",
+  "extensions": {
+    "colorMeta": {
+      "rust": {
+        "role": "primary",
+        "displayName": "Field Rust",
+        "canonical": "#c8623a",
+        "oklch": "oklch(61% 0.141 41)",
+        "tonalRamp": [
+          "#310000",
+          "#560000",
+          "#7a1800",
+          "#a03e11",
+          "#c66139",
+          "#ee845c",
+          "#ffa87f",
+          "#ffcea3"
+        ]
+      },
+      "rust-text-dark": {
+        "role": "primary",
+        "displayName": "Lit Rust (dark)",
+        "canonical": "#e07a50",
+        "oklch": "oklch(69% 0.139 42)",
+        "tonalRamp": [
+          "#310000",
+          "#550000",
+          "#791b00",
+          "#9f3f0f",
+          "#c56238",
+          "#ec855b",
+          "#ffa97e",
+          "#ffcfa3"
+        ]
+      },
+      "rust-deep": {
+        "role": "primary",
+        "displayName": "Field Rust (light)",
+        "canonical": "#a9461f",
+        "oklch": "oklch(52% 0.140 40)",
+        "tonalRamp": [
+          "#310000",
+          "#560000",
+          "#7a1800",
+          "#a03e15",
+          "#c6613b",
+          "#ee845e",
+          "#ffa881",
+          "#ffcea5"
+        ]
+      },
+      "ground-dark": {
+        "role": "neutral",
+        "displayName": "Slate Ground (dark)",
+        "canonical": "#121c18",
+        "oklch": "oklch(22% 0.017 168)",
+        "tonalRamp": [
+          "#050d0a",
+          "#1d2823",
+          "#3a4540",
+          "#59645f",
+          "#798680",
+          "#9ca9a3",
+          "#bfcdc7",
+          "#e5f2ec"
+        ]
+      },
+      "panel-dark": {
+        "role": "neutral",
+        "displayName": "Slate Panel (dark)",
+        "canonical": "#172420",
+        "oklch": "oklch(25% 0.020 174)",
+        "tonalRamp": [
+          "#030e0a",
+          "#1b2824",
+          "#384641",
+          "#566560",
+          "#778681",
+          "#99a9a4",
+          "#bdcec8",
+          "#e2f3ed"
+        ]
+      },
+      "raised-dark": {
+        "role": "neutral",
+        "displayName": "Slate Raised (dark)",
+        "canonical": "#1d2d28",
+        "oklch": "oklch(28% 0.023 173)",
+        "tonalRamp": [
+          "#020e0a",
+          "#192924",
+          "#354641",
+          "#546660",
+          "#758781",
+          "#97aaa4",
+          "#bbcec8",
+          "#e0f4ed"
+        ]
+      },
+      "rule-dark": {
+        "role": "neutral",
+        "displayName": "Green Rule (dark)",
+        "canonical": "#2f4a40",
+        "oklch": "oklch(38% 0.037 169)",
+        "tonalRamp": [
+          "#001008",
+          "#102b22",
+          "#2e493f",
+          "#4c685e",
+          "#6d8a7e",
+          "#8fada1",
+          "#b3d1c5",
+          "#d7f7ea"
+        ]
+      },
+      "bone": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "canonical": "#e9e4d4",
+        "oklch": "oklch(92% 0.022 93)",
+        "tonalRamp": [
+          "#0e0b02",
+          "#292519",
+          "#464235",
+          "#656153",
+          "#878274",
+          "#aaa596",
+          "#cec9b9",
+          "#f3eede"
+        ]
+      },
+      "bone-muted": {
+        "role": "neutral",
+        "displayName": "Muted Bone",
+        "canonical": "#a8b0a4",
+        "oklch": "oklch(75% 0.019 135)",
+        "tonalRamp": [
+          "#080d06",
+          "#21271e",
+          "#3e443a",
+          "#5d6459",
+          "#7d857a",
+          "#a0a89c",
+          "#c4ccc0",
+          "#e9f2e5"
+        ]
+      },
+      "ground-light": {
+        "role": "neutral",
+        "displayName": "Slate Ground (light)",
+        "canonical": "#eef1ec",
+        "oklch": "oklch(95% 0.007 132)",
+        "tonalRamp": [
+          "#0a0c09",
+          "#242622",
+          "#40433f",
+          "#60625e",
+          "#81837f",
+          "#a3a6a1",
+          "#c7cac5",
+          "#edf0eb"
+        ]
+      },
+      "panel-light": {
+        "role": "neutral",
+        "displayName": "Slate Panel (light)",
+        "canonical": "#e3e8e1",
+        "oklch": "oklch(93% 0.011 137)",
+        "tonalRamp": [
+          "#090c08",
+          "#232621",
+          "#3f433e",
+          "#5e635d",
+          "#7f847e",
+          "#a2a7a0",
+          "#c6cbc4",
+          "#ebf0e9"
+        ]
+      },
+      "rule-light": {
+        "role": "neutral",
+        "displayName": "Green Rule (light)",
+        "canonical": "#b7c5bb",
+        "oklch": "oklch(81% 0.021 155)",
+        "tonalRamp": [
+          "#050e07",
+          "#1d2821",
+          "#3a453d",
+          "#58655c",
+          "#79867d",
+          "#9ba99f",
+          "#bfcdc3",
+          "#e4f3e8"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#16231e",
+        "oklch": "oklch(24% 0.020 169)",
+        "tonalRamp": [
+          "#030e0a",
+          "#1b2823",
+          "#384640",
+          "#56655f",
+          "#778680",
+          "#99a9a3",
+          "#bdcec7",
+          "#e2f3ec"
+        ]
+      },
+      "amber-warn-dark": {
+        "role": "status",
+        "displayName": "Amber Warn",
+        "canonical": "#e0a63a",
+        "oklch": "oklch(76% 0.138 79)",
+        "tonalRamp": [
+          "#250000",
+          "#461300",
+          "#673300",
+          "#8a5400",
+          "#ae7600",
+          "#d39929",
+          "#f9be55",
+          "#ffe37d"
+        ]
+      },
+      "coral-over-dark": {
+        "role": "status",
+        "displayName": "Coral Over",
+        "canonical": "#ef8e84",
+        "oklch": "oklch(75% 0.120 27)",
+        "tonalRamp": [
+          "#2d0000",
+          "#510000",
+          "#751f1c",
+          "#9a423b",
+          "#c0635b",
+          "#e6867c",
+          "#ffaa9f",
+          "#ffcfc4"
+        ]
+      },
+      "code-ground": {
+        "role": "neutral",
+        "displayName": "Code Well",
+        "canonical": "#0e1613",
+        "oklch": "oklch(19% 0.013 170)",
+        "tonalRamp": [
+          "#060d0a",
+          "#1f2724",
+          "#3b4441",
+          "#5a6460",
+          "#7b8581",
+          "#9da8a4",
+          "#c1ccc8",
+          "#e6f2ed"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page h1 in condensed caps."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Reference h2 section titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "h3 and accordion buttons."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reference prose, tables and Finder lead copy."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Procedure strip title, timer caption, field labels."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Templates, on Code Well."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "state-transition",
+        "value": "120ms on background-color, border-color, color, fill, stroke, outline-color",
+        "purpose": "The only motion: colour and border changes. No transforms or filters on hover."
+      },
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Finder entrance easing, gated by prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "topbar-wrap",
+        "value": "480px"
+      },
+      {
+        "name": "finder-phone",
+        "value": "760px"
+      },
+      {
+        "name": "topbar-stack",
+        "value": "768px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Start and View template: the one rust action on a screen.",
+      "html": "<div class=\"ds-root\"><button class=\"ds-primary\">START <span class=\"ds-kbd\">ENTER</span></button></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-primary{display:inline-flex;align-items:center;gap:14px;background:var(--a);border:1px solid var(--a);border-radius:2px;color:var(--oa);font:700 24px 'Barlow Condensed',sans-serif;letter-spacing:.14em;min-height:56px;padding:12px 28px;cursor:pointer;transition:background-color 120ms,border-color 120ms}.ds-primary:hover{background:var(--at);border-color:var(--at)}.ds-primary:focus-visible{outline:2px solid var(--t);outline-offset:2px}.ds-primary .ds-kbd{border-color:currentColor;color:inherit;font-size:12px;min-width:0;height:24px}.ds-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:1px solid var(--rule);border-radius:2px;color:var(--m);font:600 16px/1 'Barlow Condensed',sans-serif;letter-spacing:.06em;padding:0 6px}"
+    },
+    {
+      "name": "Plain Button",
+      "kind": "button",
+      "refersTo": "button-plain",
+      "description": "Backtrack and Reset: ruled, quiet, with a key cap.",
+      "html": "<div class=\"ds-root\"><button class=\"ds-plain\">BACKTRACK <span class=\"ds-kbd\">BKSP</span></button></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-plain{display:inline-flex;align-items:center;gap:10px;background:transparent;border:1px solid var(--rule);border-radius:2px;color:var(--t);font:600 18px 'Barlow Condensed',sans-serif;letter-spacing:.14em;min-height:48px;padding:6px 16px;cursor:pointer;transition:background-color 120ms,border-color 120ms}.ds-plain:hover{background:var(--r);border-color:var(--m)}.ds-plain:focus-visible{outline:2px solid var(--t);outline-offset:2px}.ds-plain .ds-kbd{font-size:13px;height:26px;min-width:26px}.ds-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:1px solid var(--rule);border-radius:2px;color:var(--m);font:600 16px/1 'Barlow Condensed',sans-serif;letter-spacing:.06em;padding:0 6px}"
+    },
+    {
+      "name": "Option Row",
+      "kind": "button",
+      "refersTo": "option-row",
+      "description": "A numbered cue choice; hover raises the tone and turns the key rust.",
+      "html": "<div class=\"ds-root\"><ul class=\"ds-opts\"><li><button class=\"ds-opt\"><span class=\"ds-kbd\">1</span>contiguous subarray or substring</button></li><li><button class=\"ds-opt\"><span class=\"ds-kbd\">2</span>pair/triplet with sum X, or palindrome</button></li></ul></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-opts{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}.ds-opts li{border-bottom:1px solid var(--rule)}.ds-opt{display:flex;align-items:center;gap:16px;width:100%;background:transparent;border:0;color:var(--t);font:400 20px/1.35 Barlow,sans-serif;min-height:56px;padding:8px 16px;text-align:left;cursor:pointer;transition:background-color 120ms,border-color 120ms}.ds-opt:hover{background:var(--r)}.ds-opt:hover .ds-kbd{border-color:var(--a)}.ds-opt:focus-visible{outline:2px solid var(--t);outline-offset:-2px}.ds-opt .ds-kbd{font-size:.75em;height:1.8em;min-width:1.8em}.ds-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:1px solid var(--rule);border-radius:2px;color:var(--m);font:600 16px/1 'Barlow Condensed',sans-serif;letter-spacing:.06em;padding:0 6px}"
+    },
+    {
+      "name": "Procedure Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The ruled sheet: raised header strip with boxed timer, question, footer.",
+      "html": "<div class=\"ds-root\"><div class=\"ds-card\"><div class=\"ds-strip\"><span class=\"ds-strip-t\">PROCEDURE <b>Q3</b></span><span class=\"ds-clock\"><i>0</i><i>:</i><i>2</i><i>2</i></span></div><div class=\"ds-body\"><h3>What about the subarray or substring?</h3></div></div></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-card{background:var(--p);border:1px solid var(--rule);border-radius:2px;max-width:520px}.ds-strip{display:flex;justify-content:space-between;align-items:center;background:var(--r);border-bottom:1px solid var(--rule);border-radius:2px 2px 0 0;padding:14px 32px}.ds-strip-t{font:600 17px 'Barlow Condensed',sans-serif;letter-spacing:.18em;color:var(--m)}.ds-strip-t b{color:var(--t)}.ds-clock{display:flex;gap:4px}.ds-clock i{display:inline-flex;align-items:center;justify-content:center;font:600 42px/1 'Barlow Condensed',sans-serif;font-style:normal;width:40px;height:60px;border:1px solid var(--rule);border-radius:2px}.ds-clock i:nth-child(2){border:0;width:12px}.ds-body{padding:28px 32px}.ds-body h3{margin:0;font:700 30px/1.1 'Barlow Condensed',sans-serif;letter-spacing:.04em;text-transform:uppercase}"
+    },
+    {
+      "name": "Station Line",
+      "kind": "custom",
+      "refersTo": "card",
+      "description": "Minimalist path: muted answered dots, one rust current dot, dashed tail.",
+      "html": "<div class=\"ds-root\"><ol class=\"ds-line\"><li class=\"a\"><span></span>an array or a string</li><li class=\"a\"><span></span>contiguous subarray or substring</li><li class=\"c\"><span></span></li><li class=\"e\"><span></span></li></ol></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-line{list-style:none;margin:0;padding:0}.ds-line li{position:relative;display:flex;align-items:center;gap:12px;min-height:40px;padding-left:20px;color:var(--m);font-size:15px}.ds-line li::before{content:'';position:absolute;left:3px;top:0;height:100%;border-left:1px solid var(--rule)}.ds-line li.e::before{border-left-style:dashed;height:50%}.ds-line li span{position:absolute;left:0;width:8px;height:8px;border-radius:50%;background:var(--m)}.ds-line li.c span{background:var(--a)}.ds-line li.e span{background:var(--g);border:1px solid var(--m)}"
+    },
+    {
+      "name": "View Toggle",
+      "kind": "nav",
+      "refersTo": "card",
+      "description": "Two-segment topbar switch; the current view is raised with a rust underline.",
+      "html": "<div class=\"ds-root\"><div class=\"ds-tog\"><button aria-pressed=\"true\">Pattern Finder</button><button aria-pressed=\"false\">Reference</button></div></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-tog{display:inline-flex}.ds-tog button{position:relative;background:transparent;border:1px solid var(--rule);border-radius:0;color:var(--m);font:600 16px 'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;height:40px;padding:0 16px;cursor:pointer;transition:background-color 120ms,color 120ms}.ds-tog button+button{margin-left:-1px}.ds-tog button:first-child{border-radius:2px 0 0 2px}.ds-tog button:last-child{border-radius:0 2px 2px 0}.ds-tog button:hover{background:var(--r);color:var(--t)}.ds-tog button[aria-pressed=true]{background:var(--r);border-color:var(--m);color:var(--t);cursor:default}.ds-tog button[aria-pressed=true]::after{content:'';position:absolute;left:-1px;right:-1px;bottom:-1px;height:2px;background:var(--a)}"
+    },
+    {
+      "name": "Key Cap",
+      "kind": "chip",
+      "refersTo": "key-cap",
+      "description": "Bordered square showing the shortcut for a control.",
+      "html": "<div class=\"ds-root\"><span class=\"ds-kbd\">T</span> <span class=\"ds-kbd\">ESC</span></div>",
+      "css": ".ds-root{--g:#121c18;--p:#172420;--r:#1d2d28;--rule:#2f4a40;--t:#e9e4d4;--m:#a8b0a4;--a:#c8623a;--at:#e07a50;--oa:#0b120f;background:var(--g);color:var(--t);padding:16px;font-family:Barlow,system-ui,sans-serif}.ds-kbd{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;border:1px solid var(--rule);border-radius:2px;color:var(--m);font:600 16px/1 'Barlow Condensed',sans-serif;letter-spacing:.06em;padding:0 6px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quick-Reference Procedure Sheet",
+    "overview": "Pattern Drill looks like the laminated card a pilot clips to a yoke: ruled boxes, one active step, a station line that records where you have been. Every surface is flat, hairline-ruled and solid. The only warm thing on screen is the step you are on and the action that moves you forward.",
+    "keyCharacteristics": [
+      "Flat, ruled, solid: 1px rules and tonal panels instead of shadows.",
+      "One rust accent, used for the current step and the primary action only.",
+      "Condensed caps for titles and labels, Barlow for body, Fira Code for code only.",
+      "2px corners everywhere; nothing is pill-shaped.",
+      "Digits live in fixed cells and never reflow.",
+      "Keyboard-first: every control shows or implies its key."
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "Rust marks the current step and the primary action. If two rust things compete on one screen, one of them is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Token Rule",
+        "body": "Large fills use Field Rust; small text uses Lit Rust. Do not swap them.",
+        "section": "colors"
+      },
+      {
+        "name": "The Syntax Ground Rule",
+        "body": "Highlighted code always sits on Code Well, in both themes. Never put the syntax palette on a light surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Caps-For-Names Rule",
+        "body": "Anything that names a thing (titles, labels, buttons) is condensed caps with tracking. Anything that explains a thing is Barlow in sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Rem Rule",
+        "body": "Sizes that carry text are rem or derived from rem, so layouts survive a larger root font.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-Always Rule",
+        "body": "No box-shadow, backdrop-filter, gradient or glow, at rest or on hover. If something needs to stand forward, raise its tone one step.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use only the --pd-* tokens for new surfaces; legacy variables exist for Reference and resolve to them.",
+      "Do give every new control a visible key hint or an aria-keyshortcuts value, matching the Finder's key-cap pattern.",
+      "Do keep digits in fixed-width cells and give changing numbers a fixed box.",
+      "Do show state with colour and border only, and keep transitions to 120ms.",
+      "Do derive heights that wrap text from rem, not px, so a larger root font cannot clip descenders.",
+      "Do keep focus rings at 2px Bone, offset 2px, on every interactive element."
+    ],
+    "donts": [
+      "Don't add shadows, blur, glass, gradients, glows or decorative background images.",
+      "Don't use rust for anything other than the current step, the primary action and the selection highlight.",
+      "Don't use Field Rust as small text on dark; use Lit Rust.",
+      "Don't round anything beyond 2px, or use pills.",
+      "Don't enforce the clock. Overtime is shown in Coral and the run continues.",
+      "Don't center the Finder in a floating quiz card, or replace the station line with a progress bar.",
+      "Don't put highlighted code on a light surface."
+    ]
+  }
+}
