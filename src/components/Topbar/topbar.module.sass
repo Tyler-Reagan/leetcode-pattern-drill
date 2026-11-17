@@ -29,6 +29,28 @@
     align-items: center
     gap: 12px
 
+.viewToggle
+    background-color: var(--accordion-button-background-color)
+    border: var(--glass-border)
+    border-radius: var(--button-border-radius)
+    color: var(--text-color)
+    font-size: 1.125rem
+    height: 44px
+    padding: 0 16px
+    transition-duration: var(--style-transition-duration)
+    transition-property: var(--style-transition-property)
+
+    &:hover
+        background-color: var(--link-hover-background-color)
+
+    &:focus-visible
+        outline: 2px solid var(--color-azure)
+        outline-offset: 2px
+
+    @media (max-width: 768px)
+        font-size: 0.875rem
+        padding: 0 8px
+
 .title
     color: var(--topbar-title-color)
     text-decoration: none

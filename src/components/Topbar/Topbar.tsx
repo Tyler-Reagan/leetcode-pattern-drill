@@ -3,6 +3,7 @@ import styles from './Topbar.module.sass'
 import { useLayoutEffect, MouseEvent, RefObject, useRef } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useSidebar } from '@components/Sidebar/SidebarProvider'
+import { useView } from '@components/View/ViewProvider'
 
 import clsx from '@/utils/clsx'
 import getNavBarHeight from '@utils/getNavBarHeight'
@@ -18,6 +19,7 @@ interface TopbarProps {
 export default function Topbar({ forwardedRef }: TopbarProps) {
     const ref = useRef<HTMLElement | null>(null)
     const { isSidebarOpen, toggleSidebar } = useSidebar()
+    const { view, setView } = useView()
     const isScreenMd = useMediaQuery({ maxWidth: 768 })
 
     const hamburgerClasses = clsx(
@@ -45,6 +47,10 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         scrollTo('main', getNavBarHeight() - 2)
     }
     const handleHamburgerClick = () => toggleSidebar()
+    const handleViewToggle = () => {
+        setView(view === 'finder' ? 'cheatsheet' : 'finder')
+        window.scrollTo({ top: 0 })
+    }
 
     const renderBrand = () => !isScreenMd && <Brand />
     const renderTitle = () => {
@@ -66,14 +72,23 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
             </a>
         )
     }
+    const renderViewToggle = () => {
+        return (
+            <button className={styles.viewToggle} onClick={handleViewToggle}>
+                {view === 'finder' ? 'Cheatsheet' : 'Pattern Finder'}
+            </button>
+        )
+    }
     const renderButtons = () => {
         return !isScreenMd ? (
             <div className={styles.buttonContainer}>
+                {renderViewToggle()}
                 {renderGitHubButton()}
                 <ThemeSwitch />
             </div>
         ) : (
             <>
+                {renderViewToggle()}
                 <ThemeSwitch />
                 {renderGitHubButton()}
             </>

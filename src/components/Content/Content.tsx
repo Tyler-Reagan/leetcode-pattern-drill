@@ -1,6 +1,8 @@
 import styles from './Content.module.sass'
 
 import { useSidebar } from '@components/Sidebar/SidebarProvider'
+import { useView } from '@components/View/ViewProvider'
+import PatternFinder from '@components/PatternFinder/PatternFinder'
 
 import BigO from '@sections/BigO/BigO'
 import Array from '@sections/Array/Array'
@@ -22,6 +24,7 @@ import clsx from '@utils/clsx'
 
 export default function Content() {
     const { isSidebarOpen } = useSidebar()
+    const { view } = useView()
     const classes = clsx(
         styles.main,
         !isSidebarOpen && styles.sidebarHidden
@@ -29,6 +32,14 @@ export default function Content() {
 
     return (
         <main className={classes}>
+            {view === 'finder' ? <PatternFinder /> : renderCheatsheet()}
+        </main>
+    )
+}
+
+function renderCheatsheet() {
+    return (
+        <>
             <BigO />
             <Array />
             <HashMap />
@@ -44,6 +55,6 @@ export default function Content() {
             <Matrix />
             <DataStructures />
             <SortingAlgorithms />
-        </main>
+        </>
     )
 }
