@@ -2,6 +2,8 @@
  * Structural checks for the Pattern Finder decision tree.
  * Run with: npx --yes tsx src/finder/checkTree.ts
  */
+import { buildGraph } from './graph'
+import { edgeKey } from './path'
 import { tree } from './tree'
 
 const MAX_QUESTIONS = 6
@@ -141,6 +143,52 @@ if (isNode(rootId)) walk(rootId, [])
 for (const id of Object.keys(nodes)) if (!reachedNodes.has(id)) fail(`node "${id}" is unreachable from the root`)
 for (const id of Object.keys(leaves)) if (!reachedLeaves.has(id)) fail(`leaf "${id}" is unreachable from the root`)
 
+// The Map view draws the graph built from the tree: every node and leaf must be in it exactly
+// once, every option must be an edge, every leaf must be reachable by an edge, and the layout
+// must give every box a finite, non-overlapping place.
+const graph = buildGraph()
+{
+    const graphIds = new Map<string, number>()
+    for (const n of graph.nodes) graphIds.set(n.id, (graphIds.get(n.id) ?? 0) + 1)
+    for (const id of [...Object.keys(nodes), ...Object.keys(leaves)]) {
+        const count = graphIds.get(id) ?? 0
+        if (count !== 1) fail(`graph has ${count} nodes for "${id}" (want 1)`)
+    }
+    for (const id of graphIds.keys()) if (!isNode(id) && !isLeaf(id)) fail(`graph node "${id}" is not in the tree`)
+
+    const edgeIds = new Set(graph.edges.map((e) => e.id))
+    const wanted = new Set<string>()
+    const incoming = new Set<string>()
+    for (const node of Object.values(nodes)) {
+        for (const opt of node.options) {
+            wanted.add(edgeKey(node.id, opt.next))
+            incoming.add(opt.next)
+        }
+    }
+    for (const id of wanted) if (!edgeIds.has(id)) fail(`graph is missing edge "${id}"`)
+    for (const e of graph.edges) {
+        if (!wanted.has(e.id)) fail(`graph has edge "${e.id}" that no option leads to`)
+        if (!graphIds.has(e.source) || !graphIds.has(e.target)) fail(`graph edge "${e.id}" has an unknown end`)
+    }
+    for (const id of Object.keys(leaves)) if (!incoming.has(id)) fail(`leaf "${id}" has no edge leading to it in the graph`)
+    for (const id of Object.keys(nodes)) {
+        if (id !== rootId && !incoming.has(id)) fail(`node "${id}" has no edge leading to it in the graph`)
+        if (id !== rootId && !graph.parents[id]) fail(`graph has no parents recorded for "${id}"`)
+    }
+
+    for (const n of graph.nodes) {
+        if (![n.x, n.y, n.width, n.height].every(Number.isFinite)) fail(`graph node "${n.id}" has no finite position`)
+    }
+    for (let i = 0; i < graph.nodes.length; i++) {
+        for (let j = i + 1; j < graph.nodes.length; j++) {
+            const a = graph.nodes[i]
+            const b = graph.nodes[j]
+            const apart = a.x + a.width <= b.x || b.x + b.width <= a.x || a.y + a.height <= b.y || b.y + b.height <= a.y
+            if (!apart) fail(`graph nodes "${a.id}" and "${b.id}" overlap`)
+        }
+    }
+}
+
 const questionsOn = (p: string[]) => p.length - 1
 const maxDepth = paths.reduce((m, p) => Math.max(m, questionsOn(p)), 0)
 const tooDeep = paths.filter((p) => questionsOn(p) > MAX_QUESTIONS)
@@ -164,6 +212,7 @@ const optionCounts = Object.values(nodes).map((n) => n.options.length)
 console.log('Pattern Finder tree check')
 console.log(`  nodes:  ${Object.keys(nodes).length}`)
 console.log(`  leaves: ${Object.keys(leaves).length}`)
+console.log(`  graph: ${graph.nodes.length} nodes, ${graph.edges.length} edges`)
 console.log(`  root-to-leaf paths: ${paths.length}`)
 console.log(`  options per node: min ${Math.min(...optionCounts)}, max ${Math.max(...optionCounts)}`)
 console.log(`  max questions on any path: ${maxDepth} (cap ${MAX_QUESTIONS})`)

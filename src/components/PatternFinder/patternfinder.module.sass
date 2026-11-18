@@ -1,25 +1,21 @@
-// Pattern Finder: a quick-reference procedure sheet. The station line on the left, the ruled
-// procedure card on the right. Colours, faces and radius come only from the shared --pd-* tokens.
+// Pattern Finder: a quick-reference procedure sheet. The path log on the left (a row of dots on
+// phones), the ruled procedure card on the right; Map mode swaps both for one full-width view.
+// Colours, faces and radius come only from the shared --pd-* tokens.
 
 $phone: 760px
 $dot: 8px
 $ease: cubic-bezier(0.16, 1, 0.3, 1)
 
-// Station-line geometry: every stop's first line box is $stop-line tall after $stop-pad, and
-// its dot sits on that line, so the dot centre is always $dot-y from the top of its stop
-// whether the cue label runs to one line or two. The line box derives from the cue's own
-// font size (rem, unitless 1.3 leading), so labels never clip at a larger root font size.
-$stop-pad: 10px
-$cue-size: 0.9375rem
-$stop-line: calc(#{$cue-size} * 1.3)
-$dot-y: calc(#{$stop-pad} + #{$cue-size} * 0.65)
-
-// Header strip geometry, fixed so the line can align its first stop with the strip's centre.
+// Header strip geometry, fixed so the path log's head lines up with the strip.
 $strip-pad: 14px
 $cell-h: 60px
 $caption-h: 16px
 $timer-gap: 4px
 $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
+
+// Path-log geometry.
+$row-num: 34px
+$log-pad: 24px
 
 .finder
     // The sheet sits slightly high: less room above it than the content margin leaves below.
@@ -32,12 +28,15 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
     display: grid
     font-family: var(--pd-font-body)
     font-size: 1.125rem
-    grid-template-columns: minmax(200px, 270px) minmax(0, 1fr)
-    justify-content: center
+    // the log takes about two fifths of the page, the card the rest; no cap, so wide screens fill
+    grid-template-columns: minmax(320px, 38%) minmax(0, 1fr)
     line-height: 1.5
-    max-width: 1240px
     padding-top: var(--finder-pad-top)
     width: 100%
+
+    // Map mode: one full-width column, no log.
+    &.mapMode
+        grid-template-columns: minmax(0, 1fr)
 
     // Programmatically focused stage headings (tabIndex -1) are not controls: no ring.
     // Buttons and links keep the focus-visible ring below.
@@ -62,63 +61,206 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
         padding-top: 0
         row-gap: 4px
 
-// ------------------------------------------------------------------ station line
+// ------------------------------------------------------------------ path log (desktop)
 
-.line
+.log
+    background: var(--pd-ground)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    display: flex
+    flex-direction: column
     min-width: 0
-    // first dot centred on the card's header strip
-    padding-top: max(0px, calc(#{$strip-h * 0.5} - #{$dot-y}))
 
-    @media (max-width: $phone)
-        padding-top: 0
+.logHead
+    border-bottom: 1px solid var(--pd-rule)
+    display: flex
+    flex-direction: column
+    gap: 6px
+    justify-content: center
+    min-height: $strip-h
+    padding: $strip-pad $log-pad
 
-.stops
+.logHint
+    color: var(--pd-text-muted)
+    font-size: 0.9375rem
+    margin: 0
+
+.logRows
     list-style: none
     margin: 0
     padding: 0
 
-    @media (max-width: $phone)
-        align-items: center
-        display: flex
+    > li
+        border-bottom: 1px solid var(--pd-rule)
+
+        &:last-child
+            border-bottom: 0
+
+.row
+    align-items: start
+    column-gap: 16px
+    display: grid
+    grid-template-columns: $row-num minmax(0, 1fr) auto
+    padding: 14px $log-pad
+    text-align: left
+    // a button on answered rows, a div on the live ones; the global button rule would centre it
+    justify-content: stretch
+    white-space: normal
+    width: 100%
+
+    &:is(button)
+        &:hover,
+        &:focus-visible
+            background: var(--pd-raised)
+
+            .rowNum
+                border-color: var(--pd-text-muted)
+                color: var(--pd-text)
+
+            .rowBack
+                color: var(--pd-text-muted)
+
+        &:focus-visible
+            outline-offset: -2px
+
+.rowNum
+    align-items: center
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    display: inline-flex
+    font-family: var(--pd-font-display)
+    font-size: 17px
+    font-variant-numeric: tabular-nums
+    font-weight: 600
+    height: $row-num
+    justify-content: center
+    width: $row-num
+
+.rowNumDashed
+    border-style: dashed
+
+.rowText
+    display: flex
+    flex-direction: column
+    gap: 3px
+    min-width: 0
+
+.rowQuestion
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 13px
+    font-weight: 600
+    letter-spacing: 0.14em
+    line-height: 1.3
+    text-transform: uppercase
+
+.rowCue
+    color: var(--pd-text)
+    font-size: 1.1875rem
+    line-height: 1.3
+    overflow-wrap: anywhere
+
+// "Back" shows on hover or focus only; it keeps its space so rows never reflow.
+.rowBack
+    align-self: center
+    color: transparent
+    font-family: var(--pd-font-display)
+    font-size: 13px
+    font-weight: 600
+    letter-spacing: 0.16em
+    text-transform: uppercase
+
+.rowLive
+    font-family: var(--pd-font-display)
+    font-size: 1.5rem
+    font-weight: 600
+    letter-spacing: 0.03em
+    line-height: 1.12
+    text-transform: uppercase
+    text-wrap: balance
+
+.rowReady .rowLive
+    color: var(--pd-text-muted)
+
+.rowCurrent,
+.rowResult
+    .rowNum
+        background: var(--pd-accent)
+        border-color: var(--pd-accent)
+        color: var(--pd-on-accent)
+
+    .rowQuestion
+        color: var(--pd-accent-text)
+
+.rowResult .rowLive
+    font-size: 1.75rem
+    font-weight: 700
+
+.rowFault
+    .rowNum
+        border-color: var(--pd-over)
+        color: var(--pd-over)
+
+    .rowQuestion
+        color: var(--pd-over)
+
+.nextWrap
+    padding: 12px $log-pad 16px
+
+.nextCheck
+    align-items: center
+    border: 1px dashed var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    column-gap: 16px
+    display: grid
+    grid-template-columns: $row-num minmax(0, 1fr)
+    padding: 12px 14px
+
+.nextLabel
+    font-family: var(--pd-font-display)
+    font-size: 13px
+    font-weight: 600
+    letter-spacing: 0.16em
+    text-transform: uppercase
+
+// ------------------------------------------------------------------ station line (phone)
+// The path as a row of dots. Only rendered at phone width; the cue labels stay for screen readers.
+
+.line
+    min-width: 0
+
+.stops
+    align-items: center
+    display: flex
+    list-style: none
+    margin: 0
+    padding: 0
 
 .stop
     align-items: center
     display: flex
-    min-height: calc(#{$stop-line} + #{$stop-pad * 2})
+    flex: 0 0 32px
+    height: 44px
+    justify-content: center
     position: relative
 
     // the rule from this dot's centre to the next dot's centre
     &::before
-        border-left: 1px solid var(--pd-rule)
+        border-top: 1px solid var(--pd-rule)
         content: ''
-        height: 100%
+        height: 0
+        left: 50%
         position: absolute
-        right: calc($dot / 2 - 0.5px)
-        top: $dot-y
-        width: 0
+        top: calc(50% - 0.5px)
+        width: 100%
 
     &:last-child::before
         display: none
 
-    @media (max-width: $phone)
-        flex: 0 0 32px
-        height: 44px
-        justify-content: center
-
-        &::before
-            border-left: 0
-            border-top: 1px solid var(--pd-rule)
-            height: 0
-            left: 50%
-            right: auto
-            top: calc(50% - 0.5px)
-            width: 100%
-
 .dashedNext::before
-    border-left-style: dashed
-
-    @media (max-width: $phone)
-        border-top-style: dashed
+    border-top-style: dashed
 
 .dot
     border-radius: 50%
@@ -126,12 +268,8 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
     flex: none
     height: $dot
     position: relative
-    margin-top: calc((#{$stop-line} - #{$dot}) * 0.5)
     width: $dot
     z-index: 1
-
-    @media (max-width: $phone)
-        margin-top: 0
 
 .answered .dot
     background: var(--pd-text-muted)
@@ -150,59 +288,30 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
 
 .stopInner,
 .stopButton
-    align-items: flex-start
+    align-items: center
     display: flex
-    flex-direction: row-reverse
-    gap: 12px
-    line-height: $stop-line
-    min-height: calc(#{$stop-line} + #{$stop-pad * 2})
+    height: 100%
+    justify-content: center
     min-width: 0
-    padding-block: $stop-pad
+    padding: 0
     width: 100%
-
-    @media (max-width: $phone)
-        align-items: center
-        padding-block: 0
 
 .stopButton
     border-radius: var(--pd-radius)
     color: var(--pd-text-muted)
-    font-size: $cue-size
-    justify-content: flex-start
-    padding-inline: 6px 0
-    text-align: right
-    width: 100%
 
     &:hover,
     &:focus-visible
         color: var(--pd-text)
 
-    @media (max-width: $phone)
-        height: 100%
-        justify-content: center
-        padding: 0
-
 .cue
-    -webkit-box-orient: vertical
-    -webkit-line-clamp: 2
-    display: -webkit-box
-    line-clamp: 2
-    min-width: 0
+    clip: rect(0 0 0 0)
+    clip-path: inset(50%)
+    height: 1px
     overflow: hidden
-    overflow-wrap: anywhere
-    white-space: normal
-
-    @media (max-width: $phone)
-        clip: rect(0 0 0 0)
-        clip-path: inset(50%)
-        height: 1px
-        position: absolute
-        width: 1px
-
-@media (max-width: $phone)
-    .stopInner
-        justify-content: center
-        width: 100%
+    position: absolute
+    white-space: nowrap
+    width: 1px
 
 // ------------------------------------------------------------------ procedure card
 
@@ -231,8 +340,69 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
     padding: $strip-pad 32px
 
     @media (max-width: $phone)
+        flex-wrap: wrap
+        gap: 10px 16px
         min-height: 0
         padding: 10px 14px
+
+.stripEnd
+    align-items: center
+    display: flex
+    gap: 24px
+
+    @media (max-width: $phone)
+        gap: 12px
+
+// Map mode has no clock; this line says where the paused run stands.
+.mapStatus
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 15px
+    font-weight: 600
+    letter-spacing: 0.14em
+    text-transform: uppercase
+
+    b
+        color: var(--pd-text)
+        font-weight: 600
+
+// Flow | Map: two buttons in one ruled box; the pressed one is lifted to the ground tone.
+.seg
+    background: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    display: inline-flex
+    gap: 2px
+    padding: 2px
+
+.segButton
+    border: 1px solid transparent
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 16px
+    font-weight: 600
+    letter-spacing: 0.16em
+    min-height: 36px
+    padding: 6px 16px
+    text-transform: uppercase
+
+    &:hover
+        color: var(--pd-text)
+
+    @media (max-width: $phone)
+        font-size: 14px
+        min-height: 32px
+        padding: 4px 10px
+
+.segOn
+    background: var(--pd-ground)
+    border-color: var(--pd-text-muted)
+    color: var(--pd-text)
+
+// The Map chunk is loading: the card keeps its place.
+.mapFallback
+    min-height: 240px
 
 .stripTitle
     color: var(--pd-text-muted)
@@ -622,9 +792,12 @@ $strip-h: $strip-pad * 2 + $cell-h + $timer-gap + $caption-h + 1px
     .stopButton
         transition: color 140ms ease-out
 
+    .row, .rowNum, .rowBack, .segButton
+        transition: background-color 140ms ease-out, border-color 140ms ease-out, color 140ms ease-out
+
     .option, .plain, .primary, .kbd, .finder .docsLink
         transition: background-color 140ms ease-out, border-color 140ms ease-out, color 140ms ease-out
 
 @media (prefers-reduced-motion: reduce)
-    .stopButton, .option, .plain, .primary, .kbd, .finder .docsLink
+    .stopButton, .row, .rowNum, .rowBack, .segButton, .option, .plain, .primary, .kbd, .finder .docsLink
         transition: none
