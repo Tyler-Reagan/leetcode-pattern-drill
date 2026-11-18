@@ -216,8 +216,8 @@ A two-segment toggle in the card strip, using the same segment style as the topb
 
 ### Map
 Map mode draws the whole tree left to right (dagre, `LR`) on a Slate Ground canvas with Fit and zoom controls at the bottom left.
-- **Check node:** Slate Panel box, 1px Green Rule, 2px radius, 236×66px. A small uppercase tag ("Step n", "Check", "Now, check n") above the question in Barlow.
-- **Pattern node (leaf):** the same box at 216×50px on Slate Ground, tagged with its pattern family; the current result is tagged "Result".
+- **Check node:** Slate Panel box, 1px Green Rule, 2px radius, 236×88px. A small uppercase tag ("Step n", "Check", "Now, check n") above the question in Barlow.
+- **Pattern node (leaf):** the same box at 252×64px on Slate Ground, tagged with its pattern family; the current result is tagged "Result".
 - **Your path:** nodes on the run's path sit on Slate Raised with a Bone border and Bone text; the current node takes a 2px Field Rust border, the one rust element on the chart.
 - **Edges:** smoothstep lines in Green Rule at 1px; path edges are Bone at 1.75px and sit above the others.
 - **Legend:** a top-left panel of four swatches (Check, Pattern, Your path, Current) on Slate Panel, marked `aria-hidden` because the nodes carry their own text.
