@@ -5,10 +5,11 @@ import dagre from '@dagrejs/dagre'
 import { edgeKey } from './path'
 import { tree } from './tree'
 
-export const QUESTION_WIDTH = 236
-export const QUESTION_HEIGHT = 66
-export const LEAF_WIDTH = 216
-export const LEAF_HEIGHT = 50
+const SIZES = {
+    normal: { question: { width: 236, height: 66 }, leaf: { width: 216, height: 50 } },
+    // OpenDyslexic sets about 1.7x wider, so the boxes grow to keep the same number of lines.
+    dyslexic: { question: { width: 340, height: 108 }, leaf: { width: 300, height: 84 } },
+}
 
 export interface GraphNode {
     id: string
@@ -39,10 +40,13 @@ export interface FinderGraph {
     parents: Record<string, Parent[]>
 }
 
-let cached: FinderGraph | undefined
+const cached: Partial<Record<keyof typeof SIZES, FinderGraph>> = {}
 
-export function buildGraph(): FinderGraph {
-    if (cached) return cached
+export function buildGraph(dyslexic = false): FinderGraph {
+    const mode = dyslexic ? 'dyslexic' : 'normal'
+    const hit = cached[mode]
+    if (hit) return hit
+    const { question, leaf } = SIZES[mode]
 
     const sizes = new Map<string, { width: number; height: number }>()
     const graph = new dagre.graphlib.Graph()
@@ -50,12 +54,12 @@ export function buildGraph(): FinderGraph {
     graph.setDefaultEdgeLabel(() => ({}))
 
     for (const id of Object.keys(tree.nodes)) {
-        sizes.set(id, { width: QUESTION_WIDTH, height: QUESTION_HEIGHT })
-        graph.setNode(id, { width: QUESTION_WIDTH, height: QUESTION_HEIGHT })
+        sizes.set(id, question)
+        graph.setNode(id, { ...question })
     }
     for (const id of Object.keys(tree.leaves)) {
-        sizes.set(id, { width: LEAF_WIDTH, height: LEAF_HEIGHT })
-        graph.setNode(id, { width: LEAF_WIDTH, height: LEAF_HEIGHT })
+        sizes.set(id, leaf)
+        graph.setNode(id, { ...leaf })
     }
 
     const edges: GraphEdge[] = []
@@ -83,6 +87,5 @@ export function buildGraph(): FinderGraph {
     for (const node of Object.values(tree.nodes)) place(node.id, 'question', node.question, '')
     for (const leaf of Object.values(tree.leaves)) place(leaf.id, 'leaf', leaf.name, leaf.pattern)
 
-    cached = { nodes, edges, parents }
-    return cached
+    return (cached[mode] = { nodes, edges, parents })
 }

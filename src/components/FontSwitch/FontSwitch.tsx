@@ -28,6 +28,7 @@ export default function FontSwitch() {
         } else {
             document.documentElement.removeAttribute('data-font')
         }
+        document.documentElement.dispatchEvent(new Event('fontChange'))
         try {
             localStorage.setItem(STORAGE_KEY, next ? '1' : '0')
         } catch {
