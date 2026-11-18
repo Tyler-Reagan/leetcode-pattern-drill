@@ -1,6 +1,6 @@
 import scrollTo from '@utils/scrollTo'
 
-const SETTLED_FRAMES = 6
+const SETTLED_FRAMES = 2
 const MAX_WAIT_MS = 2000
 
 let pendingFrame = 0
@@ -20,8 +20,9 @@ export default function scrollWhenSettled(selector: string, offset: number) {
     const check = () => {
         const el = document.querySelector(selector) as HTMLElement | null
         if (el) {
-            stableFrames = el.offsetTop === lastTop ? stableFrames + 1 : 0
-            lastTop = el.offsetTop
+            const top = el.getBoundingClientRect().top + window.scrollY
+            stableFrames = top === lastTop ? stableFrames + 1 : 0
+            lastTop = top
         }
 
         const timedOut = performance.now() - start > MAX_WAIT_MS
