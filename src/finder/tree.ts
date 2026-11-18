@@ -14,7 +14,7 @@ export const tree: FinderTree = {
                 { cue: 'a linked list', next: 'q-list' },
                 { cue: 'a binary tree or BST', next: 'q-tree' },
                 { cue: 'a graph, grid, edges, or prerequisites', next: 'q-graph' },
-                { cue: "a stream, or 'design a class that supports...'", next: 'q-design' },
+                { cue: 'a data stream, or a design-a-class prompt', next: 'q-design' },
                 { cue: 'just an integer n, or bit operations', next: 'q-number' },
             ],
         },
@@ -23,120 +23,120 @@ export const tree: FinderTree = {
             id: 'q-array',
             question: 'What does it ask about the array or string?',
             options: [
-                { cue: 'contiguous subarray or substring (window, sum)', next: 'q-subarray' },
-                { cue: 'pair/triplet with sum X, palindrome, or edit in place', next: 'q-pointers' },
-                { cue: "sorted array search, or 'find the min/max value that works'", next: 'q-search' },
-                { cue: 'next greater/smaller element for each item', next: 'q-mono' },
-                { cue: 'frequencies, duplicates, top K, brackets, words', next: 'q-lookup' },
-                { cue: 'pick elements: all combos, best/count of ways, intervals', next: 'q-choices' },
+                { cue: 'a contiguous subarray or substring (window, sum)', next: 'q-subarray' },
+                { cue: 'a pair or triplet, a palindrome, or an in-place edit', next: 'q-pointers' },
+                { cue: 'searching a sorted array, or the min/max value that works', next: 'q-search' },
+                { cue: 'the next greater or smaller element of each item', next: 'q-mono' },
+                { cue: 'counts, duplicates, top K, brackets, words', next: 'q-lookup' },
+                { cue: 'choices over elements (all combos, best or count of ways, intervals)', next: 'q-choices' },
             ],
         },
         'q-subarray': {
             id: 'q-subarray',
-            question: 'What about the subarray or substring?',
+            question: 'What does it want from the subarray or substring?',
             options: [
-                { cue: 'max/avg sum of a window of size K', next: 'sliding-window-fixed' },
-                { cue: 'longest/shortest window satisfying a rule', next: 'q-window-variable' },
-                { cue: 'count subarrays with exactly K distinct/odd', next: 'sliding-window-exactly-k' },
-                { cue: 'subarray sum equals K, or range sum queries', next: 'q-prefix' },
-                { cue: 'maximum sum subarray, any length', next: 'dp-kadane' },
-                { cue: 'max/min of every window of size K', next: 'monotonic-deque' },
+                { cue: 'sum or average of each size-K window', next: 'sliding-window-fixed' },
+                { cue: 'longest or shortest window that meets a rule', next: 'q-window-variable' },
+                { cue: 'count subarrays with exactly K distinct or odd', next: 'sliding-window-exactly-k' },
+                { cue: 'a subarray sum equal to K, or range-sum queries', next: 'q-prefix' },
+                { cue: 'maximum-sum subarray of any length', next: 'dp-kadane' },
+                { cue: 'max or min inside each size-K window', next: 'monotonic-deque' },
             ],
         },
         'q-window-variable': {
             id: 'q-window-variable',
-            question: 'What is the window rule about?',
+            question: 'What does the window rule check?',
             options: [
-                { cue: 'sum/product vs target, all numbers positive', next: 'sliding-window-variable' },
-                { cue: 'characters: no repeats, at most K distinct, contains all of T', next: 'hashmap-sliding-window' },
+                { cue: 'sum or product vs a target (non-negative numbers)', next: 'sliding-window-variable' },
+                { cue: 'characters (no repeats, at most K distinct, contains all of T)', next: 'hashmap-sliding-window' },
             ],
         },
         'q-prefix': {
             id: 'q-prefix',
-            question: 'Which kind of sum question?',
+            question: 'What kind of subarray-sum question?',
             options: [
-                { cue: 'many queries: sum between index i and j', next: 'prefix-sum-range' },
-                { cue: 'count/longest subarrays with sum K, negatives allowed', next: 'prefix-sum-hashmap' },
+                { cue: 'many queries for the sum between index i and j', next: 'prefix-sum-range' },
+                { cue: 'count or longest subarrays with sum K (negatives allowed)', next: 'prefix-sum-hashmap' },
             ],
         },
         'q-pointers': {
             id: 'q-pointers',
-            question: 'Which pair or in-place task?',
+            question: 'What are the pointers doing?',
             options: [
-                { cue: 'sorted array: pair or triplet that sums to X', next: 'two-pointers-converging' },
-                { cue: 'is palindrome, reverse in place, container with most water', next: 'two-pointers-converging' },
-                { cue: 'two arrays/strings: merge sorted, is subsequence', next: 'two-pointers-two-inputs' },
-                { cue: 'remove duplicates in place, move zeroes, partition', next: 'two-pointers-fast-slow-inplace' },
-                { cue: 'unsorted array, two numbers that sum to X (indices)', next: 'hashmap-frequency' },
+                { cue: 'a pair or triplet in a sorted array (sums to X)', next: 'two-pointers-converging' },
+                { cue: 'palindrome or in-place reversal (container with most water)', next: 'two-pointers-converging' },
+                { cue: 'two arrays or strings (merge sorted, is subsequence)', next: 'two-pointers-two-inputs' },
+                { cue: 'in-place rewrite (remove duplicates, move zeroes, partition)', next: 'two-pointers-fast-slow-inplace' },
+                { cue: 'two numbers in an unsorted array (sum to X, return indices)', next: 'hashmap-frequency' },
             ],
         },
         'q-search': {
             id: 'q-search',
             question: 'What are you searching for?',
             options: [
-                { cue: 'find X (or its index) in a sorted or rotated array', next: 'binary-search-classic' },
+                { cue: 'find X, or its index, in a sorted or rotated array', next: 'binary-search-classic' },
                 { cue: 'first position of X, or where to insert X', next: 'binary-search-left-bound' },
                 { cue: 'last position of X, or count of elements <= X', next: 'binary-search-right-bound' },
-                { cue: 'smallest capacity/speed that works, minimize the max', next: 'binary-search-answer-minimize' },
-                { cue: 'largest distance/size that works, maximize the min', next: 'binary-search-answer-maximize' },
+                { cue: 'smallest capacity or speed that works (minimize the max)', next: 'binary-search-answer-minimize' },
+                { cue: 'largest distance or size that works (maximize the min)', next: 'binary-search-answer-maximize' },
             ],
         },
         'q-mono': {
             id: 'q-mono',
             question: 'What do you need for each element?',
             options: [
-                { cue: 'next greater element, days until warmer, stock span', next: 'monotonic-stack-decreasing' },
-                { cue: 'next smaller element, largest rectangle in histogram', next: 'monotonic-stack-increasing' },
-                { cue: 'max or min of every window of size K', next: 'monotonic-deque' },
+                { cue: 'next greater element (days until warmer, stock span)', next: 'monotonic-stack-decreasing' },
+                { cue: 'next smaller element (largest rectangle in histogram)', next: 'monotonic-stack-increasing' },
+                { cue: 'max or min inside each size-K window', next: 'monotonic-deque' },
             ],
         },
         'q-lookup': {
             id: 'q-lookup',
-            question: 'What is the core operation?',
+            question: 'What do you need to do with the data?',
             options: [
-                { cue: 'count occurrences, duplicates, anagrams, group by key', next: 'hashmap-frequency' },
-                { cue: 'K largest, K most frequent, Kth smallest', next: 'heap-top-k' },
-                { cue: 'valid parentheses, evaluate expression, simplify path', next: 'stack-matching' },
-                { cue: 'list of words + prefix lookups, autocomplete', next: 'trie' },
-                { cue: 'build an output string: reverse words, compress, join', next: 'string-building' },
-                { cue: 'single number among pairs, XOR, count set bits', next: 'bit-manipulation' },
+                { cue: 'counting or grouping (occurrences, duplicates, anagrams)', next: 'hashmap-frequency' },
+                { cue: 'top K (K largest, K most frequent, Kth smallest)', next: 'heap-top-k' },
+                { cue: 'matching or nesting (parentheses, expressions, simplify path)', next: 'stack-matching' },
+                { cue: 'prefix lookups over a word list (autocomplete)', next: 'trie' },
+                { cue: 'building an output string (reverse words, compress, join)', next: 'string-building' },
+                { cue: 'bit tricks (single number among pairs, XOR, count set bits)', next: 'bit-manipulation' },
             ],
         },
         'q-choices': {
             id: 'q-choices',
-            question: 'What is the goal over the choices?',
+            question: 'What are you trying to do with the choices?',
             options: [
-                { cue: 'generate all subsets, permutations, combinations', next: 'q-backtrack' },
-                { cue: 'max/min cost, or number of ways, over choices', next: 'q-dp' },
-                { cue: 'jump game, gas station, partition labels', next: 'greedy' },
-                { cue: 'intervals: merge, overlaps, meeting rooms', next: 'sort-first' },
+                { cue: 'generate every subset, permutation, or combination', next: 'q-backtrack' },
+                { cue: 'best cost, or number of ways, over the choices', next: 'q-dp' },
+                { cue: 'locally best move each step (jump game, gas station)', next: 'greedy' },
+                { cue: 'intervals (merge, overlaps, meeting rooms)', next: 'sort-first' },
             ],
         },
         'q-backtrack': {
             id: 'q-backtrack',
-            question: 'How constrained is the search?',
+            question: 'Can a partial choice be rejected early?',
             options: [
-                { cue: 'all subsets / permutations / combination sum', next: 'backtracking' },
-                { cue: 'N-Queens, Sudoku, word search on a grid', next: 'backtracking-pruning' },
+                { cue: 'no, enumerate everything (subsets, permutations, combination sum)', next: 'backtracking' },
+                { cue: 'yes, a rule prunes branches (N-Queens, Sudoku, word search)', next: 'backtracking-pruning' },
             ],
         },
         'q-dp': {
             id: 'q-dp',
-            question: 'What shape is the DP?',
+            question: 'What do the choices look like?',
             options: [
                 { cue: 'maximum sum subarray', next: 'dp-kadane' },
-                { cue: 'reusable coins/steps: min coins, ways to make X', next: 'dp-unbounded-knapsack' },
-                { cue: 'each item once: partition equal subset, target sum', next: 'dp-01-knapsack' },
-                { cue: 'LIS, LCS, edit distance (one or two sequences)', next: 'dp-sequences' },
-                { cue: 'other: house robber, unique paths, word break', next: 'q-dp-style' },
+                { cue: 'reusable items (min coins, ways to make X)', next: 'dp-unbounded-knapsack' },
+                { cue: 'each item used once (partition equal subset, target sum)', next: 'dp-01-knapsack' },
+                { cue: 'one or two sequences (LIS, LCS, edit distance)', next: 'dp-sequences' },
+                { cue: 'something else (house robber, unique paths, word break)', next: 'q-dp-style' },
             ],
         },
         'q-dp-style': {
             id: 'q-dp-style',
-            question: 'Which way is the recurrence easiest to write?',
+            question: 'Which way is the recurrence easier to write?',
             options: [
-                { cue: 'recurse on choices from a state, cache results (word break, decode ways)', next: 'dp-top-down' },
-                { cue: 'fill dp[i] / dp[r][c] from earlier cells (house robber, unique paths)', next: 'dp-bottom-up' },
+                { cue: 'recurse from a state and cache (word break, decode ways)', next: 'dp-top-down' },
+                { cue: 'fill dp[i] or dp[r][c] from earlier cells (house robber, unique paths)', next: 'dp-bottom-up' },
             ],
         },
 
@@ -144,8 +144,8 @@ export const tree: FinderTree = {
             id: 'q-list',
             question: 'What do you do with the list?',
             options: [
-                { cue: 'detect cycle, find middle, Nth node from end', next: 'linked-list-fast-slow' },
-                { cue: 'reverse the list, a sublist, or k-group', next: 'linked-list-reverse' },
+                { cue: 'cycle, middle node, or Nth node from the end', next: 'linked-list-fast-slow' },
+                { cue: 'reverse the list, a sublist, or k-groups', next: 'linked-list-reverse' },
                 { cue: 'merge two sorted lists', next: 'linked-list-merge-sorted' },
                 { cue: 'merge K sorted lists', next: 'heap-merge-k' },
             ],
@@ -155,9 +155,9 @@ export const tree: FinderTree = {
             id: 'q-tree',
             question: 'What does it ask about the tree?',
             options: [
-                { cue: 'level order, per-level values, right side view', next: 'tree-bfs' },
-                { cue: 'max depth, path sum, LCA, validate BST, serialize', next: 'tree-dfs-recursive' },
-                { cue: 'BST iterator, kth smallest, traverse without recursion', next: 'tree-dfs-iterative' },
+                { cue: 'level-by-level view (level order, right side view)', next: 'tree-bfs' },
+                { cue: 'combine subtree answers (depth, path sum, LCA, validate BST, serialize)', next: 'tree-dfs-recursive' },
+                { cue: 'paused or non-recursive traversal (BST iterator, kth smallest)', next: 'tree-dfs-iterative' },
             ],
         },
 
@@ -165,12 +165,12 @@ export const tree: FinderTree = {
             id: 'q-graph',
             question: 'What does it ask about the graph or grid?',
             options: [
-                { cue: 'number of islands, connected components, all paths, cycle', next: 'graph-dfs' },
-                { cue: 'shortest path, minimum steps', next: 'q-shortest' },
-                { cue: 'course schedule, prerequisites, valid ordering', next: 'topological-sort' },
-                { cue: 'same group? merge sets, redundant connection', next: 'union-find' },
+                { cue: 'explore everything (islands, components, all paths, cycle)', next: 'graph-dfs' },
+                { cue: 'shortest path or minimum steps', next: 'q-shortest' },
+                { cue: 'ordering with prerequisites (course schedule, valid order)', next: 'topological-sort' },
+                { cue: 'same-group checks (merge sets, redundant connection)', next: 'union-find' },
                 { cue: 'minimum cost to connect all points', next: 'mst' },
-                { cue: 'grid moving right/down: count paths or min path sum', next: 'q-dp' },
+                { cue: 'grid moving right or down (count paths, min path sum)', next: 'q-dp' },
             ],
         },
         'q-shortest': {
@@ -179,7 +179,7 @@ export const tree: FinderTree = {
             options: [
                 { cue: 'unweighted, from one start (word ladder, maze)', next: 'graph-bfs-shortest-path' },
                 { cue: 'spreads from many sources at once (rotting oranges, 01 matrix)', next: 'multi-source-bfs' },
-                { cue: 'edges have weights or costs (network delay, cheapest flights)', next: 'shortest-path-weighted' },
+                { cue: 'weighted edges (network delay, cheapest flights)', next: 'shortest-path-weighted' },
             ],
         },
 
@@ -187,7 +187,7 @@ export const tree: FinderTree = {
             id: 'q-design',
             question: 'What must the structure support?',
             options: [
-                { cue: 'find median from a data stream', next: 'two-heaps' },
+                { cue: 'median of a data stream', next: 'two-heaps' },
                 { cue: 'Kth largest element in a stream', next: 'heap-top-k' },
                 { cue: 'moving average, recent calls, circular queue', next: 'queue-design' },
                 { cue: 'implement Trie, add and search words', next: 'trie' },
@@ -201,8 +201,8 @@ export const tree: FinderTree = {
             question: 'What does it ask about n?',
             options: [
                 { cue: 'power of two, count set bits, XOR tricks', next: 'bit-manipulation' },
-                { cue: 'ways to climb n stairs, nth term from smaller terms', next: 'q-dp' },
-                { cue: 'integer square root: the largest x with x*x <= n', next: 'binary-search-answer-maximize' },
+                { cue: 'nth term from earlier terms (climb n stairs)', next: 'q-dp' },
+                { cue: 'integer square root (largest x with x*x <= n)', next: 'binary-search-answer-maximize' },
                 { cue: 'guess the number in 1..n', next: 'binary-search-classic' },
             ],
         },
@@ -223,7 +223,7 @@ export const tree: FinderTree = {
             name: 'Two pointers, two inputs',
             pattern: 'Two Pointers',
             summary:
-                'Two arrays or strings walked together, such as merging sorted arrays or checking a subsequence. One pointer per input; advance the one whose element is consumed.',
+                'Merge sorted arrays, subsequence checks. One pointer per input; advance the one whose element is consumed.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/two-pointers',
             templateIds: ['two-pointers-two-inputs'],
         },
@@ -238,7 +238,7 @@ export const tree: FinderTree = {
         },
         'sliding-window-fixed': {
             id: 'sliding-window-fixed',
-            name: 'Fixed-size sliding window',
+            name: 'Sliding window, fixed size',
             pattern: 'Sliding Window',
             summary:
                 'Every window of exactly K elements. Add the entering element and remove the leaving one so each step is O(1).',
@@ -247,7 +247,7 @@ export const tree: FinderTree = {
         },
         'sliding-window-variable': {
             id: 'sliding-window-variable',
-            name: 'Variable-size sliding window',
+            name: 'Sliding window, variable size',
             pattern: 'Sliding Window',
             summary:
                 'Longest/shortest subarray meeting a sum-style rule with non-negative values. Expand right, shrink left while the window is invalid (or while valid, for shortest).',
@@ -256,7 +256,7 @@ export const tree: FinderTree = {
         },
         'sliding-window-exactly-k': {
             id: 'sliding-window-exactly-k',
-            name: 'Exactly K via at-most trick',
+            name: 'Sliding window, exactly K',
             pattern: 'Sliding Window',
             summary:
                 '"Exactly K" is not monotonic, so count it as atMost(K) - atMost(K-1), each a standard variable window.',
@@ -274,7 +274,7 @@ export const tree: FinderTree = {
         },
         'prefix-sum-hashmap': {
             id: 'prefix-sum-hashmap',
-            name: 'Prefix sum + hash map',
+            name: 'Prefix sum, hash map',
             pattern: 'Prefix Sum',
             summary:
                 'Count or find subarrays with sum K when negatives break sliding window. Store prefix-sum counts (seeded with {0: 1}) and look up prefix - K.',
@@ -314,7 +314,7 @@ export const tree: FinderTree = {
             name: 'Binary search, right bound',
             pattern: 'Binary Search',
             summary:
-                'Last position of X, or count of elements <= X. Search for the insertion point after all copies of X (move right when nums[mid] <= X).',
+                'Last position of X, or count of elements <= X. Search for the insertion point after every copy of X (go right when nums[mid] <= X).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
             templateIds: ['binary-search-right-insertion'],
         },
@@ -348,8 +348,8 @@ export const tree: FinderTree = {
 
         'hashmap-frequency': {
             id: 'hashmap-frequency',
-            name: 'Hash map lookup / frequency',
-            pattern: 'HashMap',
+            name: 'Hash map, lookup and frequency',
+            pattern: 'Hash Map',
             summary:
                 'Counting, duplicates, anagrams, grouping, or unsorted two-sum. Store counts or complements so each lookup is O(1).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/hashmap',
@@ -357,7 +357,7 @@ export const tree: FinderTree = {
         },
         'hashmap-sliding-window': {
             id: 'hashmap-sliding-window',
-            name: 'Sliding window + hash map',
+            name: 'Sliding window, hash map',
             pattern: 'Sliding Window',
             summary:
                 'Substring with no repeats, at most K distinct, or containing all of T. A frequency map tracks the window so you know when to shrink.',
@@ -366,7 +366,7 @@ export const tree: FinderTree = {
         },
         'stack-matching': {
             id: 'stack-matching',
-            name: 'Stack (matching / LIFO)',
+            name: 'Stack, matching',
             pattern: 'Stack',
             summary:
                 'Brackets, expression evaluation, path simplification, undo. Push openings or state; pop when the matching close or reversal arrives.',
@@ -394,7 +394,7 @@ export const tree: FinderTree = {
         'monotonic-deque': {
             id: 'monotonic-deque',
             name: 'Monotonic deque',
-            pattern: 'Queue',
+            pattern: 'Monotonic Deque',
             summary:
                 'Max or min of every window of size K. Keep a deque of indices in monotonic order; drop expired indices from the front.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/queue',
@@ -447,7 +447,7 @@ export const tree: FinderTree = {
         },
         'linked-list-fast-slow': {
             id: 'linked-list-fast-slow',
-            name: 'Fast and slow pointers',
+            name: 'Linked list, fast and slow pointers',
             pattern: 'Linked List',
             summary:
                 "Cycle detection, middle node, Nth from end. Move one pointer twice as fast (Floyd's) or give one a head start.",
@@ -456,7 +456,7 @@ export const tree: FinderTree = {
         },
         'linked-list-reverse': {
             id: 'linked-list-reverse',
-            name: 'Reverse a linked list',
+            name: 'Linked list, reverse',
             pattern: 'Linked List',
             summary:
                 'Reverse a whole list, a sublist, or k-groups. Walk with prev/curr/next and flip each pointer.',
@@ -465,7 +465,7 @@ export const tree: FinderTree = {
         },
         'linked-list-merge-sorted': {
             id: 'linked-list-merge-sorted',
-            name: 'Merge sorted lists',
+            name: 'Linked list, merge sorted',
             pattern: 'Linked List',
             summary:
                 'Merge two sorted lists. Use a dummy head and always attach the smaller of the two current nodes.',
@@ -493,7 +493,7 @@ export const tree: FinderTree = {
         },
         'tree-bfs': {
             id: 'tree-bfs',
-            name: 'Tree BFS (level order)',
+            name: 'Tree BFS, level order',
             pattern: 'BFS',
             summary:
                 'Level order, right side view, per-level values. Process the queue one level at a time using its size as a snapshot.',
@@ -511,7 +511,7 @@ export const tree: FinderTree = {
         },
         'graph-bfs-shortest-path': {
             id: 'graph-bfs-shortest-path',
-            name: 'BFS shortest path',
+            name: 'BFS, shortest path',
             pattern: 'BFS',
             summary:
                 'Fewest steps in an unweighted graph or grid. BFS from the start; the level at which you reach the target is the distance.',
@@ -532,7 +532,7 @@ export const tree: FinderTree = {
             name: 'Weighted shortest path',
             pattern: 'Graph Algorithms',
             summary:
-                'Shortest path with edge weights. Dijkstra (min-heap) for non-negative weights; Bellman-Ford for negative edges or at most K edges.',
+                'Shortest path with edge weights. Dijkstra (min-heap) for non-negative weights; Bellman-Ford for negatives or at most K edges.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/graph-algorithms',
             templateIds: ['graph-dijkstra', 'graph-bellman-ford'],
         },
@@ -584,7 +584,7 @@ export const tree: FinderTree = {
         },
         'dp-top-down': {
             id: 'dp-top-down',
-            name: 'DP, top-down (memo)',
+            name: 'DP, top-down',
             pattern: 'Dynamic Programming',
             summary:
                 'Overlapping subproblems where the recursion is the natural statement. Write the recursive choice, then cache results by state.',
@@ -593,7 +593,7 @@ export const tree: FinderTree = {
         },
         'dp-bottom-up': {
             id: 'dp-bottom-up',
-            name: 'DP, bottom-up (table)',
+            name: 'DP, bottom-up',
             pattern: 'Dynamic Programming',
             summary:
                 'Each state depends on earlier indices or neighbor cells. Fill a dp table from the base cases forward.',
@@ -629,7 +629,7 @@ export const tree: FinderTree = {
         },
         'dp-sequences': {
             id: 'dp-sequences',
-            name: 'Sequence DP (LIS / LCS)',
+            name: 'DP, sequences',
             pattern: 'Dynamic Programming',
             summary:
                 'Longest increasing or common subsequence, edit distance. dp[i] over one sequence or dp[i][j] over prefixes of two.',

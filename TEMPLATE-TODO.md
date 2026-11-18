@@ -8,11 +8,11 @@
 
 ## Sliding Window
 
-- [ ] **Exactly K via at-most trick** (sliding-window-exactly-k). [docs](https://resources.devweekends.com/dsa-patterns/sliding-window)
+- [ ] **Sliding window, exactly K** (sliding-window-exactly-k). [docs](https://resources.devweekends.com/dsa-patterns/sliding-window)
 
 ## HashMap
 
-- [ ] **Hash map lookup / frequency** (hashmap-frequency). [docs](https://resources.devweekends.com/dsa-patterns/hashmap)
+- [ ] **Hash map, lookup and frequency** (hashmap-frequency). [docs](https://resources.devweekends.com/dsa-patterns/hashmap)
   The `ds-hash-map` template is a HashMap class, not a counting or complement-lookup skeleton, so it is not used here.
 
 ## Sorting
@@ -21,7 +21,7 @@
 
 ## Stack
 
-- [ ] **Stack (matching / LIFO)** (stack-matching). [docs](https://resources.devweekends.com/dsa-patterns/stack)
+- [ ] **Stack, matching** (stack-matching). [docs](https://resources.devweekends.com/dsa-patterns/stack)
 
 ## Queue
 
@@ -35,7 +35,7 @@
 
 ## Linked List
 
-- [ ] **Merge sorted lists** (linked-list-merge-sorted). [docs](https://resources.devweekends.com/dsa-patterns/linked-list)
+- [ ] **Linked list, merge sorted** (linked-list-merge-sorted). [docs](https://resources.devweekends.com/dsa-patterns/linked-list)
 
 ## BFS
 
@@ -49,7 +49,7 @@
 
 - [ ] **Unbounded knapsack** (dp-unbounded-knapsack). [docs](https://resources.devweekends.com/dsa-patterns/dynamic-programming)
 - [ ] **0/1 knapsack** (dp-01-knapsack). [docs](https://resources.devweekends.com/dsa-patterns/dynamic-programming)
-- [ ] **Sequence DP (LIS / LCS)** (dp-sequences). [docs](https://resources.devweekends.com/dsa-patterns/dynamic-programming)
+- [ ] **DP, sequences** (dp-sequences). [docs](https://resources.devweekends.com/dsa-patterns/dynamic-programming)
 
 ## Greedy
 
