@@ -173,11 +173,11 @@ A restrained slate-green palette with bone type and a single rust voice. Each th
 
 ## Layout
 
-A fixed topbar (57px) over a single content column. The Finder is a two-column procedure sheet, max 1240px: a 200–270px station line on the left, the ruled card on the right, 20px apart, sitting slightly high on the page. Reference uses a 280px sidebar with a 32px content gutter (312px content margin when the sidebar is open, 32px when closed). The hamburger exists only in Reference; the Finder never has a sidebar.
+A fixed topbar (57px) over a single content column. The Finder is a two-column procedure sheet at full content width (the earlier 1240px cap is removed): a path log on the left at about 38% of the width (minimum 320px), the ruled card on the right, 20px apart, sitting slightly high on the page. Map mode replaces the sheet with one full-width shell: the chart on the left and the Inspect panel on the right (`clamp(320px, 26vw, 420px)`). The map is a lazy-loaded chunk, so React Flow and dagre load only when Map is first opened; a fixed-size fallback holds the place meanwhile. Reference uses a 280px sidebar with a 32px content gutter (312px content margin when the sidebar is open, 32px when closed). The hamburger exists only in Reference; the Finder never has a sidebar.
 
 Rhythm is built from 32px gutters, 20px card padding and 16px row padding. Rows and cells are fixed-height where digits are involved so nothing shifts when values change.
 
-Below 760px the station line collapses to a quiet horizontal row of dots, option rows grow to 52px for touch, and the card header, body and footer tighten to 14px side padding. Below 480px the topbar wraps: wordmark, language, theme and GitHub on row 1; the view toggle (and, in Reference, the hamburger) on row 2, with 8px padding and row gap. Nothing scrolls horizontally at 390px.
+Below 760px the path log collapses to a quiet horizontal row of station-line dots, the map becomes a collapsible outline instead of a chart. Option rows grow to 52px for touch, and the card header, body and footer tighten to 14px side padding. Below 480px the topbar wraps: wordmark, language, theme and GitHub on row 1; the view toggle (and, in Reference, the hamburger) on row 2, with 8px padding and row gap. Nothing scrolls horizontally at 390px.
 
 ## Elevation & Depth
 
@@ -204,8 +204,24 @@ Full-width buttons separated by 1px rules, each led by a numbered key cap. Conde
 ### Card and procedure strip
 A Slate Panel box with a 1px Green Rule border and 2px radius. The header strip is Slate Raised with the label ("PROCEDURE Q3") on the left and the boxed timer on the right with a "LEFT", "TAKEN" or "BUDGET" caption. The footer is ruled and holds Backtrack and Reset.
 
+### Path log
+The Flow view's left column on desktop: a Barlow Condensed label strip ("Path log", with the answered count) and a ruled list of rows. Each answered check is a full-width button with a step number, the question in muted caps and the cue picked, plus a "Back" label; clicking it backtracks to that check. The live row is a rust-numbered "Now, check n" row; a result or fault row replaces it; a dashed "Next check appears here" row closes the list. Rows use only `--pd-*` tokens and 1px rules.
+
 ### Station line
-A 1px vertical rule with 8px dots. Answered stops are Muted Bone dots with a muted cue label that is a button and backtracks to that step. The current stop is a single rust dot. The line ends in a short dashed tail to one hollow dot. No origin label, no "you are here", no end text. A faulted stop is a hollow dot with a Coral Over border.
+On phones only, the path log's place is a quiet row of dots. A 1px rule with 8px dots: answered stops are Muted Bone dots with a muted cue label that is a button and backtracks to that step. The current stop is a single rust dot. The line ends in a short dashed tail to one hollow dot. No origin label, no "you are here", no end text. A faulted stop is a hollow dot with a Coral Over border.
+
+### Flow | Map switch
+A two-segment toggle in the card strip, using the same segment style as the topbar toggle (`aria-pressed`, key M shown with `aria-keyshortcuts`). The Map strip carries the title, the size ("N checks, M patterns"), a muted run-status line ("No run, clock not started", "Run paused, check n", "Run complete, pattern") and the same switch.
+
+### Map
+Map mode draws the whole tree left to right (dagre, `LR`) on a Slate Ground canvas with Fit and zoom controls at the bottom left.
+- **Check node:** Slate Panel box, 1px Green Rule, 2px radius, 236×66px. A small uppercase tag ("Step n", "Check", "Now, check n") above the question in Barlow.
+- **Pattern node (leaf):** the same box at 216×50px on Slate Ground, tagged with its pattern family; the current result is tagged "Result".
+- **Your path:** nodes on the run's path sit on Slate Raised with a Bone border and Bone text; the current node takes a 2px Field Rust border, the one rust element on the chart.
+- **Edges:** smoothstep lines in Green Rule at 1px; path edges are Bone at 1.75px and sit above the others.
+- **Legend:** a top-left panel of four swatches (Check, Pattern, Your path, Current) on Slate Panel, marked `aria-hidden` because the nodes carry their own text.
+- **Inspect panel:** a Slate Panel column beside the chart with the selected check's options and destinations, or a pattern's templates. It has no clock.
+- **Phones:** the chart is replaced by an outline: each check or pattern written once in full, other routes to it as short "see above" buttons.
 
 ### Timer
 Fixed-width boxed digit cells, M:SS, never reflowing. Idle and OK states use Bone; the warning stretch turns cells and caption Amber; overtime turns them Coral and shows a sign cell, with the cell border changing as well as the text.
@@ -231,6 +247,7 @@ Accordions, tables and tabs are flat and ruled: transparent buttons with a muted
 - **Don't** use rust for anything other than the current step, the primary action and the selection highlight.
 - **Don't** use Field Rust as small text on dark; use Lit Rust.
 - **Don't** round anything beyond 2px, or use pills.
+- **Don't** pause or restart the clock from the map's Inspect panel; only the Flow | Map switch moves the clock.
 - **Don't** enforce the clock. Overtime is shown in Coral and the run continues.
 - **Don't** center the Finder in a floating quiz card, or replace the station line with a progress bar.
 - **Don't** put highlighted code on a light surface.
