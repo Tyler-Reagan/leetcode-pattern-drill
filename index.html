@@ -17,6 +17,11 @@
                 theme = 'dark';
             }
             document.documentElement.setAttribute('data-theme', theme);
+            try {
+                if (localStorage.getItem('dyslexic-font') === '1') {
+                    document.documentElement.setAttribute('data-font', 'dyslexic');
+                }
+            } catch (e) { }
         })();
     </script>
     <title>Pattern Drill</title>

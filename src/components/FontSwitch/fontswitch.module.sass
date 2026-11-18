@@ -1,0 +1,29 @@
+.button
+    background-color: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    cursor: pointer
+    flex-shrink: 0
+    font-family: var(--pd-font-body)
+    font-size: 0.9375rem
+    font-weight: 600
+    height: 32px
+    line-height: 1
+    padding: 0
+    transition-duration: var(--style-transition-duration)
+    transition-property: var(--style-transition-property)
+    width: 40px
+
+    &:hover
+        border-color: var(--pd-text-muted)
+        color: var(--pd-text)
+
+    &[aria-pressed="true"]
+        background-color: var(--pd-text)
+        border-color: var(--pd-text)
+        color: var(--pd-ground)
+
+    &:focus-visible
+        outline: 2px solid var(--pd-focus)
+        outline-offset: 2px

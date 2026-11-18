@@ -153,6 +153,7 @@ A restrained slate-green palette with bone type and a single rust voice. Each th
 **Display Font:** Barlow Condensed (with Arial Narrow, sans-serif)
 **Body Font:** Barlow (with system-ui, sans-serif)
 **Mono Font:** Fira Code (with ui-monospace, monospace), code only
+**Accessibility font:** an "Aa" toggle in the topbar swaps Display and Body for OpenDyslexic (`data-font="dyslexic"` on `<html>`, remembered in localStorage, fetched only when switched on). Code keeps Fira Code.
 
 **Character:** A condensed, upper-case voice for anything that names or labels, paired with a plain readable sans for sentences. The condensed caps give the sheet its handbook feel and keep long cue text compact.
 
