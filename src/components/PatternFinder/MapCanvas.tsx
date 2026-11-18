@@ -16,6 +16,7 @@ import {
 } from '@xyflow/react'
 
 import { buildGraph } from '@/finder/graph'
+import { useDyslexicFont } from '@hooks/useDyslexicFont'
 import { tree } from '@/finder/tree'
 import type { RunPath } from '@/finder/path'
 
@@ -85,7 +86,8 @@ function prefersReducedMotion() {
 
 function Chart({ path, inspectedId, onInspect, ref }: MapCanvasProps) {
     const { fitView } = useReactFlow()
-    const graph = useMemo(() => buildGraph(), [])
+    const dyslexic = useDyslexicFont()
+    const graph = useMemo(() => buildGraph(dyslexic), [dyslexic])
 
     useImperativeHandle(ref, () => ({
         panTo: (id) => {

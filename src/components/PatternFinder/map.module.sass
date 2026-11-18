@@ -165,7 +165,9 @@ $phone: 760px
     gap: 2px
     height: 100%
     justify-content: center
+    // React Flow turns pointer events off on nodes that are neither draggable nor selectable.
     padding: 6px 10px
+    pointer-events: all
     text-align: left
     white-space: normal
     width: 100%
@@ -188,7 +190,8 @@ $phone: 760px
     display: -webkit-box
     font-size: 12.5px
     line-clamp: 3
-    line-height: 1.25
+    // Barlow's descenders run past a tighter line box and overflow: hidden would clip them.
+    line-height: 1.4
     overflow: hidden
 
 // questions read as small caps headings, patterns as plain names
