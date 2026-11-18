@@ -1,0 +1,521 @@
+// Pattern Finder, Map mode: the chart (React Flow, restyled flat), the inspect panel and, on
+// phones, the outline. Colours, faces and radius come only from the shared --pd-* tokens.
+// React Flow's base stylesheet sits in an @layer, so these unlayered rules win without
+// specificity tricks; only its structural rules (positioning, pointer events) are kept.
+
+$phone: 760px
+
+.srOnly
+    border: 0
+    clip: rect(0 0 0 0)
+    clip-path: inset(50%)
+    height: 1px
+    margin: -1px
+    overflow: hidden
+    padding: 0
+    position: absolute
+    white-space: nowrap
+    width: 1px
+
+.label
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 13px
+    font-weight: 600
+    letter-spacing: 0.16em
+    margin: 0 0 6px
+    text-transform: uppercase
+
+
+.shell
+    background: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    display: flex
+    flex-direction: column
+    // a full page of the handbook, like the Flow card
+    height: calc(100dvh - var(--content-margin-top) - var(--finder-pad-top) - var(--content-margin-bottom))
+    min-height: 560px
+    min-width: 0
+
+    @media (max-width: $phone)
+        height: auto
+        min-height: 0
+
+.body
+    display: grid
+    flex: 1
+    grid-template-columns: minmax(0, 1fr) clamp(320px, 26vw, 420px)
+    grid-template-rows: minmax(0, 1fr)
+    min-height: 0
+
+.canvas
+    background: var(--pd-ground)
+    min-height: 0
+    min-width: 0
+    position: relative
+
+    > :global(.react-flow)
+        inset: 0
+        position: absolute
+
+
+.canvas
+    :global(.react-flow)
+        background: var(--pd-ground)
+        font-family: var(--pd-font-body)
+
+    :global(.react-flow__node)
+        cursor: pointer
+
+    :global(.react-flow__edge-path)
+        stroke: var(--pd-rule)
+        stroke-width: 1
+
+    .edgeOnPath :global(.react-flow__edge-path)
+        stroke: var(--pd-text)
+        stroke-width: 1.75
+
+    :global(.react-flow__controls)
+        border: 1px solid var(--pd-rule)
+        border-radius: var(--pd-radius)
+        box-shadow: none
+        overflow: hidden
+
+    :global(.react-flow__controls-button)
+        background: var(--pd-panel)
+        border: 0
+        border-bottom: 1px solid var(--pd-rule)
+        border-radius: 0
+        color: var(--pd-text)
+        height: 30px
+        padding: 7px
+        width: 30px
+
+        &:last-child
+            border-bottom: 0
+
+        &:hover
+            background: var(--pd-raised)
+
+        svg
+            fill: currentColor
+            max-height: 12px
+            max-width: 12px
+
+    // The React Flow credit stays, small and muted.
+    :global(.react-flow__attribution)
+        background: transparent
+        font-size: 10px
+        margin: 0
+        padding: 2px 6px
+
+        a
+            color: var(--pd-text-muted)
+
+.handle
+    border: 0
+    height: 1px
+    min-height: 0
+    min-width: 0
+    opacity: 0
+    pointer-events: none
+    width: 1px
+
+.node
+    background: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    height: 100%
+    overflow: hidden
+    width: 100%
+
+    &:hover
+        border-color: var(--pd-text-muted)
+        color: var(--pd-text)
+
+    &.leaf
+        background: var(--pd-ground)
+
+    &.onPath
+        background: var(--pd-raised)
+        border-color: var(--pd-text)
+        color: var(--pd-text)
+
+    // current: a 2px rust border (the box is fixed-size, so it eats into the padding)
+    &.current
+        background: var(--pd-raised)
+        border: 2px solid var(--pd-accent)
+        color: var(--pd-text)
+
+        .nodeTag
+            color: var(--pd-accent-text)
+
+    &.inspected
+        outline: 2px solid var(--pd-text-muted)
+        outline-offset: 3px
+
+.nodeButton
+    align-items: flex-start
+    border-radius: 0
+    color: inherit
+    display: flex
+    flex-direction: column
+    gap: 2px
+    height: 100%
+    justify-content: center
+    padding: 6px 10px
+    text-align: left
+    white-space: normal
+    width: 100%
+
+    &:focus-visible
+        outline-offset: -3px
+
+.nodeTag
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 10px
+    font-weight: 600
+    letter-spacing: 0.16em
+    line-height: 1.2
+    text-transform: uppercase
+
+.nodeText
+    -webkit-box-orient: vertical
+    -webkit-line-clamp: 3
+    display: -webkit-box
+    font-size: 12.5px
+    line-clamp: 3
+    line-height: 1.25
+    overflow: hidden
+
+// questions read as small caps headings, patterns as plain names
+.node:not(.leaf) .nodeText
+    font-family: var(--pd-font-display)
+    font-size: 13.5px
+    font-weight: 600
+    letter-spacing: 0.04em
+    text-transform: uppercase
+
+.node.leaf .nodeText
+    -webkit-line-clamp: 2
+    font-size: 13px
+    line-clamp: 2
+
+.legend
+    align-items: center
+    background: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    display: flex
+    font-family: var(--pd-font-display)
+    font-size: 11px
+    font-weight: 600
+    gap: 14px
+    letter-spacing: 0.14em
+    padding: 6px 10px
+    text-transform: uppercase
+
+    span
+        align-items: center
+        display: inline-flex
+        gap: 6px
+
+.swatch
+    background: var(--pd-panel)
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    display: inline-block
+    height: 10px
+    width: 14px
+
+.swatchLeaf
+    background: var(--pd-ground)
+
+.swatchPath
+    background: var(--pd-raised)
+    border-color: var(--pd-text)
+
+.swatchCurrent
+    border: 2px solid var(--pd-accent)
+
+
+.inspect
+    border-left: 1px solid var(--pd-rule)
+    display: flex
+    flex-direction: column
+    min-height: 0
+    min-width: 0
+    overflow-y: auto
+
+.insHead
+    align-items: center
+    background: var(--pd-raised)
+    border-bottom: 1px solid var(--pd-rule)
+    display: flex
+    justify-content: space-between
+    padding: 16px 24px
+
+    .label
+        margin: 0
+
+.insHeadTitle
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 17px
+    font-weight: 600
+    letter-spacing: 0.18em
+    text-transform: uppercase
+
+.insBody
+    display: flex
+    flex-direction: column
+    gap: 18px
+    min-width: 0
+    padding: 20px 24px 28px
+
+.insTitle
+    font-family: var(--pd-font-display)
+    font-size: 1.625rem
+    font-weight: 600
+    letter-spacing: 0.03em
+    line-height: 1.1
+    margin: 0
+    text-transform: uppercase
+    text-wrap: balance
+
+.insTitleLeaf
+    font-size: 2rem
+    font-weight: 700
+
+.insNote
+    color: var(--pd-text-muted)
+    font-size: 0.9375rem
+    margin: 0
+
+    b
+        color: var(--pd-accent-text)
+        font-weight: 500
+
+.insOptions
+    border-top: 1px solid var(--pd-rule)
+    list-style: none
+    margin: 0
+    padding: 0
+
+    > li
+        border-bottom: 1px solid var(--pd-rule)
+        column-gap: 12px
+        display: grid
+        grid-template-columns: 30px minmax(0, 1fr)
+        padding: 10px 0
+
+    // the key box is an index here, not a shortcut: smaller than in the Flow card
+    kbd
+        font-size: 14px
+        height: 28px
+        min-width: 28px
+
+    .insChosen kbd
+        border-color: var(--pd-text)
+        color: var(--pd-text)
+
+.insCue
+    font-size: 1.0625rem
+    line-height: 1.3
+
+.insTo
+    align-items: baseline
+    color: var(--pd-text-muted)
+    display: flex
+    font-size: 0.9375rem
+    gap: 6px
+    margin-top: 4px
+
+// the global `a:not([role=button])` rule does not apply: these are buttons that read as links
+.insLink
+    color: var(--pd-text)
+    display: inline
+    text-align: left
+    text-decoration: underline
+    text-decoration-color: var(--pd-rule)
+    text-decoration-thickness: 1px
+    text-underline-offset: 3px
+    white-space: normal
+
+    &:hover
+        color: var(--pd-accent-text)
+        text-decoration-color: currentColor
+
+.insLeafLink
+    font-family: var(--pd-font-display)
+    font-weight: 600
+    letter-spacing: 0.06em
+    text-transform: uppercase
+
+.insField
+    border-bottom: 1px solid var(--pd-rule)
+    border-top: 1px solid var(--pd-rule)
+    display: grid
+    gap: 16px
+    grid-template-columns: 96px minmax(0, 1fr)
+    margin: 0
+    padding: 12px 0
+
+    dt
+        color: var(--pd-text-muted)
+        font-family: var(--pd-font-display)
+        font-size: 15px
+        font-weight: 600
+        letter-spacing: 0.16em
+        padding-top: 2px
+        text-transform: uppercase
+
+    dd
+        margin: 0
+
+.insSummary
+    margin: 0
+
+.parents
+    display: flex
+    flex-direction: column
+    font-size: 0.9375rem
+    gap: 6px
+    list-style: none
+    margin: 0
+    padding: 0
+
+.parentCue
+    color: var(--pd-text-muted)
+
+
+.outlineWrap
+    padding: 8px 6px 16px
+
+.outline
+    list-style: none
+    margin: 0
+    padding: 0
+
+// each option's subtree hangs off a hairline, one indent per level
+.olOption > .outline
+    border-left: 1px solid var(--pd-rule)
+    margin-left: 6px
+    padding-left: 14px
+
+.olQuestion > details > summary,
+.olLeaf > details > summary
+    align-items: baseline
+    cursor: pointer
+    display: flex
+    gap: 10px
+    list-style: none
+    padding: 10px 8px
+
+    &::-webkit-details-marker
+        display: none
+
+    &::before
+        color: var(--pd-text-muted)
+        content: '+'
+        flex: none
+        font-family: var(--pd-font-display)
+        font-weight: 600
+        width: 10px
+
+.olQuestion > details[open] > summary::before,
+.olLeaf > details[open] > summary::before
+    content: '\2212'
+
+.olQuestion > details > summary
+    font-family: var(--pd-font-display)
+    font-size: 1.0625rem
+    font-weight: 600
+    letter-spacing: 0.04em
+    line-height: 1.2
+    text-transform: uppercase
+
+.olLeaf > details > summary
+    font-size: 1rem
+
+.olOnPath > details > summary
+    color: var(--pd-text)
+
+.olCurrent > details > summary
+    color: var(--pd-accent-text)
+
+.olOption
+    padding: 2px 0 2px 8px
+
+.olCue
+    color: var(--pd-text-muted)
+    display: block
+    font-size: 0.9375rem
+    padding: 4px 0 0 20px
+
+.olChosen > .olCue
+    color: var(--pd-text)
+
+    &::after
+        content: '  \2190 your pick'
+        font-family: var(--pd-font-display)
+        font-size: 12px
+        font-weight: 600
+        letter-spacing: 0.14em
+        text-transform: uppercase
+
+.olPattern
+    color: var(--pd-text-muted)
+    font-family: var(--pd-font-display)
+    font-size: 12px
+    font-weight: 600
+    letter-spacing: 0.14em
+    text-transform: uppercase
+
+.olLeafBody
+    display: flex
+    flex-direction: column
+    font-size: 0.9375rem
+    gap: 10px
+    min-width: 0
+    padding: 0 8px 12px 28px
+
+    p
+        margin: 0
+
+// a repeat of something written out elsewhere: a quiet pointer back to it
+.olRef button
+    align-items: baseline
+    border: 1px dashed var(--pd-rule)
+    color: var(--pd-text-muted)
+    font-size: 0.9375rem
+    gap: 12px
+    justify-content: space-between
+    margin: 6px 0
+    padding: 8px 10px
+    text-align: left
+    white-space: normal
+    width: 100%
+
+    &:hover
+        border-color: var(--pd-text-muted)
+        color: var(--pd-text)
+
+.olRefLabel
+    min-width: 0
+
+.olRefHint
+    flex: none
+    font-family: var(--pd-font-display)
+    font-size: 12px
+    font-weight: 600
+    letter-spacing: 0.14em
+    text-transform: uppercase
+
+@media (prefers-reduced-motion: no-preference)
+    .node, .insLink, .olRef button
+        transition: background-color 120ms ease-out, border-color 120ms ease-out, color 120ms ease-out

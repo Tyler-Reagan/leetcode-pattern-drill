@@ -7,6 +7,8 @@ import useCountdown from './useCountdown'
 export const BUDGET_SECONDS = 30
 export const WARN_SECONDS = 10
 
+export type FinderMode = 'flow' | 'map'
+
 export interface Step {
     question: string
     option: FinderOption
@@ -27,14 +29,14 @@ export function formatClock(totalSeconds: number) {
     return `${Math.floor(seconds / 60)}:${pad(seconds % 60)}`
 }
 
-// One drill run: the countdown, the answered steps and the keyboard. Keys: Enter starts,
-// 1-9 picks an option, Backspace backtracks one step, T toggles the template on a result,
-// Escape resets.
+// Keys: Enter starts, 1-9 picks, Backspace backtracks, T toggles the template, Escape resets, M
+// switches mode. Map mode ignores all but M: a reset there would discard the paused run unseen.
 export default function useFinderRun() {
     const clock = useCountdown(BUDGET_SECONDS * 1000)
     const [started, setStarted] = useState(false)
     const [steps, setSteps] = useState<Step[]>([])
     const [showTemplate, setShowTemplate] = useState(false)
+    const [mode, setModeState] = useState<FinderMode>('flow')
     const stageRef = useRef<HTMLHeadingElement>(null)
 
     const currentId = steps.length > 0 ? steps[steps.length - 1].option.next : tree.rootId
@@ -44,7 +46,7 @@ export default function useFinderRun() {
     // Option buttons unmount on every step, so hand focus to the new heading.
     useEffect(() => {
         stageRef.current?.focus()
-    }, [started, currentId])
+    }, [started, currentId, mode])
 
     const start = useCallback(() => {
         setStarted(true)
@@ -70,6 +72,18 @@ export default function useFinderRun() {
 
     const toggleTemplate = useCallback(() => setShowTemplate((prev) => !prev), [])
 
+    // Map pauses the clock and keeps the run. Flow resumes it only for a run that has started
+    // and not yet reached a result; a run that never started never gets a clock from here.
+    const setMode = useCallback((next: FinderMode) => {
+        if (next === mode) return
+        setModeState(next)
+        if (!started || leaf) return
+        if (next === 'map') clock.stop()
+        else clock.resume()
+    }, [mode, started, leaf, clock])
+
+    const toggleMode = useCallback(() => setMode(mode === 'flow' ? 'map' : 'flow'), [setMode, mode])
+
     const reset = useCallback(() => {
         clock.reset()
         setStarted(false)
@@ -82,6 +96,9 @@ export default function useFinderRun() {
             if (event.metaKey || event.ctrlKey || event.altKey) return
             const target = event.target as HTMLElement | null
             if (target && isFormControl(target)) return
+
+            if (event.key === 'm' || event.key === 'M') return event.repeat ? undefined : toggleMode()
+            if (mode !== 'flow') return
 
             if (event.key === 'Escape') return reset()
             if (event.key === 'Backspace' && started && steps.length > 0) {
@@ -98,14 +115,18 @@ export default function useFinderRun() {
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
-    }, [started, steps.length, node, leaf, pick, backtrack, reset, start, toggleTemplate])
+    }, [mode, started, steps.length, node, leaf, pick, backtrack, reset, start, toggleTemplate, toggleMode])
 
     const remainingSeconds = Math.max(0, Math.ceil(clock.remainingMs / 1000))
 
     return {
         budget: BUDGET_SECONDS,
+        mode,
+        setMode,
+        toggleMode,
         started,
         steps,
+        currentId,
         node,
         leaf,
         isOvertime: clock.isOvertime,

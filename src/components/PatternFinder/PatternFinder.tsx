@@ -1,20 +1,24 @@
 import styles from './patternfinder.module.sass'
 
-import type { ReactNode } from 'react'
+import { lazy, Suspense, type ReactNode } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
-import { getTemplates } from '@/finder/templates'
 import type { Leaf, TreeNode } from '@/finder/types'
 
 import clsx from '@utils/clsx'
-import Tabs from '@components/Tabs/Tabs'
-import { LANGUAGES } from '@components/Language/LanguageProvider'
+import PathLog from './PathLog'
+import { Kbd, ModeSwitch, Templates } from './shared'
 import useFinderRun, { formatClock, type FinderRun } from './useFinderRun'
+
+// React Flow and dagre are heavy and only the Map needs them, so the Map loads on demand.
+// Phones get the outline instead and never fetch the chart.
+const MapView = lazy(() => import('./MapView'))
+const MapOutline = lazy(() => import('./MapOutline'))
 
 type Tone = 'idle' | 'ok' | 'warn' | 'over'
 
-function Kbd({ children }: { children: ReactNode }) {
-    return <kbd className={styles.kbd} aria-hidden="true">{children}</kbd>
-}
+// Same breakpoint as the $phone in patternfinder.module.sass.
+const PHONE_QUERY = { maxWidth: 760 }
 
 // Every character of the clock sits in its own fixed cell, so the digits never reflow.
 // The first cell is reserved for the overtime sign.
@@ -73,8 +77,9 @@ function RunClock({ run }: { run: FinderRun }) {
     )
 }
 
-// The path as a quiet station line: a muted dot per answered cue (a button that backtracks to
-// that question), one accent dot for where you are, and a dashed tail to a hollow end dot.
+// The path on a phone, as a quiet row of dots: a muted dot per answered cue (a button that
+// backtracks to that question), one accent dot for where you are, and a dashed tail to a hollow
+// end dot. Wider screens get the path log instead.
 function StationLine({ run }: { run: FinderRun }) {
     const { started, steps, leaf, node } = run
     const broken = started && !leaf && !node
@@ -145,7 +150,10 @@ function Strip({ label, value, run }: { label: string; value: string; run: Finde
             <p className={styles.stripTitle}>
                 {label}<span className={styles.stripValue}>{value}</span>
             </p>
-            <RunClock run={run} />
+            <div className={styles.stripEnd}>
+                <ModeSwitch mode={run.mode} onMode={run.setMode} />
+                <RunClock run={run} />
+            </div>
         </header>
     )
 }
@@ -171,43 +179,23 @@ function Footer({ run }: { run: FinderRun }) {
     )
 }
 
-function DocsLink({ leaf }: { leaf: Leaf }) {
+// Holds the Map's place while its chunk loads, so the switch does not jump.
+function MapFallback({ run }: { run: FinderRun }) {
     return (
-        <a className={styles.docsLink} href={leaf.docsUrl} target="_blank" rel="noreferrer">
-            Read the docs for this pattern
-        </a>
-    )
-}
-
-function Templates({ leaf }: { leaf: Leaf }) {
-    const templates = getTemplates(leaf.id)
-
-    if (templates.length === 0) {
-        return (
-            <div className={clsx(styles.templates, styles.note)}>
-                <p><strong>No template yet</strong> for this pattern variant.</p>
-                <p>{leaf.summary}</p>
-                <DocsLink leaf={leaf} />
-            </div>
-        )
-    }
-
-    return (
-        <div className={styles.templates}>
-            {templates.map((entry, index) => (
-                <Tabs key={`${leaf.id}-${index}`} title={entry.title}>
-                    {LANGUAGES.map((language) => (
-                        <Tabs.Tab key={language} language={language} code={entry.code[language]} />
-                    ))}
-                </Tabs>
-            ))}
-            <DocsLink leaf={leaf} />
-        </div>
+        <section className={clsx(styles.card, styles.mapFallback)} aria-label="Map" aria-busy="true">
+            <header className={styles.strip}>
+                <p className={styles.stripTitle}>Map<span className={styles.stripValue}>Loading</span></p>
+                <div className={styles.stripEnd}>
+                    <ModeSwitch mode={run.mode} onMode={run.setMode} />
+                </div>
+            </header>
+        </section>
     )
 }
 
 export default function PatternFinder() {
     const run = useFinderRun()
+    const isPhone = useMediaQuery(PHONE_QUERY)
 
     const renderIdle = () => (
         <>
@@ -315,9 +303,19 @@ export default function PatternFinder() {
     else if (run.node) stage = renderQuestion(run.node)
     else stage = renderBroken()
 
+    if (run.mode === 'map') {
+        return (
+            <div className={clsx(styles.finder, styles.mapMode)}>
+                <Suspense fallback={<MapFallback run={run} />}>
+                    {isPhone ? <MapOutline run={run} /> : <MapView run={run} />}
+                </Suspense>
+            </div>
+        )
+    }
+
     return (
         <div className={styles.finder}>
-            <StationLine run={run} />
+            {isPhone ? <StationLine run={run} /> : <PathLog run={run} />}
             <section className={styles.card} aria-label="Procedure">
                 {stage}
             </section>

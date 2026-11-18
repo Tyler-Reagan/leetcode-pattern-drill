@@ -32,3 +32,15 @@ The 30 seconds a drill run is meant to fit within. Going past it is overtime; it
 
 **Backtrack**
 Returning to the previous question in a drill run. The clock keeps running.
+
+**Path log**
+The wide left column of the Flow view: one ruled row per answered check (step number, the question, the cue picked). Each row backtracks to that check. In code: `PathLog.tsx`, `styles.log`. On phones it gives way to the station-line dots row.
+
+**Flow mode**
+The default view of the pattern finder: the countdown, the question card and the path log. Keys work here (1-9, Enter, Backspace, Escape). In code: `mode === 'flow'` (`FinderMode` in `useFinderRun.ts`).
+
+**Map mode**
+The second view of the pattern finder, reached with the Flow | Map switch or key M. It shows every check and pattern as one chart with the run's path highlighted. Map mode pauses the clock and keeps the run; returning to Flow resumes it. Entering Map from idle never starts a clock. In code: `mode === 'map'`, rendered by `MapView.tsx` (desktop) and `MapOutline.tsx` (phones), with the chart in `MapCanvas.tsx` and the layout in `finder/graph.ts`.
+
+**Inspect**
+The read-only side panel in Map mode. It shows the check or pattern selected on the map: its options and where each leads, or a pattern's templates. Inspecting never answers a question and has no clock. In code: `Inspect` in `MapView.tsx`.
