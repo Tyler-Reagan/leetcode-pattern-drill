@@ -7,9 +7,6 @@ import type { FinderRun } from './useFinderRun'
 
 const pad = (n: number) => String(n).padStart(2, '0')
 
-// The path as a ruled text log: a row per answered check (number, the question in small muted
-// caps, the cue you picked), each one a button that backtracks to that check; then the live
-// row, a dashed placeholder for the next check, or, at a result, the pattern that ends the log.
 export default function PathLog({ run }: { run: FinderRun }) {
     const { started, steps, leaf, node } = run
     const at = steps.length + 1

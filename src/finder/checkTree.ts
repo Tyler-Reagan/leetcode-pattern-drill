@@ -143,9 +143,7 @@ if (isNode(rootId)) walk(rootId, [])
 for (const id of Object.keys(nodes)) if (!reachedNodes.has(id)) fail(`node "${id}" is unreachable from the root`)
 for (const id of Object.keys(leaves)) if (!reachedLeaves.has(id)) fail(`leaf "${id}" is unreachable from the root`)
 
-// The Map view draws the graph built from the tree: every node and leaf must be in it exactly
-// once, every option must be an edge, every leaf must be reachable by an edge, and the layout
-// must give every box a finite, non-overlapping place.
+// The Map draws this graph: it must mirror the tree and lay every box out without overlap.
 const graph = buildGraph()
 {
     const graphIds = new Map<string, number>()

@@ -29,10 +29,8 @@ export function formatClock(totalSeconds: number) {
     return `${Math.floor(seconds / 60)}:${pad(seconds % 60)}`
 }
 
-// One drill run: the countdown, the answered steps and the keyboard. Keys in Flow mode: Enter
-// starts, 1-9 picks an option, Backspace backtracks one step, T toggles the template on a
-// result, Escape resets. M switches between Flow and Map in either mode; Map mode ignores the
-// rest, Escape included, because a reset there would discard the paused run out of sight.
+// Keys: Enter starts, 1-9 picks, Backspace backtracks, T toggles the template, Escape resets, M
+// switches mode. Map mode ignores all but M: a reset there would discard the paused run unseen.
 export default function useFinderRun() {
     const clock = useCountdown(BUDGET_SECONDS * 1000)
     const [started, setStarted] = useState(false)

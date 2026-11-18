@@ -16,6 +16,7 @@ import {
 } from '@xyflow/react'
 
 import { buildGraph } from '@/finder/graph'
+import { tree } from '@/finder/tree'
 import type { RunPath } from '@/finder/path'
 
 import clsx from '@utils/clsx'
@@ -34,8 +35,7 @@ interface MapNodeData extends Record<string, unknown> {
 
 type MapNodeType = Node<MapNodeData, 'question' | 'leaf'>
 
-// A flat box with a button inside: the button is the keyboard and screen-reader way in, so the
-// node wrappers themselves stay out of the tab order.
+// The button inside is the keyboard way in: React Flow's own node selection never fires onNodeClick.
 function MapNode({ data }: NodeProps<MapNodeType>) {
     const isLeaf = data.kind === 'leaf'
     const where = isLeaf ? 'pattern' : 'check'
@@ -69,7 +69,6 @@ function MapNode({ data }: NodeProps<MapNodeType>) {
 const nodeTypes = { question: MapNode, leaf: MapNode }
 
 export interface MapCanvasHandle {
-    /** Pan and zoom the map to one node. */
     panTo: (id: string) => void
 }
 
@@ -139,10 +138,10 @@ function Chart({ path, inspectedId, onInspect, ref }: MapCanvasProps) {
             nodeTypes={nodeTypes}
             fitView
             fitViewOptions={{ padding: 0.06 }}
-            // Open on the current check at a readable size; the Fit control zooms out to the whole tree.
+            // Opening fitted to the whole tree is unreadable, so start on the current check.
             onInit={(instance) => {
                 requestAnimationFrame(() => {
-                    instance.fitView({ nodes: [{ id: path.currentId }], maxZoom: 0.9, padding: 0.4 })
+                    instance.fitView({ nodes: [{ id: path.currentId ?? tree.rootId }], maxZoom: 0.9, padding: 0.4 })
                 })
             }}
             minZoom={0.15}

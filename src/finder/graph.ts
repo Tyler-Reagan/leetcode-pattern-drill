@@ -1,8 +1,5 @@
-/**
- * The decision tree as a laid-out graph for the Map view. The tree is a DAG (several questions
- * can lead to the same question or pattern), so nodes are keyed by id and an edge is stored once
- * per distinct source and target pair. Pure data: no React, no DOM.
- */
+// The tree is a DAG: several options can lead to the same node, so an edge is stored once per
+// source and target pair while `parents` keeps every option.
 import dagre from '@dagrejs/dagre'
 
 import { edgeKey } from './path'
@@ -16,11 +13,9 @@ export const LEAF_HEIGHT = 50
 export interface GraphNode {
     id: string
     kind: 'question' | 'leaf'
-    /** The question text, or the pattern name for a leaf. */
     label: string
-    /** The pattern family of a leaf; empty for a question. */
     pattern: string
-    /** Top-left corner, ready for React Flow. */
+    /** Top-left corner: dagre gives centres, React Flow wants corners. */
     x: number
     y: number
     width: number
@@ -33,7 +28,6 @@ export interface GraphEdge {
     target: string
 }
 
-/** One option of `from` that leads to a node: `index` is the option's position in that question. */
 export interface Parent {
     from: string
     index: number

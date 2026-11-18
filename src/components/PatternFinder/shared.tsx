@@ -10,14 +10,12 @@ import Tabs from '@components/Tabs/Tabs'
 import { LANGUAGES } from '@components/Language/LanguageProvider'
 import type { FinderMode, FinderRun } from './useFinderRun'
 
-// Pieces the Flow card and the Map views both draw, kept apart from PatternFinder.tsx so the
-// lazy-loaded map can import them without importing the card that loads it.
+// Not in PatternFinder.tsx: the lazy map would otherwise import the card that loads it.
 
 export function Kbd({ children }: { children: ReactNode }) {
     return <kbd className={styles.kbd} aria-hidden="true">{children}</kbd>
 }
 
-// Flow | Map. Both buttons stay in the tab order; aria-pressed carries the state.
 export function ModeSwitch({ mode, onMode }: { mode: FinderMode; onMode: (mode: FinderMode) => void }) {
     return (
         <div className={styles.seg} role="group" aria-label="View" aria-keyshortcuts="M">
@@ -71,14 +69,12 @@ export function Templates({ leaf }: { leaf: Leaf }) {
     )
 }
 
-// The Map has no clock; this muted line says where the paused run stands instead.
 function mapStatus(run: FinderRun): ReactNode {
     if (!run.started) return <>No run, <b>clock not started</b></>
     if (run.leaf) return <>Run complete, <b>{run.leaf.name}</b></>
     return <>Run paused, <b>check {run.steps.length + 1}</b></>
 }
 
-// The card strip both Map views open with: title and size, run status, the Flow | Map switch.
 export function MapStrip({ run, detail }: { run: FinderRun; detail: string }) {
     return (
         <header className={styles.strip}>

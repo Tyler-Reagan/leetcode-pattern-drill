@@ -2,7 +2,7 @@ import styles from './map.module.sass'
 
 import { useEffect, useMemo, useState } from 'react'
 
-import { runPath, type RunPath } from '@/finder/path'
+import { pickedIndex, runPath, type RunPath } from '@/finder/path'
 import { tree } from '@/finder/tree'
 import type { Leaf } from '@/finder/types'
 
@@ -10,10 +10,8 @@ import clsx from '@utils/clsx'
 import { MapStrip, Templates } from './shared'
 import type { FinderRun, Step } from './useFinderRun'
 
-// The tree is a DAG: a question or pattern can be reached from several options. Each id is
-// written out in full once, at its "home" option; every other option that leads to it gets a
-// short "see above" button, so the outline stays about as long as the tree has nodes. A node on
-// the run's path is always at home on the path, so the path reads as one unbroken trail.
+// The tree is a DAG: each node is written out once, at its "home" option, and every other option
+// leading to it gets a "jump to" button. A node on the run's path is always at home on the path.
 const optionKey = (from: string, index: number) => `${from}#${index}`
 const anchorId = (id: string) => `outline-${id}`
 
@@ -21,8 +19,7 @@ function findHomes(path: RunPath, steps: Step[]) {
     const homes = new Map<string, string>([[tree.rootId, '']])
     steps.forEach((step, index) => {
         const from = path.ids[index]
-        const at = tree.nodes[from].options.findIndex((option) => option.cue === step.option.cue)
-        homes.set(step.option.next, optionKey(from, at))
+        homes.set(step.option.next, optionKey(from, pickedIndex(from, step)))
     })
 
     const visited = new Set<string>()
@@ -40,7 +37,6 @@ function findHomes(path: RunPath, steps: Step[]) {
     return homes
 }
 
-// Open every details element around the target, then bring it into view and focus its summary.
 function revealOutline(id: string) {
     const target = document.getElementById(anchorId(id))
     if (!target) return
@@ -94,7 +90,7 @@ function Item({ id, via, depth, path, homes, chosen }: ItemProps) {
             <li className={styles.olRef}>
                 <button type="button" onClick={() => revealOutline(id)}>
                     <span className={styles.olRefLabel}>{label}</span>
-                    <span className={styles.olRefHint}>See above</span>
+                    <span className={styles.olRefHint}>Jump to</span>
                 </button>
             </li>
         )
@@ -129,8 +125,6 @@ function Item({ id, via, depth, path, homes, chosen }: ItemProps) {
     )
 }
 
-// Map mode on a phone: the same tree as a collapsible, indented outline instead of a chart.
-// The path starts open; everything else is a tap away.
 export default function MapOutline({ run }: { run: FinderRun }) {
     const { stageRef } = run
     const path = useMemo(() => runPath(run.started, run.steps), [run.started, run.steps])
@@ -138,7 +132,7 @@ export default function MapOutline({ run }: { run: FinderRun }) {
     const chosen = useMemo(() => {
         const picks: Record<string, number> = {}
         run.steps.forEach((step, index) => {
-            picks[path.ids[index]] = tree.nodes[path.ids[index]].options.findIndex((option) => option.cue === step.option.cue)
+            picks[path.ids[index]] = pickedIndex(path.ids[index], step)
         })
         return picks
     }, [run.steps, path])

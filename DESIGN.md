@@ -221,7 +221,7 @@ Map mode draws the whole tree left to right (dagre, `LR`) on a Slate Ground canv
 - **Edges:** smoothstep lines in Green Rule at 1px; path edges are Bone at 1.75px and sit above the others.
 - **Legend:** a top-left panel of four swatches (Check, Pattern, Your path, Current) on Slate Panel, marked `aria-hidden` because the nodes carry their own text.
 - **Inspect panel:** a Slate Panel column beside the chart with the selected check's options and destinations, or a pattern's templates. It has no clock.
-- **Phones:** the chart is replaced by an outline: each check or pattern written once in full, other routes to it as short "see above" buttons.
+- **Phones:** the chart is replaced by an outline: each check or pattern written once in full, other routes to it as short "jump to" buttons.
 
 ### Timer
 Fixed-width boxed digit cells, M:SS, never reflowing. Idle and OK states use Bone; the warning stretch turns cells and caption Amber; overtime turns them Coral and shows a sign cell, with the cell border changing as well as the text.

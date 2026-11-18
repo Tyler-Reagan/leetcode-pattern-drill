@@ -1,21 +1,19 @@
-/**
- * The route a run has taken through the tree, for the Map views to highlight. Pure data, kept
- * apart from graph.ts so the phone outline does not pull in the dagre layout.
- */
+// Kept apart from graph.ts so the phone outline does not pull in dagre.
 import { tree } from './tree'
 
 export const edgeKey = (source: string, target: string) => `${source}>${target}`
 
-/** The route a run has taken: ids from the root to where it stands, and the edges between them. */
 export interface RunPath {
-    /** Root first, current stop last. Empty before the run starts. */
     ids: string[]
     edgeKeys: Set<string>
-    /** 1-based step number of every question that has been answered. */
+    /** 1-based step number of every answered question. */
     stepOf: Record<string, number>
-    /** The question or pattern the run is at, or null before it starts. */
+    /** Null before the run starts. */
     currentId: string | null
 }
+
+export const pickedIndex = (questionId: string, step: { option: { cue: string } }) =>
+    tree.nodes[questionId].options.findIndex((option) => option.cue === step.option.cue)
 
 export function runPath(started: boolean, steps: { option: { next: string } }[]): RunPath {
     if (!started) return { ids: [], edgeKeys: new Set(), stepOf: {}, currentId: null }
