@@ -21,7 +21,7 @@
 
 ## Stack
 
-- [ ] **Stack, matching** (stack-matching). [docs](https://resources.devweekends.com/dsa-patterns/stack)
+- [ ] **Stack, matching and undo** (stack-matching). [docs](https://resources.devweekends.com/dsa-patterns/stack)
 
 ## Queue
 
@@ -43,7 +43,7 @@
 
 ## Backtracking
 
-- [ ] **Backtracking with pruning** (backtracking-pruning). [docs](https://resources.devweekends.com/dsa-patterns/backtracking)
+- [ ] **Backtracking, pruning** (backtracking-pruning). [docs](https://resources.devweekends.com/dsa-patterns/backtracking)
 
 ## Dynamic Programming
 

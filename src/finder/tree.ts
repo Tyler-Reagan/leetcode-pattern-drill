@@ -15,7 +15,7 @@ export const tree: FinderTree = {
                 { cue: 'a binary tree or BST', next: 'q-tree' },
                 { cue: 'a graph, grid, edges, or prerequisites', next: 'q-graph' },
                 { cue: 'a data stream, or a design-a-class prompt', next: 'q-design' },
-                { cue: 'just an integer n, or bit operations', next: 'q-number' },
+                { cue: 'an integer n, or bit tricks (single number, XOR)', next: 'q-number' },
             ],
         },
 
@@ -28,7 +28,8 @@ export const tree: FinderTree = {
                 { cue: 'searching a sorted array, or the min/max value that works', next: 'q-search' },
                 { cue: 'the next greater or smaller element of each item', next: 'q-mono' },
                 { cue: 'counts, duplicates, top K, brackets, words', next: 'q-lookup' },
-                { cue: 'choices over elements (all combos, best or count of ways, intervals)', next: 'q-choices' },
+                { cue: 'choices over elements (all combos, best or count of ways)', next: 'q-choices' },
+                { cue: 'intervals (merge, overlaps, meeting rooms)', next: 'sort-first' },
             ],
         },
         'q-subarray': {
@@ -39,7 +40,7 @@ export const tree: FinderTree = {
                 { cue: 'longest or shortest window that meets a rule', next: 'q-window-variable' },
                 { cue: 'count subarrays with exactly K distinct or odd', next: 'sliding-window-exactly-k' },
                 { cue: 'a subarray sum equal to K, or range-sum queries', next: 'q-prefix' },
-                { cue: 'maximum-sum subarray of any length', next: 'dp-kadane' },
+                { cue: 'maximum sum subarray of any length', next: 'dp-kadane' },
                 { cue: 'max or min inside each size-K window', next: 'monotonic-deque' },
             ],
         },
@@ -63,8 +64,7 @@ export const tree: FinderTree = {
             id: 'q-pointers',
             question: 'What are the pointers doing?',
             options: [
-                { cue: 'a pair or triplet in a sorted array (sums to X)', next: 'two-pointers-converging' },
-                { cue: 'palindrome or in-place reversal (container with most water)', next: 'two-pointers-converging' },
+                { cue: 'ends moving inward (3Sum, palindrome, reverse, container with most water)', next: 'two-pointers-converging' },
                 { cue: 'two arrays or strings (merge sorted, is subsequence)', next: 'two-pointers-two-inputs' },
                 { cue: 'in-place rewrite (remove duplicates, move zeroes, partition)', next: 'two-pointers-fast-slow-inplace' },
                 { cue: 'two numbers in an unsorted array (sum to X, return indices)', next: 'hashmap-frequency' },
@@ -99,7 +99,7 @@ export const tree: FinderTree = {
                 { cue: 'matching or nesting (parentheses, expressions, simplify path)', next: 'stack-matching' },
                 { cue: 'prefix lookups over a word list (autocomplete)', next: 'trie' },
                 { cue: 'building an output string (reverse words, compress, join)', next: 'string-building' },
-                { cue: 'bit tricks (single number among pairs, XOR, count set bits)', next: 'bit-manipulation' },
+                { cue: 'bit tricks (single number among pairs, XOR)', next: 'bit-manipulation' },
             ],
         },
         'q-choices': {
@@ -109,7 +109,6 @@ export const tree: FinderTree = {
                 { cue: 'generate every subset, permutation, or combination', next: 'q-backtrack' },
                 { cue: 'best cost, or number of ways, over the choices', next: 'q-dp' },
                 { cue: 'locally best move each step (jump game, gas station)', next: 'greedy' },
-                { cue: 'intervals (merge, overlaps, meeting rooms)', next: 'sort-first' },
             ],
         },
         'q-backtrack': {
@@ -124,7 +123,6 @@ export const tree: FinderTree = {
             id: 'q-dp',
             question: 'What do the choices look like?',
             options: [
-                { cue: 'maximum sum subarray', next: 'dp-kadane' },
                 { cue: 'reusable items (min coins, ways to make X)', next: 'dp-unbounded-knapsack' },
                 { cue: 'each item used once (partition equal subset, target sum)', next: 'dp-01-knapsack' },
                 { cue: 'one or two sequences (LIS, LCS, edit distance)', next: 'dp-sequences' },
@@ -165,10 +163,10 @@ export const tree: FinderTree = {
             id: 'q-graph',
             question: 'What does it ask about the graph or grid?',
             options: [
-                { cue: 'explore everything (islands, components, all paths, cycle)', next: 'graph-dfs' },
+                { cue: 'explore everything (islands, components, all paths)', next: 'graph-dfs' },
                 { cue: 'shortest path or minimum steps', next: 'q-shortest' },
-                { cue: 'ordering with prerequisites (course schedule, valid order)', next: 'topological-sort' },
-                { cue: 'same-group checks (merge sets, redundant connection)', next: 'union-find' },
+                { cue: 'ordering with prerequisites (course schedule, directed cycle)', next: 'topological-sort' },
+                { cue: 'same-group checks (redundant connection, undirected cycle)', next: 'union-find' },
                 { cue: 'minimum cost to connect all points', next: 'mst' },
                 { cue: 'grid moving right or down (count paths, min path sum)', next: 'q-dp' },
             ],
@@ -192,7 +190,6 @@ export const tree: FinderTree = {
                 { cue: 'moving average, recent calls, circular queue', next: 'queue-design' },
                 { cue: 'implement Trie, add and search words', next: 'trie' },
                 { cue: 'min stack, undo, browser history', next: 'stack-matching' },
-                { cue: 'sliding window maximum', next: 'monotonic-deque' },
             ],
         },
 
@@ -200,7 +197,7 @@ export const tree: FinderTree = {
             id: 'q-number',
             question: 'What does it ask about n?',
             options: [
-                { cue: 'power of two, count set bits, XOR tricks', next: 'bit-manipulation' },
+                { cue: 'bit tricks (power of two, set bits, single number, XOR)', next: 'bit-manipulation' },
                 { cue: 'nth term from earlier terms (climb n stairs)', next: 'q-dp' },
                 { cue: 'integer square root (largest x with x*x <= n)', next: 'binary-search-answer-maximize' },
                 { cue: 'guess the number in 1..n', next: 'binary-search-classic' },
@@ -366,7 +363,7 @@ export const tree: FinderTree = {
         },
         'stack-matching': {
             id: 'stack-matching',
-            name: 'Stack, matching',
+            name: 'Stack, matching and undo',
             pattern: 'Stack',
             summary:
                 'Brackets, expression evaluation, path simplification, undo. Push openings or state; pop when the matching close or reversal arrives.',
@@ -375,7 +372,7 @@ export const tree: FinderTree = {
         },
         'monotonic-stack-increasing': {
             id: 'monotonic-stack-increasing',
-            name: 'Monotonic increasing stack',
+            name: 'Monotonic stack, increasing',
             pattern: 'Monotonic Stack',
             summary:
                 'Next/previous smaller element, largest rectangle in histogram. Keep the stack increasing; a smaller arrival pops and resolves the taller entries.',
@@ -384,7 +381,7 @@ export const tree: FinderTree = {
         },
         'monotonic-stack-decreasing': {
             id: 'monotonic-stack-decreasing',
-            name: 'Monotonic decreasing stack',
+            name: 'Monotonic stack, decreasing',
             pattern: 'Monotonic Stack',
             summary:
                 'Next/previous greater element, daily temperatures, stock span. Keep the stack decreasing; a larger arrival pops and resolves the smaller entries.',
@@ -505,13 +502,13 @@ export const tree: FinderTree = {
             name: 'Graph DFS',
             pattern: 'DFS',
             summary:
-                'Islands, connected components, all paths, cycle detection, clone graph. Explore fully from each unvisited node, marking visited.',
+                'Islands, connected components, all paths, clone graph. Explore fully from each unvisited node, marking visited.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dfs',
             templateIds: ['graph-dfs-recursive', 'graph-dfs-iterative'],
         },
         'graph-bfs-shortest-path': {
             id: 'graph-bfs-shortest-path',
-            name: 'BFS, shortest path',
+            name: 'Graph BFS, shortest path',
             pattern: 'BFS',
             summary:
                 'Fewest steps in an unweighted graph or grid. BFS from the start; the level at which you reach the target is the distance.',
@@ -529,7 +526,7 @@ export const tree: FinderTree = {
         },
         'shortest-path-weighted': {
             id: 'shortest-path-weighted',
-            name: 'Weighted shortest path',
+            name: 'Shortest path, weighted',
             pattern: 'Graph Algorithms',
             summary:
                 'Shortest path with edge weights. Dijkstra (min-heap) for non-negative weights; Bellman-Ford for negatives or at most K edges.',
@@ -547,10 +544,10 @@ export const tree: FinderTree = {
         },
         'union-find': {
             id: 'union-find',
-            name: 'Union Find',
+            name: 'Union-find',
             pattern: 'Union Find',
             summary:
-                'Are two items in the same group, merging groups, redundant edges. Keep a parent array with path compression and union by rank.',
+                'Are two items in the same group, merging groups, redundant edges (undirected cycles). Keep a parent array with path compression and union by rank.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/union-find',
             templateIds: ['ds-union-find', 'ds-union-find-optimized'],
         },
@@ -575,7 +572,7 @@ export const tree: FinderTree = {
         },
         'backtracking-pruning': {
             id: 'backtracking-pruning',
-            name: 'Backtracking with pruning',
+            name: 'Backtracking, pruning',
             pattern: 'Backtracking',
             summary:
                 'Constraint puzzles like N-Queens, Sudoku, word search. Backtrack, but reject a partial choice as soon as it breaks a constraint.',
