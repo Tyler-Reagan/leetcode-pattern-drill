@@ -3,6 +3,7 @@
  * Run with: npx --yes tsx src/finder/checkTree.ts
  */
 import { buildGraph } from './graph'
+import { ALL as PARETO } from '../pareto/problems'
 import { edgeKey } from './path'
 import { tree } from './tree'
 
@@ -95,14 +96,39 @@ for (const [key, node] of Object.entries(nodes)) {
     }
 }
 
+const problemsByLc = new Map<number, { name: string; slug: string }>()
 for (const [key, leaf] of Object.entries(leaves)) {
     if (leaf.id !== key) fail(`leaf key "${key}" has id "${leaf.id}"`)
     if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(key)) fail(`leaf id "${key}" is not kebab-case`)
     for (const field of ['name', 'pattern', 'summary', 'docsUrl'] as const) {
         if (!leaf[field].trim()) fail(`leaf "${key}" has empty ${field}`)
     }
+    if (leaf.problems.length === 0) fail(`leaf "${key}" lists no common problems`)
+    const seenLc = new Set<number>()
+    for (const problem of leaf.problems) {
+        if (seenLc.has(problem.lc)) fail(`leaf "${key}" lists LC ${problem.lc} twice`)
+        seenLc.add(problem.lc)
+        if (!problem.name.trim()) fail(`leaf "${key}" LC ${problem.lc} has an empty name`)
+        if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(problem.slug)) fail(`leaf "${key}" LC ${problem.lc} slug "${problem.slug}" is not kebab-case`)
+        const known = problemsByLc.get(problem.lc)
+        if (known && (known.name !== problem.name || known.slug !== problem.slug)) {
+            fail(`LC ${problem.lc} is listed with different names or slugs: "${known.name}" vs "${problem.name}"`)
+        }
+        problemsByLc.set(problem.lc, problem)
+    }
     if (!leaf.docsUrl.startsWith('https://resources.devweekends.com/dsa-patterns/')) {
         fail(`leaf "${key}" docsUrl is not a devweekends dsa-patterns page: ${leaf.docsUrl}`)
+    }
+}
+
+// Every Pareto problem should be an example on at least one leaf, under the same name and slug.
+{
+    const listed = new Map<number, { name: string; slug: string }>()
+    for (const leaf of Object.values(leaves)) for (const q of leaf.problems) listed.set(q.lc, q)
+    for (const q of PARETO) {
+        const got = listed.get(q.lc)
+        if (!got) fail(`Pareto problem LC ${q.lc} "${q.name}" is not an example on any leaf`)
+        else if (got.name !== q.name || got.slug !== q.slug) fail(`LC ${q.lc} differs from the Pareto set: "${got.name}"/${got.slug} vs "${q.name}"/${q.slug}`)
     }
 }
 

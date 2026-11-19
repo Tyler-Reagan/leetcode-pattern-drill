@@ -3,6 +3,7 @@ import styles from './patternfinder.module.sass'
 import type { ReactNode } from 'react'
 
 import { getTemplates } from '@/finder/templates'
+import { ALL as PARETO } from '@/pareto/problems'
 import type { Leaf } from '@/finder/types'
 
 import clsx from '@utils/clsx'
@@ -42,6 +43,30 @@ export function DocsLink({ leaf }: { leaf: Leaf }) {
     )
 }
 
+const PARETO_LC = new Set(PARETO.map((q) => q.lc))
+
+export function CommonProblems({ leaf }: { leaf: Leaf }) {
+    return (
+        <div className={styles.commonProblems}>
+            <h4>Common problems <span>examples, not the full set</span></h4>
+            <ul>
+                {leaf.problems.map((problem) => (
+                    <li key={problem.lc}>
+                        <a href={`https://leetcode.com/problems/${problem.slug}/`} target="_blank" rel="noreferrer">
+                            {problem.name}
+                        </a>
+                        {problem.loose && <span className={styles.commonProblemsLoose} title="A looser fit for this pattern">*</span>}
+                        <span className={styles.commonProblemsNum}>LC {problem.lc}{PARETO_LC.has(problem.lc) && ' · Pareto'}</span>
+                    </li>
+                ))}
+            </ul>
+            {leaf.problems.some((problem) => problem.loose) && (
+                <p className={styles.commonProblemsNote}>* a looser fit: the pattern works, but most people reach for another one first</p>
+            )}
+        </div>
+    )
+}
+
 export function Templates({ leaf }: { leaf: Leaf }) {
     const templates = getTemplates(leaf.id)
 
@@ -50,6 +75,7 @@ export function Templates({ leaf }: { leaf: Leaf }) {
             <div className={clsx(styles.templates, styles.note)}>
                 <p><strong>No template yet</strong> for this pattern variant.</p>
                 <p>{leaf.summary}</p>
+                <CommonProblems leaf={leaf} />
                 <DocsLink leaf={leaf} />
             </div>
         )
@@ -64,6 +90,7 @@ export function Templates({ leaf }: { leaf: Leaf }) {
                     ))}
                 </Tabs>
             ))}
+            <CommonProblems leaf={leaf} />
             <DocsLink leaf={leaf} />
         </div>
     )
