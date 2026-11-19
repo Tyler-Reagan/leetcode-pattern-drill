@@ -17,6 +17,11 @@
                 theme = 'dark';
             }
             document.documentElement.setAttribute('data-theme', theme);
+            try {
+                if (localStorage.getItem('dyslexic-font') === '1') {
+                    document.documentElement.setAttribute('data-font', 'dyslexic');
+                }
+            } catch (e) { }
         })();
     </script>
     <title>Pattern Drill</title>
@@ -101,8 +106,8 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="/leetcode-pattern-drill/assets/index-Cn6aQurH.js"></script>
-  <link rel="stylesheet" crossorigin href="/leetcode-pattern-drill/assets/index-HnaQfh2w.css">
+  <script type="module" crossorigin src="/leetcode-pattern-drill/assets/index-bEAU5WvW.js"></script>
+  <link rel="stylesheet" crossorigin href="/leetcode-pattern-drill/assets/index-DIfjMbzW.css">
 </head>
 
 <body>

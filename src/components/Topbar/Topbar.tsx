@@ -9,6 +9,7 @@ import clsx from '@/utils/clsx'
 import getNavBarHeight from '@utils/getNavBarHeight'
 import { cancelPendingScroll } from '@utils/scrollWhenSettled'
 import scrollTo from '@utils/scrollTo'
+import FontSwitch from '@components/FontSwitch/FontSwitch'
 import ThemeSwitch from '@components/ThemeSwitch/ThemeSwitch'
 import Github from '@icons/Github'
 
@@ -120,6 +121,7 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
                             <path d="M2.5 4.5 6 8l3.5-3.5" />
                         </svg>
                     </label>
+                    <FontSwitch />
                     <ThemeSwitch />
                     <a
                         href="https://github.com/Tyler-Reagan/leetcode-pattern-drill"

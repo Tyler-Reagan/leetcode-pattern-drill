@@ -100,6 +100,39 @@
     --code-line-number-hover-color: var(--color-code-slate)
     --code-gutter-rule: #2f4a40
 
+
+// OpenDyslexic replaces the text faces; code keeps its monospace face. It runs about 1.7x wider
+// than Barlow, so this mode also drops caps and tracking, widens the sidebar and shrinks headings.
+:root[data-font=dyslexic]
+    --pd-font-display: 'OpenDyslexic', 'Barlow Condensed', 'Arial Narrow', sans-serif
+    --pd-font-body: 'OpenDyslexic', 'Barlow', system-ui, sans-serif
+    --sidebar-width: 400px
+    --h1-font-size: 1.5rem
+    --h2-font-size: 1.375rem
+    --h3-font-size: 1.125rem
+
+    // Caps with wide tracking are hard to read for dyslexic readers and wider still in this face.
+    // !important beats the per-component rules that set them.
+    *:not(code, pre, pre *)
+        letter-spacing: normal !important
+        text-transform: none !important
+
+    // Fixed-grid figures keep their own faces: the clock cells, and the chart labels that are
+    // placed by coordinates.
+    [role=timer] *
+        font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif !important
+
+    svg text
+        font-family: 'Barlow', system-ui, sans-serif !important
+
+    // The view toggle shares one 390px row on phones; let its buttons shrink to fit.
+    @media (max-width: 480px)
+        [role=group][aria-label=View] button
+            flex: 1 1 0
+            font-size: 0.8125rem
+            min-width: 0
+            padding: 0 4px
+
 [data-theme=dark]
     color-scheme: dark
     --pd-ground: #121c18
