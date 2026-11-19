@@ -19,7 +19,7 @@ The timed decision tree is the mechanism: recognition is trained under a 30-seco
 Used beside a LeetCode problem in another tab or window, in repeated short runs. A drill run starts the countdown at the root and ends at a leaf or on reset; going over the budget is overtime and does not end the run. Backtracking is allowed and the clock keeps running. Templates exist in Python, JavaScript, Java and C++.
 
 ## Capabilities and Constraints
-- Two views: Pattern Finder (default, front door) and Reference (full cheatsheet, content unchanged).
+- Three views: Pattern Finder (default, front door), Pareto Set (the curator's 49 core problems, grouped by pattern, each linked out to LeetCode; a fixed list, not tracked) and Reference (full cheatsheet, content unchanged).
 - Finder: 49 leaves, at most 5 questions per path; 16 leaves have no template yet (TEMPLATE-TODO.md).
 - Stateless: nothing about a run is stored. Only the selected language and the theme choice persist, in localStorage.
 - Static site deployed from the committed `docs/` build to GitHub Pages under `/leetcode-pattern-drill/`.

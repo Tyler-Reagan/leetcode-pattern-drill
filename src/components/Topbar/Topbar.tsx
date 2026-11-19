@@ -20,6 +20,7 @@ interface TopbarProps {
 
 const VIEWS: { id: View, label: string }[] = [
     { id: 'finder', label: 'Pattern Finder' },
+    { id: 'pareto', label: 'Pareto Set' },
     { id: 'cheatsheet', label: 'Reference' },
 ]
 
@@ -61,7 +62,7 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         cancelPendingScroll()
         setView(next)
         // The sidebar indexes the Reference: open it there on wide screens, close it on the Finder.
-        if (next === 'finder') hideSidebar()
+        if (next !== 'cheatsheet') hideSidebar()
         else if (!window.matchMedia('(max-width: 768px)').matches) showSidebar()
         window.scrollTo({ top: 0 })
     }
