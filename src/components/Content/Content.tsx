@@ -3,6 +3,7 @@ import styles from './Content.module.sass'
 import { useSidebar } from '@components/Sidebar/SidebarProvider'
 import { useView } from '@components/View/ViewProvider'
 import PatternFinder from '@components/PatternFinder/PatternFinder'
+import Pareto from '@components/Pareto/Pareto'
 
 import BigO from '@sections/BigO/BigO'
 import Array from '@sections/Array/Array'
@@ -27,12 +28,12 @@ export default function Content() {
     const { view } = useView()
     const classes = clsx(
         styles.main,
-        (!isSidebarOpen || view === 'finder') && styles.sidebarHidden
+        (!isSidebarOpen || view !== 'cheatsheet') && styles.sidebarHidden
     )
 
     return (
         <main className={classes}>
-            {view === 'finder' ? <PatternFinder /> : renderCheatsheet()}
+            {view === 'finder' ? <PatternFinder /> : view === 'pareto' ? <Pareto /> : renderCheatsheet()}
         </main>
     )
 }

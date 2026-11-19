@@ -33,7 +33,7 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
 
     // The sidebar only indexes the Reference; it never stays open on the Finder.
     useEffect(() => {
-        if (view === 'finder' && isSidebarOpen) hideSidebar()
+        if (view !== 'cheatsheet' && isSidebarOpen) hideSidebar()
     }, [view, isSidebarOpen, hideSidebar])
 
     const isScreenMd = useMediaQuery({ maxWidth: 768 }, undefined, handleMediaQueryChange)

@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 
-export type View = 'cheatsheet' | 'finder'
+export type View = 'cheatsheet' | 'finder' | 'pareto'
 
 interface ViewContextType {
     view: View
