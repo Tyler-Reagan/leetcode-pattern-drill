@@ -1,4 +1,8 @@
-import type { FinderTree } from './types'
+import type { FinderTree, LeafProblem } from './types'
+
+// `loose` marks a looser fit: the pattern works, but it is not the first one most people reach for.
+const P = (lc: number, name: string, slug: string, loose = false): LeafProblem =>
+    loose ? { lc, name, slug, loose } : { lc, name, slug }
 
 // Some nodes and leaves are reachable from more than one question (the tree is a DAG),
 // so a problem can be found from whichever cue the user notices.
@@ -15,7 +19,7 @@ export const tree: FinderTree = {
                 { cue: 'a binary tree or BST', next: 'q-tree' },
                 { cue: 'a graph, grid, edges, or prerequisites', next: 'q-graph' },
                 { cue: 'a data stream, or a design-a-class prompt', next: 'q-design' },
-                { cue: 'an integer n, or bit tricks (single number, XOR)', next: 'q-number' },
+                { cue: 'an integer n, or work done on its individual bits', next: 'q-number' },
             ],
         },
 
@@ -23,13 +27,13 @@ export const tree: FinderTree = {
             id: 'q-array',
             question: 'What does it ask about the array or string?',
             options: [
-                { cue: 'a contiguous subarray or substring (window, sum)', next: 'q-subarray' },
+                { cue: 'a contiguous subarray or substring', next: 'q-subarray' },
                 { cue: 'a pair or triplet, a palindrome, or an in-place edit', next: 'q-pointers' },
                 { cue: 'searching a sorted array, or the min/max value that works', next: 'q-search' },
                 { cue: 'the next greater or smaller element of each item', next: 'q-mono' },
                 { cue: 'counts, duplicates, top K, brackets, words', next: 'q-lookup' },
-                { cue: 'choices over elements (all combos, best or count of ways)', next: 'q-choices' },
-                { cue: 'intervals (merge, overlaps, meeting rooms)', next: 'sort-first' },
+                { cue: 'choices over elements: generate them all, or find the best or count the ways', next: 'q-choices' },
+                { cue: 'intervals with a start and an end', next: 'sort-first' },
             ],
         },
         'q-subarray': {
@@ -48,8 +52,8 @@ export const tree: FinderTree = {
             id: 'q-window-variable',
             question: 'What does the window rule check?',
             options: [
-                { cue: 'sum or product vs a target (non-negative numbers)', next: 'sliding-window-variable' },
-                { cue: 'characters (no repeats, at most K distinct, contains all of T)', next: 'hashmap-sliding-window' },
+                { cue: 'sum or product vs a target, with non-negative numbers', next: 'sliding-window-variable' },
+                { cue: 'which characters the window holds, and how many of each', next: 'hashmap-sliding-window' },
             ],
         },
         'q-prefix': {
@@ -57,17 +61,17 @@ export const tree: FinderTree = {
             question: 'What kind of subarray-sum question?',
             options: [
                 { cue: 'many queries for the sum between index i and j', next: 'prefix-sum-range' },
-                { cue: 'count or longest subarrays with sum K (negatives allowed)', next: 'prefix-sum-hashmap' },
+                { cue: 'count or longest subarrays with sum K, when values can be negative', next: 'prefix-sum-hashmap' },
             ],
         },
         'q-pointers': {
             id: 'q-pointers',
             question: 'What are the pointers doing?',
             options: [
-                { cue: 'ends moving inward (3Sum, palindrome, reverse, container with most water)', next: 'two-pointers-converging' },
-                { cue: 'two arrays or strings (merge sorted, is subsequence)', next: 'two-pointers-two-inputs' },
-                { cue: 'in-place rewrite (remove duplicates, move zeroes, partition)', next: 'two-pointers-fast-slow-inplace' },
-                { cue: 'two numbers in an unsorted array (sum to X, return indices)', next: 'hashmap-frequency' },
+                { cue: 'pairs in sorted order, or a symmetric check, narrowing in from both ends', next: 'two-pointers-converging' },
+                { cue: 'walking two separate inputs together', next: 'two-pointers-two-inputs' },
+                { cue: 'rewriting the array in place, keeping some elements and moving or dropping the rest', next: 'two-pointers-fast-slow-inplace' },
+                { cue: 'two numbers in an unsorted array that hit a target', next: 'hashmap-frequency' },
             ],
         },
         'q-search': {
@@ -85,8 +89,8 @@ export const tree: FinderTree = {
             id: 'q-mono',
             question: 'What do you need for each element?',
             options: [
-                { cue: 'next greater element (days until warmer, stock span)', next: 'monotonic-stack-decreasing' },
-                { cue: 'next smaller element (largest rectangle in histogram)', next: 'monotonic-stack-increasing' },
+                { cue: 'the next greater element for each item', next: 'monotonic-stack-decreasing' },
+                { cue: 'the next smaller element for each item', next: 'monotonic-stack-increasing' },
                 { cue: 'max or min inside each size-K window', next: 'monotonic-deque' },
             ],
         },
@@ -94,12 +98,12 @@ export const tree: FinderTree = {
             id: 'q-lookup',
             question: 'What do you need to do with the data?',
             options: [
-                { cue: 'counting or grouping (occurrences, duplicates, anagrams)', next: 'hashmap-frequency' },
-                { cue: 'top K (K largest, K most frequent, Kth smallest)', next: 'heap-top-k' },
-                { cue: 'matching or nesting (parentheses, expressions, simplify path)', next: 'stack-matching' },
-                { cue: 'prefix lookups over a word list (autocomplete)', next: 'trie' },
-                { cue: 'building an output string (reverse words, compress, join)', next: 'string-building' },
-                { cue: 'bit tricks (single number among pairs, XOR)', next: 'bit-manipulation' },
+                { cue: 'counting or grouping items that match', next: 'hashmap-frequency' },
+                { cue: 'the K best items, or the Kth one, by size or frequency', next: 'heap-top-k' },
+                { cue: 'matching or nested structure, where the last thing opened closes first', next: 'stack-matching' },
+                { cue: 'prefix lookups over a word list', next: 'trie' },
+                { cue: 'building an output string piece by piece', next: 'string-building' },
+                { cue: 'operating on the bits of numbers', next: 'bit-manipulation' },
             ],
         },
         'q-choices': {
@@ -108,33 +112,33 @@ export const tree: FinderTree = {
             options: [
                 { cue: 'generate every subset, permutation, or combination', next: 'q-backtrack' },
                 { cue: 'best cost, or number of ways, over the choices', next: 'q-dp' },
-                { cue: 'locally best move each step (jump game, gas station)', next: 'greedy' },
+                { cue: 'a locally best move each step is enough', next: 'greedy' },
             ],
         },
         'q-backtrack': {
             id: 'q-backtrack',
             question: 'Can a partial choice be rejected early?',
             options: [
-                { cue: 'no, enumerate everything (subsets, permutations, combination sum)', next: 'backtracking' },
-                { cue: 'yes, a rule prunes branches (N-Queens, Sudoku, word search)', next: 'backtracking-pruning' },
+                { cue: 'no, every candidate has to be generated', next: 'backtracking' },
+                { cue: 'yes, a constraint lets you reject a partial choice early', next: 'backtracking-pruning' },
             ],
         },
         'q-dp': {
             id: 'q-dp',
             question: 'What do the choices look like?',
             options: [
-                { cue: 'reusable items (min coins, ways to make X)', next: 'dp-unbounded-knapsack' },
-                { cue: 'each item used once (partition equal subset, target sum)', next: 'dp-01-knapsack' },
-                { cue: 'one or two sequences (LIS, LCS, edit distance)', next: 'dp-sequences' },
-                { cue: 'something else (house robber, unique paths, word break)', next: 'q-dp-style' },
+                { cue: 'items you can reuse any number of times', next: 'dp-unbounded-knapsack' },
+                { cue: 'each item can be used at most once', next: 'dp-01-knapsack' },
+                { cue: 'ordering or matching within one or two sequences', next: 'dp-sequences' },
+                { cue: 'something else, where each state depends on earlier states', next: 'q-dp-style' },
             ],
         },
         'q-dp-style': {
             id: 'q-dp-style',
             question: 'Which way is the recurrence easier to write?',
             options: [
-                { cue: 'recurse from a state and cache (word break, decode ways)', next: 'dp-top-down' },
-                { cue: 'fill dp[i] or dp[r][c] from earlier cells (house robber, unique paths)', next: 'dp-bottom-up' },
+                { cue: 'recurse from a state and cache the result', next: 'dp-top-down' },
+                { cue: 'fill dp[i] or dp[r][c] from earlier cells', next: 'dp-bottom-up' },
             ],
         },
 
@@ -153,9 +157,9 @@ export const tree: FinderTree = {
             id: 'q-tree',
             question: 'What does it ask about the tree?',
             options: [
-                { cue: 'level-by-level view (level order, right side view)', next: 'tree-bfs' },
-                { cue: 'combine subtree answers (depth, path sum, LCA, validate BST, serialize)', next: 'tree-dfs-recursive' },
-                { cue: 'paused or non-recursive traversal (BST iterator, kth smallest)', next: 'tree-dfs-iterative' },
+                { cue: 'a level-by-level view of the tree', next: 'tree-bfs' },
+                { cue: 'an answer built by combining the answers from each subtree', next: 'tree-dfs-recursive' },
+                { cue: 'a traversal you must pause and resume, or run without recursion', next: 'tree-dfs-iterative' },
             ],
         },
 
@@ -163,21 +167,21 @@ export const tree: FinderTree = {
             id: 'q-graph',
             question: 'What does it ask about the graph or grid?',
             options: [
-                { cue: 'explore everything (islands, components, all paths)', next: 'graph-dfs' },
+                { cue: 'explore everything reachable', next: 'graph-dfs' },
                 { cue: 'shortest path or minimum steps', next: 'q-shortest' },
-                { cue: 'ordering with prerequisites (course schedule, directed cycle)', next: 'topological-sort' },
-                { cue: 'same-group checks (redundant connection, undirected cycle)', next: 'union-find' },
+                { cue: 'an order that respects prerequisites, or proof that none exists', next: 'topological-sort' },
+                { cue: 'whether two items are already in the same group, or an edge closes an undirected cycle', next: 'union-find' },
                 { cue: 'minimum cost to connect all points', next: 'mst' },
-                { cue: 'grid moving right or down (count paths, min path sum)', next: 'q-dp' },
+                { cue: 'a grid where you can only move right or down', next: 'q-dp' },
             ],
         },
         'q-shortest': {
             id: 'q-shortest',
             question: 'What kind of shortest path?',
             options: [
-                { cue: 'unweighted, from one start (word ladder, maze)', next: 'graph-bfs-shortest-path' },
-                { cue: 'spreads from many sources at once (rotting oranges, 01 matrix)', next: 'multi-source-bfs' },
-                { cue: 'weighted edges (network delay, cheapest flights)', next: 'shortest-path-weighted' },
+                { cue: 'unweighted edges, from one start', next: 'graph-bfs-shortest-path' },
+                { cue: 'spreads from many sources at once', next: 'multi-source-bfs' },
+                { cue: 'weighted edges', next: 'shortest-path-weighted' },
             ],
         },
 
@@ -187,9 +191,9 @@ export const tree: FinderTree = {
             options: [
                 { cue: 'median of a data stream', next: 'two-heaps' },
                 { cue: 'Kth largest element in a stream', next: 'heap-top-k' },
-                { cue: 'moving average, recent calls, circular queue', next: 'queue-design' },
-                { cue: 'implement Trie, add and search words', next: 'trie' },
-                { cue: 'min stack, undo, browser history', next: 'stack-matching' },
+                { cue: 'a rolling record of recent items, or a fixed-size queue', next: 'queue-design' },
+                { cue: 'storing words so prefix and exact lookups are fast', next: 'trie' },
+                { cue: 'stack behavior that must also answer a query or step back through history', next: 'stack-matching' },
             ],
         },
 
@@ -197,9 +201,9 @@ export const tree: FinderTree = {
             id: 'q-number',
             question: 'What does it ask about n?',
             options: [
-                { cue: 'bit tricks (power of two, set bits, single number, XOR)', next: 'bit-manipulation' },
-                { cue: 'nth term from earlier terms (climb n stairs)', next: 'q-dp' },
-                { cue: 'integer square root (largest x with x*x <= n)', next: 'binary-search-answer-maximize' },
+                { cue: 'bit-level properties of n', next: 'bit-manipulation' },
+                { cue: 'the nth term defined by earlier terms', next: 'q-dp' },
+                { cue: 'the largest x whose square is still at most n', next: 'binary-search-answer-maximize' },
                 { cue: 'guess the number in 1..n', next: 'binary-search-classic' },
             ],
         },
@@ -213,6 +217,12 @@ export const tree: FinderTree = {
             summary:
                 'Sorted array pairs/triplets, palindromes, in-place reversal. Start at both ends and move the pointer whose side cannot be part of the answer.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/two-pointers',
+            problems: [
+                P(167, 'Two Sum II - Input Array Is Sorted', 'two-sum-ii-input-array-is-sorted'),
+                P(15, '3Sum', '3sum'),
+                P(11, 'Container With Most Water', 'container-with-most-water'),
+                P(125, 'Valid Palindrome', 'valid-palindrome'),
+            ],
             templateIds: ['two-pointers-one-input'],
         },
         'two-pointers-two-inputs': {
@@ -222,6 +232,11 @@ export const tree: FinderTree = {
             summary:
                 'Merge sorted arrays, subsequence checks. One pointer per input; advance the one whose element is consumed.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/two-pointers',
+            problems: [
+                P(88, 'Merge Sorted Array', 'merge-sorted-array'),
+                P(392, 'Is Subsequence', 'is-subsequence'),
+                P(986, 'Interval List Intersections', 'interval-list-intersections'),
+            ],
             templateIds: ['two-pointers-two-inputs'],
         },
         'two-pointers-fast-slow-inplace': {
@@ -231,6 +246,12 @@ export const tree: FinderTree = {
             summary:
                 'Remove duplicates, move zeroes, partition in O(1) space. A fast pointer reads every element; a slow pointer marks where the next kept element is written.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/two-pointers',
+            problems: [
+                P(26, 'Remove Duplicates from Sorted Array', 'remove-duplicates-from-sorted-array'),
+                P(283, 'Move Zeroes', 'move-zeroes'),
+                P(27, 'Remove Element', 'remove-element'),
+                P(75, 'Sort Colors', 'sort-colors'),
+            ],
             templateIds: [],
         },
         'sliding-window-fixed': {
@@ -240,6 +261,10 @@ export const tree: FinderTree = {
             summary:
                 'Every window of exactly K elements. Add the entering element and remove the leaving one so each step is O(1).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/sliding-window',
+            problems: [
+                P(643, 'Maximum Average Subarray I', 'maximum-average-subarray-i'),
+                P(1456, 'Maximum Number of Vowels in a Substring of Given Length', 'maximum-number-of-vowels-in-a-substring-of-given-length'),
+            ],
             templateIds: ['sliding-window'],
         },
         'sliding-window-variable': {
@@ -249,6 +274,12 @@ export const tree: FinderTree = {
             summary:
                 'Longest/shortest subarray meeting a sum-style rule with non-negative values. Expand right, shrink left while the window is invalid (or while valid, for shortest).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/sliding-window',
+            problems: [
+                P(209, 'Minimum Size Subarray Sum', 'minimum-size-subarray-sum'),
+                P(713, 'Subarray Product Less Than K', 'subarray-product-less-than-k'),
+                P(1004, 'Max Consecutive Ones III', 'max-consecutive-ones-iii'),
+                P(121, 'Best Time to Buy and Sell Stock', 'best-time-to-buy-and-sell-stock', true),
+            ],
             templateIds: ['sliding-window'],
         },
         'sliding-window-exactly-k': {
@@ -258,6 +289,11 @@ export const tree: FinderTree = {
             summary:
                 '"Exactly K" is not monotonic, so count it as atMost(K) - atMost(K-1), each a standard variable window.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/sliding-window',
+            problems: [
+                P(992, 'Subarrays with K Different Integers', 'subarrays-with-k-different-integers'),
+                P(1248, 'Count Number of Nice Subarrays', 'count-number-of-nice-subarrays'),
+                P(930, 'Binary Subarrays With Sum', 'binary-subarrays-with-sum'),
+            ],
             templateIds: [],
         },
         'prefix-sum-range': {
@@ -267,6 +303,12 @@ export const tree: FinderTree = {
             summary:
                 'Many sum-between-i-and-j queries on a fixed array. Precompute prefix[i]; each query is prefix[j+1] - prefix[i] in O(1).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/prefix-sum',
+            problems: [
+                P(303, 'Range Sum Query - Immutable', 'range-sum-query-immutable'),
+                P(304, 'Range Sum Query 2D - Immutable', 'range-sum-query-2d-immutable'),
+                P(238, 'Product of Array Except Self', 'product-of-array-except-self', true),
+                P(724, 'Find Pivot Index', 'find-pivot-index'),
+            ],
             templateIds: ['prefix-sum'],
         },
         'prefix-sum-hashmap': {
@@ -276,6 +318,11 @@ export const tree: FinderTree = {
             summary:
                 'Count or find subarrays with sum K when negatives break sliding window. Store prefix-sum counts (seeded with {0: 1}) and look up prefix - K.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/prefix-sum',
+            problems: [
+                P(560, 'Subarray Sum Equals K', 'subarray-sum-equals-k'),
+                P(525, 'Contiguous Array', 'contiguous-array'),
+                P(974, 'Subarray Sums Divisible by K', 'subarray-sums-divisible-by-k'),
+            ],
             templateIds: ['hashmap-find-number-of-subarrays'],
         },
         'string-building': {
@@ -285,6 +332,11 @@ export const tree: FinderTree = {
             summary:
                 'Producing a new string piece by piece. Append to a list or builder and join once at the end; repeated concatenation is O(n^2).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/stack',
+            problems: [
+                P(151, 'Reverse Words in a String', 'reverse-words-in-a-string'),
+                P(443, 'String Compression', 'string-compression'),
+                P(1768, 'Merge Strings Alternately', 'merge-strings-alternately'),
+            ],
             templateIds: ['string-building'],
         },
 
@@ -295,6 +347,12 @@ export const tree: FinderTree = {
             summary:
                 'Find an exact value in a sorted (or rotated) space. Halve the range each step by comparing the middle with the target.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
+            problems: [
+                P(704, 'Binary Search', 'binary-search'),
+                P(153, 'Find Minimum in Rotated Sorted Array', 'find-minimum-in-rotated-sorted-array'),
+                P(33, 'Search in Rotated Sorted Array', 'search-in-rotated-sorted-array'),
+                P(74, 'Search a 2D Matrix', 'search-a-2d-matrix'),
+            ],
             templateIds: ['binary-search'],
         },
         'binary-search-left-bound': {
@@ -304,6 +362,11 @@ export const tree: FinderTree = {
             summary:
                 'First position of X or its insertion point. Keep searching left when nums[mid] >= X to land on the leftmost index.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
+            problems: [
+                P(35, 'Search Insert Position', 'search-insert-position'),
+                P(278, 'First Bad Version', 'first-bad-version'),
+                P(34, 'Find First and Last Position of Element in Sorted Array', 'find-first-and-last-position-of-element-in-sorted-array'),
+            ],
             templateIds: ['binary-search-left-insertion'],
         },
         'binary-search-right-bound': {
@@ -313,6 +376,10 @@ export const tree: FinderTree = {
             summary:
                 'Last position of X, or count of elements <= X. Search for the insertion point after every copy of X (go right when nums[mid] <= X).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
+            problems: [
+                P(34, 'Find First and Last Position of Element in Sorted Array', 'find-first-and-last-position-of-element-in-sorted-array'),
+                P(744, 'Find Smallest Letter Greater Than Target', 'find-smallest-letter-greater-than-target'),
+            ],
             templateIds: ['binary-search-right-insertion'],
         },
         'binary-search-answer-minimize': {
@@ -322,6 +389,11 @@ export const tree: FinderTree = {
             summary:
                 'Smallest value that still works (min capacity, min speed, minimize the max). Binary search the answer range with a greedy feasibility check.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
+            problems: [
+                P(875, 'Koko Eating Bananas', 'koko-eating-bananas'),
+                P(1011, 'Capacity To Ship Packages Within D Days', 'capacity-to-ship-packages-within-d-days'),
+                P(410, 'Split Array Largest Sum', 'split-array-largest-sum'),
+            ],
             templateIds: ['binary-search-greedy-minimum'],
         },
         'binary-search-answer-maximize': {
@@ -331,6 +403,11 @@ export const tree: FinderTree = {
             summary:
                 'Largest value that still works (maximize the minimum distance). Binary search the answer range, keeping the best feasible value.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/binary-search',
+            problems: [
+                P(69, 'Sqrt(x)', 'sqrtx'),
+                P(1552, 'Magnetic Force Between Two Balls', 'magnetic-force-between-two-balls'),
+                P(2226, 'Maximum Candies Allocated to K Children', 'maximum-candies-allocated-to-k-children'),
+            ],
             templateIds: ['binary-search-greedy-maximum'],
         },
         'sort-first': {
@@ -340,6 +417,11 @@ export const tree: FinderTree = {
             summary:
                 'Intervals, meetings, or anything easier in order. Sort (often by start or end), then apply a linear scan, greedy, heap, or two pointers.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/sorting',
+            problems: [
+                P(56, 'Merge Intervals', 'merge-intervals'),
+                P(435, 'Non-overlapping Intervals', 'non-overlapping-intervals'),
+                P(57, 'Insert Interval', 'insert-interval'),
+            ],
             templateIds: [],
         },
 
@@ -350,6 +432,15 @@ export const tree: FinderTree = {
             summary:
                 'Counting, duplicates, anagrams, grouping, or unsorted two-sum. Store counts or complements so each lookup is O(1).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/hashmap',
+            problems: [
+                P(1, 'Two Sum', 'two-sum'),
+                P(217, 'Contains Duplicate', 'contains-duplicate'),
+                P(242, 'Valid Anagram', 'valid-anagram'),
+                P(49, 'Group Anagrams', 'group-anagrams'),
+                P(36, 'Valid Sudoku', 'valid-sudoku'),
+                P(128, 'Longest Consecutive Sequence', 'longest-consecutive-sequence'),
+                P(146, 'LRU Cache', 'lru-cache', true),
+            ],
             templateIds: [],
         },
         'hashmap-sliding-window': {
@@ -359,6 +450,11 @@ export const tree: FinderTree = {
             summary:
                 'Substring with no repeats, at most K distinct, or containing all of T. A frequency map tracks the window so you know when to shrink.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/sliding-window',
+            problems: [
+                P(3, 'Longest Substring Without Repeating Characters', 'longest-substring-without-repeating-characters'),
+                P(76, 'Minimum Window Substring', 'minimum-window-substring'),
+                P(424, 'Longest Repeating Character Replacement', 'longest-repeating-character-replacement'),
+            ],
             templateIds: ['hashmap-sliding-window'],
         },
         'stack-matching': {
@@ -368,6 +464,12 @@ export const tree: FinderTree = {
             summary:
                 'Brackets, expression evaluation, path simplification, undo. Push openings or state; pop when the matching close or reversal arrives.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/stack',
+            problems: [
+                P(20, 'Valid Parentheses', 'valid-parentheses'),
+                P(71, 'Simplify Path', 'simplify-path'),
+                P(155, 'Min Stack', 'min-stack'),
+                P(150, 'Evaluate Reverse Polish Notation', 'evaluate-reverse-polish-notation'),
+            ],
             templateIds: [],
         },
         'monotonic-stack-increasing': {
@@ -375,8 +477,12 @@ export const tree: FinderTree = {
             name: 'Monotonic stack, increasing',
             pattern: 'Monotonic Stack',
             summary:
-                'Next/previous smaller element, largest rectangle in histogram. Keep the stack increasing; a smaller arrival pops and resolves the taller entries.',
+                'Next/previous smaller element. Keep the stack increasing; a smaller arrival pops and resolves the taller entries.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/monotonic-stack',
+            problems: [
+                P(84, 'Largest Rectangle in Histogram', 'largest-rectangle-in-histogram'),
+                P(85, 'Maximal Rectangle', 'maximal-rectangle'),
+            ],
             templateIds: ['stack-monotonic-increasing'],
         },
         'monotonic-stack-decreasing': {
@@ -384,8 +490,14 @@ export const tree: FinderTree = {
             name: 'Monotonic stack, decreasing',
             pattern: 'Monotonic Stack',
             summary:
-                'Next/previous greater element, daily temperatures, stock span. Keep the stack decreasing; a larger arrival pops and resolves the smaller entries.',
+                'Next/previous greater element. Keep the stack decreasing; a larger arrival pops and resolves the smaller entries.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/monotonic-stack',
+            problems: [
+                P(739, 'Daily Temperatures', 'daily-temperatures'),
+                P(496, 'Next Greater Element I', 'next-greater-element-i'),
+                P(503, 'Next Greater Element II', 'next-greater-element-ii'),
+                P(901, 'Online Stock Span', 'online-stock-span'),
+            ],
             templateIds: ['stack-monotonic-decreasing'],
         },
         'monotonic-deque': {
@@ -395,6 +507,10 @@ export const tree: FinderTree = {
             summary:
                 'Max or min of every window of size K. Keep a deque of indices in monotonic order; drop expired indices from the front.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/queue',
+            problems: [
+                P(239, 'Sliding Window Maximum', 'sliding-window-maximum'),
+                P(1438, 'Longest Continuous Subarray With Absolute Diff Less Than or Equal to Limit', 'longest-continuous-subarray-with-absolute-diff-less-than-or-equal-to-limit'),
+            ],
             templateIds: [],
         },
         'queue-design': {
@@ -402,8 +518,14 @@ export const tree: FinderTree = {
             name: 'Queue design',
             pattern: 'Queue',
             summary:
-                'Moving average, recent calls, rate limiting, circular queue. FIFO of values or timestamps, evicting from the front as they expire.',
+                'Rolling windows over recent items, rate limiting, fixed-size queues. FIFO of values or timestamps, evicting from the front as they expire.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/queue',
+            problems: [
+                P(933, 'Number of Recent Calls', 'number-of-recent-calls'),
+                P(622, 'Design Circular Queue', 'design-circular-queue'),
+                P(146, 'LRU Cache', 'lru-cache', true),
+                P(346, 'Moving Average from Data Stream', 'moving-average-from-data-stream'),
+            ],
             templateIds: [],
         },
         'heap-top-k': {
@@ -413,6 +535,13 @@ export const tree: FinderTree = {
             summary:
                 'K largest, K most frequent, Kth element (also in a stream). Keep a min-heap of size K, popping the smallest when it overflows.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/heap',
+            problems: [
+                P(215, 'Kth Largest Element in an Array', 'kth-largest-element-in-an-array'),
+                P(347, 'Top K Frequent Elements', 'top-k-frequent-elements'),
+                P(703, 'Kth Largest Element in a Stream', 'kth-largest-element-in-a-stream'),
+                P(1046, 'Last Stone Weight', 'last-stone-weight', true),
+                P(973, 'K Closest Points to Origin', 'k-closest-points-to-origin'),
+            ],
             templateIds: ['heap-find-top-k-elements'],
         },
         'heap-merge-k': {
@@ -422,6 +551,12 @@ export const tree: FinderTree = {
             summary:
                 'Merge K sorted lists or streams. Push each head into a min-heap; pop the smallest and push its successor.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/heap',
+            problems: [
+                P(23, 'Merge k Sorted Lists', 'merge-k-sorted-lists'),
+                P(378, 'Kth Smallest Element in a Sorted Matrix', 'kth-smallest-element-in-a-sorted-matrix'),
+                P(373, 'Find K Pairs with Smallest Sums', 'find-k-pairs-with-smallest-sums'),
+                P(1046, 'Last Stone Weight', 'last-stone-weight', true),
+            ],
             templateIds: [],
         },
         'two-heaps': {
@@ -431,6 +566,10 @@ export const tree: FinderTree = {
             summary:
                 'Running median of a stream. A max-heap holds the lower half and a min-heap the upper half, rebalanced so sizes differ by at most one.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/heap',
+            problems: [
+                P(295, 'Find Median from Data Stream', 'find-median-from-data-stream'),
+                P(480, 'Sliding Window Median', 'sliding-window-median'),
+            ],
             templateIds: [],
         },
         trie: {
@@ -440,6 +579,11 @@ export const tree: FinderTree = {
             summary:
                 'Prefix matching, autocomplete, word dictionaries. Store words character by character in a tree so prefix lookups cost O(length).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/trie',
+            problems: [
+                P(208, 'Implement Trie (Prefix Tree)', 'implement-trie-prefix-tree'),
+                P(211, 'Design Add and Search Words Data Structure', 'design-add-and-search-words-data-structure'),
+                P(212, 'Word Search II', 'word-search-ii'),
+            ],
             templateIds: ['ds-trie'],
         },
         'linked-list-fast-slow': {
@@ -449,6 +593,13 @@ export const tree: FinderTree = {
             summary:
                 "Cycle detection, middle node, Nth from end. Move one pointer twice as fast (Floyd's) or give one a head start.",
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/linked-list',
+            problems: [
+                P(141, 'Linked List Cycle', 'linked-list-cycle'),
+                P(876, 'Middle of the Linked List', 'middle-of-the-linked-list'),
+                P(19, 'Remove Nth Node From End of List', 'remove-nth-node-from-end-of-list'),
+                P(142, 'Linked List Cycle II', 'linked-list-cycle-ii'),
+                P(143, 'Reorder List', 'reorder-list'),
+            ],
             templateIds: ['linkedlist-fast-and-slow-pointer'],
         },
         'linked-list-reverse': {
@@ -458,6 +609,12 @@ export const tree: FinderTree = {
             summary:
                 'Reverse a whole list, a sublist, or k-groups. Walk with prev/curr/next and flip each pointer.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/linked-list',
+            problems: [
+                P(206, 'Reverse Linked List', 'reverse-linked-list'),
+                P(92, 'Reverse Linked List II', 'reverse-linked-list-ii'),
+                P(25, 'Reverse Nodes in k-Group', 'reverse-nodes-in-k-group'),
+                P(143, 'Reorder List', 'reorder-list'),
+            ],
             templateIds: ['linkedlist-reverse'],
         },
         'linked-list-merge-sorted': {
@@ -467,6 +624,11 @@ export const tree: FinderTree = {
             summary:
                 'Merge two sorted lists. Use a dummy head and always attach the smaller of the two current nodes.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/linked-list',
+            problems: [
+                P(21, 'Merge Two Sorted Lists', 'merge-two-sorted-lists'),
+                P(148, 'Sort List', 'sort-list'),
+                P(143, 'Reorder List', 'reorder-list'),
+            ],
             templateIds: [],
         },
 
@@ -475,8 +637,19 @@ export const tree: FinderTree = {
             name: 'Tree DFS, recursive',
             pattern: 'DFS',
             summary:
-                'Depth, path sum, LCA, validate BST, serialize. Recurse into children and combine their answers (pre-, in-, or post-order).',
+                'Anything computed from the results of the children. Recurse into children and combine their answers (pre-, in-, or post-order).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dfs',
+            problems: [
+                P(226, 'Invert Binary Tree', 'invert-binary-tree'),
+                P(104, 'Maximum Depth of Binary Tree', 'maximum-depth-of-binary-tree'),
+                P(543, 'Diameter of Binary Tree', 'diameter-of-binary-tree'),
+                P(110, 'Balanced Binary Tree', 'balanced-binary-tree'),
+                P(100, 'Same Tree', 'same-tree'),
+                P(572, 'Subtree of Another Tree', 'subtree-of-another-tree'),
+                P(235, 'Lowest Common Ancestor of a Binary Search Tree', 'lowest-common-ancestor-of-a-binary-search-tree'),
+                P(1448, 'Count Good Nodes in Binary Tree', 'count-good-nodes-in-binary-tree'),
+                P(98, 'Validate Binary Search Tree', 'validate-binary-search-tree'),
+            ],
             templateIds: ['tree-dfs-recursive'],
         },
         'tree-dfs-iterative': {
@@ -484,8 +657,14 @@ export const tree: FinderTree = {
             name: 'Tree DFS, iterative',
             pattern: 'DFS',
             summary:
-                'BST iterator, kth smallest, or deep trees. Replace recursion with an explicit stack, often for an in-order walk you can pause.',
+                'Traversals you must pause, or trees too deep to recurse. Replace recursion with an explicit stack, often for an in-order walk you can pause.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dfs',
+            problems: [
+                P(173, 'Binary Search Tree Iterator', 'binary-search-tree-iterator'),
+                P(230, 'Kth Smallest Element in a BST', 'kth-smallest-element-in-a-bst'),
+                P(94, 'Binary Tree Inorder Traversal', 'binary-tree-inorder-traversal'),
+                P(235, 'Lowest Common Ancestor of a Binary Search Tree', 'lowest-common-ancestor-of-a-binary-search-tree', true),
+            ],
             templateIds: ['tree-dfs-iterative'],
         },
         'tree-bfs': {
@@ -493,8 +672,13 @@ export const tree: FinderTree = {
             name: 'Tree BFS, level order',
             pattern: 'BFS',
             summary:
-                'Level order, right side view, per-level values. Process the queue one level at a time using its size as a snapshot.',
+                'Anything computed per level. Process the queue one level at a time using its size as a snapshot.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/bfs',
+            problems: [
+                P(102, 'Binary Tree Level Order Traversal', 'binary-tree-level-order-traversal'),
+                P(199, 'Binary Tree Right Side View', 'binary-tree-right-side-view'),
+                P(103, 'Binary Tree Zigzag Level Order Traversal', 'binary-tree-zigzag-level-order-traversal'),
+            ],
             templateIds: ['tree-bfs'],
         },
         'graph-dfs': {
@@ -502,8 +686,15 @@ export const tree: FinderTree = {
             name: 'Graph DFS',
             pattern: 'DFS',
             summary:
-                'Islands, connected components, all paths, clone graph. Explore fully from each unvisited node, marking visited.',
+                'Connected components, all paths, copying a structure. Explore fully from each unvisited node, marking visited.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dfs',
+            problems: [
+                P(200, 'Number of Islands', 'number-of-islands'),
+                P(695, 'Max Area of Island', 'max-area-of-island'),
+                P(133, 'Clone Graph', 'clone-graph'),
+                P(417, 'Pacific Atlantic Water Flow', 'pacific-atlantic-water-flow'),
+                P(130, 'Surrounded Regions', 'surrounded-regions'),
+            ],
             templateIds: ['graph-dfs-recursive', 'graph-dfs-iterative'],
         },
         'graph-bfs-shortest-path': {
@@ -513,6 +704,11 @@ export const tree: FinderTree = {
             summary:
                 'Fewest steps in an unweighted graph or grid. BFS from the start; the level at which you reach the target is the distance.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/bfs',
+            problems: [
+                P(127, 'Word Ladder', 'word-ladder'),
+                P(1091, 'Shortest Path in Binary Matrix', 'shortest-path-in-binary-matrix'),
+                P(752, 'Open the Lock', 'open-the-lock'),
+            ],
             templateIds: ['graph-bfs'],
         },
         'multi-source-bfs': {
@@ -520,8 +716,14 @@ export const tree: FinderTree = {
             name: 'Multi-source BFS',
             pattern: 'BFS',
             summary:
-                'Something spreads from many cells at once (rotting oranges, 01 matrix). Enqueue every source first, then run one BFS.',
+                'Something spreads from many cells at once. Enqueue every source first, then run one BFS.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/bfs',
+            problems: [
+                P(994, 'Rotting Oranges', 'rotting-oranges'),
+                P(542, '01 Matrix', '01-matrix'),
+                P(417, 'Pacific Atlantic Water Flow', 'pacific-atlantic-water-flow', true),
+                P(130, 'Surrounded Regions', 'surrounded-regions', true),
+            ],
             templateIds: [],
         },
         'shortest-path-weighted': {
@@ -531,6 +733,11 @@ export const tree: FinderTree = {
             summary:
                 'Shortest path with edge weights. Dijkstra (min-heap) for non-negative weights; Bellman-Ford for negatives or at most K edges.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/graph-algorithms',
+            problems: [
+                P(743, 'Network Delay Time', 'network-delay-time'),
+                P(787, 'Cheapest Flights Within K Stops', 'cheapest-flights-within-k-stops'),
+                P(1631, 'Path With Minimum Effort', 'path-with-minimum-effort'),
+            ],
             templateIds: ['graph-dijkstra', 'graph-bellman-ford'],
         },
         'topological-sort': {
@@ -540,6 +747,10 @@ export const tree: FinderTree = {
             summary:
                 "Ordering with dependencies, or detecting that none exists. Kahn's algorithm: repeatedly take nodes with in-degree 0.",
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/graph-algorithms',
+            problems: [
+                P(207, 'Course Schedule', 'course-schedule'),
+                P(210, 'Course Schedule II', 'course-schedule-ii'),
+            ],
             templateIds: ['graph-kahn'],
         },
         'union-find': {
@@ -549,6 +760,11 @@ export const tree: FinderTree = {
             summary:
                 'Are two items in the same group, merging groups, redundant edges (undirected cycles). Keep a parent array with path compression and union by rank.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/union-find',
+            problems: [
+                P(684, 'Redundant Connection', 'redundant-connection'),
+                P(721, 'Accounts Merge', 'accounts-merge'),
+                P(547, 'Number of Provinces', 'number-of-provinces'),
+            ],
             templateIds: ['ds-union-find', 'ds-union-find-optimized'],
         },
         mst: {
@@ -558,6 +774,9 @@ export const tree: FinderTree = {
             summary:
                 'Minimum cost to connect all points. Kruskal (sort edges + Union Find) or Prim (grow from a node with a min-heap).',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/graph-algorithms',
+            problems: [
+                P(1584, 'Min Cost to Connect All Points', 'min-cost-to-connect-all-points'),
+            ],
             templateIds: ['graph-kruskal', 'graph-prim'],
         },
 
@@ -568,6 +787,12 @@ export const tree: FinderTree = {
             summary:
                 'Generate all subsets, permutations, or combinations. Choose, recurse, un-choose, recording each complete candidate.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/backtracking',
+            problems: [
+                P(78, 'Subsets', 'subsets'),
+                P(46, 'Permutations', 'permutations'),
+                P(77, 'Combinations', 'combinations'),
+                P(39, 'Combination Sum', 'combination-sum'),
+            ],
             templateIds: ['backtracking'],
         },
         'backtracking-pruning': {
@@ -575,8 +800,13 @@ export const tree: FinderTree = {
             name: 'Backtracking, pruning',
             pattern: 'Backtracking',
             summary:
-                'Constraint puzzles like N-Queens, Sudoku, word search. Backtrack, but reject a partial choice as soon as it breaks a constraint.',
+                'Constraint puzzles where a partial choice can be checked early. Backtrack, but reject a partial choice as soon as it breaks a constraint.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/backtracking',
+            problems: [
+                P(51, 'N-Queens', 'n-queens'),
+                P(37, 'Sudoku Solver', 'sudoku-solver'),
+                P(79, 'Word Search', 'word-search'),
+            ],
             templateIds: [],
         },
         'dp-top-down': {
@@ -586,6 +816,10 @@ export const tree: FinderTree = {
             summary:
                 'Overlapping subproblems where the recursion is the natural statement. Write the recursive choice, then cache results by state.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(139, 'Word Break', 'word-break'),
+                P(91, 'Decode Ways', 'decode-ways'),
+            ],
             templateIds: ['dp-top-down'],
         },
         'dp-bottom-up': {
@@ -595,6 +829,12 @@ export const tree: FinderTree = {
             summary:
                 'Each state depends on earlier indices or neighbor cells. Fill a dp table from the base cases forward.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(198, 'House Robber', 'house-robber'),
+                P(62, 'Unique Paths', 'unique-paths'),
+                P(64, 'Minimum Path Sum', 'minimum-path-sum'),
+                P(70, 'Climbing Stairs', 'climbing-stairs'),
+            ],
             templateIds: ['dp-bottom-up'],
         },
         'dp-kadane': {
@@ -604,6 +844,12 @@ export const tree: FinderTree = {
             summary:
                 'Maximum sum subarray. At each element, either extend the running sum or restart from it; track the best seen.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(53, 'Maximum Subarray', 'maximum-subarray'),
+                P(152, 'Maximum Product Subarray', 'maximum-product-subarray'),
+                P(918, 'Maximum Sum Circular Subarray', 'maximum-sum-circular-subarray'),
+                P(121, 'Best Time to Buy and Sell Stock', 'best-time-to-buy-and-sell-stock', true),
+            ],
             templateIds: ['dp-kadane'],
         },
         'dp-unbounded-knapsack': {
@@ -611,8 +857,13 @@ export const tree: FinderTree = {
             name: 'Unbounded knapsack',
             pattern: 'Dynamic Programming',
             summary:
-                'Items reusable: min coins, ways to make change, climb stairs. 1D dp over the target, looping capacity forward.',
+                'Items reusable any number of times: fewest items, or number of ways, to reach a total. 1D dp over the target, looping capacity forward.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(322, 'Coin Change', 'coin-change'),
+                P(518, 'Coin Change II', 'coin-change-ii'),
+                P(279, 'Perfect Squares', 'perfect-squares'),
+            ],
             templateIds: [],
         },
         'dp-01-knapsack': {
@@ -620,8 +871,13 @@ export const tree: FinderTree = {
             name: '0/1 knapsack',
             pattern: 'Dynamic Programming',
             summary:
-                'Each item used at most once: partition equal subset, target sum. dp over capacity, looping capacity backwards per item.',
+                'Each item used at most once: can a subset, or how many subsets, reach a total. dp over capacity, looping capacity backwards per item.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(416, 'Partition Equal Subset Sum', 'partition-equal-subset-sum'),
+                P(494, 'Target Sum', 'target-sum'),
+                P(474, 'Ones and Zeroes', 'ones-and-zeroes'),
+            ],
             templateIds: [],
         },
         'dp-sequences': {
@@ -631,6 +887,11 @@ export const tree: FinderTree = {
             summary:
                 'Longest increasing or common subsequence, edit distance. dp[i] over one sequence or dp[i][j] over prefixes of two.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/dynamic-programming',
+            problems: [
+                P(300, 'Longest Increasing Subsequence', 'longest-increasing-subsequence'),
+                P(1143, 'Longest Common Subsequence', 'longest-common-subsequence'),
+                P(72, 'Edit Distance', 'edit-distance'),
+            ],
             templateIds: [],
         },
         greedy: {
@@ -638,8 +899,14 @@ export const tree: FinderTree = {
             name: 'Greedy',
             pattern: 'Greedy',
             summary:
-                'Jump game, gas station, partition labels. Take the locally best move in one pass when an exchange argument shows it is never worse.',
+                'Take the locally best move in one pass when an exchange argument shows it is never worse.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/greedy',
+            problems: [
+                P(121, 'Best Time to Buy and Sell Stock', 'best-time-to-buy-and-sell-stock', true),
+                P(55, 'Jump Game', 'jump-game'),
+                P(134, 'Gas Station', 'gas-station'),
+                P(763, 'Partition Labels', 'partition-labels'),
+            ],
             templateIds: [],
         },
         'bit-manipulation': {
@@ -649,6 +916,12 @@ export const tree: FinderTree = {
             summary:
                 'Single number among pairs, set bits, powers of two. Use XOR, masks, and shifts to work on bits directly in O(1) space.',
             docsUrl: 'https://resources.devweekends.com/dsa-patterns/bit-manipulation',
+            problems: [
+                P(136, 'Single Number', 'single-number'),
+                P(191, 'Number of 1 Bits', 'number-of-1-bits'),
+                P(231, 'Power of Two', 'power-of-two'),
+                P(338, 'Counting Bits', 'counting-bits'),
+            ],
             templateIds: [
                 'bitmanipulation-test-kth-bit',
                 'bitmanipulation-set-kth-bit',
