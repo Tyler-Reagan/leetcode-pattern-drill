@@ -768,7 +768,7 @@ $log-pad: 24px
             opacity: 0.7
             text-transform: none
 
-    ul
+    > ul:not(.cpTiles)
         display: flex
         flex-wrap: wrap
         gap: 4px 16px
@@ -846,3 +846,37 @@ $log-pad: 24px
 @media (prefers-reduced-motion: reduce)
     .stopButton, .row, .rowNum, .rowBack, .segButton, .option, .plain, .primary, .kbd, .finder .docsLink
         transition: none
+
+// Problem tiles
+.cpNum
+    font-size: 0.75rem
+    font-variant-numeric: tabular-nums
+    opacity: 0.65
+
+.cpLoose
+    opacity: 0.7
+
+.cpTiles
+    display: grid
+    gap: 8px
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr))
+    list-style: none
+    margin: 0
+    padding: 0
+
+.cpTile
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    display: flex
+    flex-direction: column
+    gap: 4px
+    padding: 10px 12px
+
+.toggleLabel
+    display: inline-grid
+
+    > span
+        grid-area: 1 / 1
+
+.toggleHidden
+    visibility: hidden

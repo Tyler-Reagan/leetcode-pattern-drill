@@ -29,13 +29,14 @@ export function formatClock(totalSeconds: number) {
     return `${Math.floor(seconds / 60)}:${pad(seconds % 60)}`
 }
 
-// Keys: Enter starts, 1-9 picks, Backspace backtracks, T toggles the template, Escape resets, M
+// Keys: Enter starts, 1-9 picks, Backspace backtracks, T toggles the template, P the common problems, Escape resets, M
 // switches mode. Map mode ignores all but M: a reset there would discard the paused run unseen.
 export default function useFinderRun() {
     const clock = useCountdown(BUDGET_SECONDS * 1000)
     const [started, setStarted] = useState(false)
     const [steps, setSteps] = useState<Step[]>([])
     const [showTemplate, setShowTemplate] = useState(false)
+    const [showProblems, setShowProblems] = useState(false)
     const [mode, setModeState] = useState<FinderMode>('flow')
     const stageRef = useRef<HTMLHeadingElement>(null)
 
@@ -65,12 +66,14 @@ export default function useFinderRun() {
         if (keep < 0 || keep >= steps.length) return
         setSteps(steps.slice(0, keep))
         setShowTemplate(false)
+        setShowProblems(false)
         if (leaf) clock.resume()
     }, [steps, leaf, clock])
 
     const backtrack = useCallback(() => backtrackTo(steps.length - 1), [backtrackTo, steps.length])
 
     const toggleTemplate = useCallback(() => setShowTemplate((prev) => !prev), [])
+    const toggleProblems = useCallback(() => setShowProblems((prev) => !prev), [])
 
     // Map pauses the clock and keeps the run. Flow resumes it only for a run that has started
     // and not yet reached a result; a run that never started never gets a clock from here.
@@ -89,6 +92,7 @@ export default function useFinderRun() {
         setStarted(false)
         setSteps([])
         setShowTemplate(false)
+        setShowProblems(false)
     }, [clock])
 
     useEffect(() => {
@@ -108,6 +112,7 @@ export default function useFinderRun() {
             // A focused button already answers Enter with its own click.
             if (event.key === 'Enter' && !started && target?.tagName !== 'BUTTON') return start()
             if ((event.key === 't' || event.key === 'T') && leaf) return toggleTemplate()
+            if ((event.key === 'p' || event.key === 'P') && leaf) return toggleProblems()
             if (/^[1-9]$/.test(event.key) && node) {
                 const option = node.options[Number(event.key) - 1]
                 if (option) pick(option)
@@ -115,7 +120,7 @@ export default function useFinderRun() {
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
-    }, [mode, started, steps.length, node, leaf, pick, backtrack, reset, start, toggleTemplate, toggleMode])
+    }, [mode, started, steps.length, node, leaf, pick, backtrack, reset, start, toggleTemplate, toggleProblems, toggleMode])
 
     const remainingSeconds = Math.max(0, Math.ceil(clock.remainingMs / 1000))
 
@@ -136,6 +141,8 @@ export default function useFinderRun() {
         overSeconds: Math.floor(clock.overtimeMs / 1000),
         showTemplate,
         toggleTemplate,
+        showProblems,
+        toggleProblems,
         stageRef,
         start,
         pick,
