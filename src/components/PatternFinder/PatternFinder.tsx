@@ -268,7 +268,7 @@ export default function PatternFinder() {
                         </div>
                     </dl>
                     <p className={styles.summary}>{leaf.summary}</p>
-                    <div className={styles.actions}>
+                    <div className={clsx(styles.actions, styles.actionsPair)}>
                         <button
                             type="button"
                             className={styles.primary}

@@ -39,6 +39,10 @@
     padding: 0 12px
     position: relative
 
+    @media (max-width: 768px)
+        height: 44px
+        min-width: 44px
+
     & + &
         margin-left: -1px
 
@@ -78,7 +82,7 @@
             background-color: var(--pd-accent)
 
     @media (max-width: 420px)
-        min-width: 0
+        min-width: 44px
         padding: 0 9px
 
         svg

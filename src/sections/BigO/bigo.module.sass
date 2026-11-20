@@ -19,7 +19,7 @@
 .tableWrapper
     background-color: var(--table-wrapper-background-color)
     backdrop-filter: var(--table-wrapper-backdrop-filter)
-    border-radius: 12px
+    border-radius: var(--pd-radius)
     border: 1px solid var(--table-wrapper-border-color)
     padding: 8px
     overflow-x: auto
@@ -31,19 +31,19 @@
         transform: translateY(-1px)
         background-color: var(--glass-background-color)
         backdrop-filter: var(--glass-backdrop-filter)
-        border-radius: calc(var(--glass-border-radius) - 4px)
+        border-radius: var(--pd-radius)
         box-shadow: var(--glass-tr-box-shadow)
 
         th, td
             border-bottom-color: transparent
 
             &:first-child
-                border-bottom-left-radius: 8px
-                border-top-left-radius: 8px
+                border-bottom-left-radius: var(--pd-radius)
+                border-top-left-radius: var(--pd-radius)
 
             &:last-child
-                border-bottom-right-radius: 8px
-                border-top-right-radius: 8px
+                border-bottom-right-radius: var(--pd-radius)
+                border-top-right-radius: var(--pd-radius)
 
 .red
     background-color: var(--color-red-alpha)

@@ -59,6 +59,48 @@ typography:
     fontFamily: "firacode, ui-monospace, monospace"
     fontSize: "0.9375rem"
     lineHeight: 1.55
+  caption:
+    fontFamily: "Barlow, system-ui, sans-serif"
+    fontSize: "0.75rem"
+    lineHeight: 1.4
+  small:
+    fontFamily: "Barlow, system-ui, sans-serif"
+    fontSize: "0.8125rem"
+    lineHeight: 1.4
+  meta:
+    fontFamily: "Barlow, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    lineHeight: 1.45
+  lead:
+    fontFamily: "Barlow, system-ui, sans-serif"
+    fontSize: "1.125rem"
+    lineHeight: 1.5
+  brand:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "1.375rem"
+    fontWeight: 700
+    letterSpacing: "0.08em"
+  subhead:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "1.5rem"
+    fontWeight: 700
+    letterSpacing: "0.04em"
+  numeral-sm:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "26px"
+    fontWeight: 600
+  numeral-md:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "36px"
+    fontWeight: 600
+  numeral-colon:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "38px"
+    fontWeight: 600
+  numeral-lg:
+    fontFamily: "Barlow Condensed, Arial Narrow, sans-serif"
+    fontSize: "42px"
+    fontWeight: 600
 rounded:
   base: "2px"
 spacing:

@@ -157,7 +157,7 @@ $log-pad: 24px
 
 .rowCue
     color: var(--pd-text)
-    font-size: 1.1875rem
+    font-size: 1.25rem
     line-height: 1.3
     overflow-wrap: anywhere
 
@@ -384,6 +384,7 @@ $log-pad: 24px
     min-height: 36px
     padding: 6px 16px
     text-transform: uppercase
+    position: relative
 
     &:hover
         color: var(--pd-text)
@@ -392,6 +393,12 @@ $log-pad: 24px
         font-size: 14px
         min-height: 32px
         padding: 4px 10px
+
+        // the drawn button stays 32px tall; the tap area grows to 44px
+        &::after
+            content: ''
+            inset: -6px 0
+            position: absolute
 
 .segOn
     background: var(--pd-ground)
@@ -542,6 +549,15 @@ $log-pad: 24px
     flex-wrap: wrap
     gap: 12px
 
+.actionsPair
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr))
+
+    .primary
+        font-size: 20px
+        gap: 12px
+        padding: 12px 16px
+
 .primary
     background: var(--pd-accent)
     border: 1px solid var(--pd-accent)
@@ -658,7 +674,7 @@ $log-pad: 24px
     border-radius: var(--pd-radius)
     color: var(--pd-text)
     font-family: var(--pd-font-display)
-    font-size: 18px
+    font-size: 1.125rem
     font-weight: 600
     gap: 10px
     letter-spacing: 0.14em
@@ -765,16 +781,7 @@ $log-pad: 24px
             font-weight: 400
             letter-spacing: 0
             margin-left: 6px
-            opacity: 0.7
             text-transform: none
-
-    > ul:not(.cpTiles)
-        display: flex
-        flex-wrap: wrap
-        gap: 4px 16px
-        list-style: none
-        margin: 0
-        padding: 0
 
     a
         color: var(--pd-accent-text)
@@ -787,14 +794,14 @@ $log-pad: 24px
     margin-left: 2px
 
 .commonProblemsNote
+    color: var(--pd-text-muted)
     font-size: 0.75rem
     margin: 0
-    opacity: 0.65
 
 .commonProblemsNum
+    color: var(--pd-text-muted)
     font-size: 0.75rem
     margin-left: 6px
-    opacity: 0.65
 
 // beats the global `a:not([role=button])` colour rule
 .finder .docsLink
@@ -849,12 +856,12 @@ $log-pad: 24px
 
 // Problem tiles
 .cpNum
+    color: var(--pd-text-muted)
     font-size: 0.75rem
     font-variant-numeric: tabular-nums
-    opacity: 0.65
 
 .cpLoose
-    opacity: 0.7
+    border-style: dashed
 
 .cpTiles
     display: grid
