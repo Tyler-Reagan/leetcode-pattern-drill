@@ -29,9 +29,16 @@
     &:hover
         border-color: var(--pd-text-muted)
 
+    // phone: the drawn track stays 32px tall; the tap area grows to 44px
+    @media (max-width: 768px)
+        &::after
+            content: ''
+            inset: -6px 0
+            position: absolute
+
 .indicator
     background-color: var(--pd-text)
-    border-radius: 1px
+    border-radius: var(--pd-radius)
     color: var(--pd-ground)
     display: flex
     align-items: center

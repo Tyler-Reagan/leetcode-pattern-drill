@@ -45,22 +45,37 @@ export function DocsLink({ leaf }: { leaf: Leaf }) {
 
 const PARETO_LC = new Set(PARETO.map((q) => q.lc))
 
+// Pareto first, then the rest, looser fits last; stable within each band.
+function organise(leaf: Leaf) {
+    const rank = (p: Leaf['problems'][number]) => (p.loose ? 2 : PARETO_LC.has(p.lc) ? 0 : 1)
+    return [...leaf.problems].sort((x, y) => rank(x) - rank(y))
+}
+
+// Both labels share one grid cell, so the button keeps the width of the longer one in either state.
+export function ToggleLabel({ open, show, hide }: { open: boolean; show: string; hide: string }) {
+    return (
+        <span className={styles.toggleLabel}>
+            <span aria-hidden={open} className={open ? styles.toggleHidden : undefined}>{show}</span>
+            <span aria-hidden={!open} className={open ? undefined : styles.toggleHidden}>{hide}</span>
+        </span>
+    )
+}
+
 export function CommonProblems({ leaf }: { leaf: Leaf }) {
+    const items = organise(leaf)
+
     return (
         <div className={styles.commonProblems}>
             <h4>Common problems <span>examples, not the full set</span></h4>
-            <ul>
-                {leaf.problems.map((problem) => (
-                    <li key={problem.lc}>
-                        <a href={`https://leetcode.com/problems/${problem.slug}/`} target="_blank" rel="noreferrer">
-                            {problem.name}
-                        </a>
-                        {problem.loose && <span className={styles.commonProblemsLoose} title="A looser fit for this pattern">*</span>}
-                        <span className={styles.commonProblemsNum}>LC {problem.lc}{PARETO_LC.has(problem.lc) && ' · Pareto'}</span>
+            <ul className={styles.cpTiles}>
+                {items.map((p) => (
+                    <li key={p.lc} className={clsx(styles.cpTile, p.loose && styles.cpLoose)}>
+                        <span className={styles.cpNum}>LC {p.lc}{p.loose && '*'}</span>
+                        <a href={`https://leetcode.com/problems/${p.slug}/`} target="_blank" rel="noreferrer">{p.name}</a>
                     </li>
                 ))}
             </ul>
-            {leaf.problems.some((problem) => problem.loose) && (
+            {items.some((p) => p.loose) && (
                 <p className={styles.commonProblemsNote}>* a looser fit: the pattern works, but most people reach for another one first</p>
             )}
         </div>
@@ -75,8 +90,7 @@ export function Templates({ leaf }: { leaf: Leaf }) {
             <div className={clsx(styles.templates, styles.note)}>
                 <p><strong>No template yet</strong> for this pattern variant.</p>
                 <p>{leaf.summary}</p>
-                <CommonProblems leaf={leaf} />
-                <DocsLink leaf={leaf} />
+                    <DocsLink leaf={leaf} />
             </div>
         )
     }
@@ -90,7 +104,6 @@ export function Templates({ leaf }: { leaf: Leaf }) {
                     ))}
                 </Tabs>
             ))}
-            <CommonProblems leaf={leaf} />
             <DocsLink leaf={leaf} />
         </div>
     )

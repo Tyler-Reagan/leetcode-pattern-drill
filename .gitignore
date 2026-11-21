@@ -32,3 +32,6 @@ dist-ssr
 
 # Impeccable review screenshots
 .impeccable/review/
+
+# Agents
+.claude/

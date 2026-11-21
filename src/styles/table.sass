@@ -41,3 +41,11 @@ tr
 #root tr:has(> td):hover
     outline: 1px solid var(--pd-text-muted)
     outline-offset: -1px
+
+// Phone: table links keep their look but gain a 44px tap area (padding paid back by margin).
+@media (max-width: 768px)
+    #root td a
+        display: inline-block
+        margin-block: -12px
+        min-width: 44px
+        padding-block: 12px

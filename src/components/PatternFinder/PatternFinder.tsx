@@ -7,7 +7,7 @@ import type { Leaf, TreeNode } from '@/finder/types'
 
 import clsx from '@utils/clsx'
 import PathLog from './PathLog'
-import { Kbd, ModeSwitch, Templates } from './shared'
+import { CommonProblems, Kbd, ModeSwitch, Templates, ToggleLabel } from './shared'
 import useFinderRun, { formatClock, type FinderRun } from './useFinderRun'
 
 // React Flow and dagre are heavy and only the Map needs them, so the Map loads on demand.
@@ -268,7 +268,7 @@ export default function PatternFinder() {
                         </div>
                     </dl>
                     <p className={styles.summary}>{leaf.summary}</p>
-                    <div className={styles.actions}>
+                    <div className={clsx(styles.actions, styles.actionsPair)}>
                         <button
                             type="button"
                             className={styles.primary}
@@ -276,10 +276,20 @@ export default function PatternFinder() {
                             aria-keyshortcuts="T"
                             onClick={run.toggleTemplate}
                         >
-                            {run.showTemplate ? 'Hide template' : 'View template'} <Kbd>T</Kbd>
+                            <ToggleLabel open={run.showTemplate} show="View template" hide="Hide template" /> <Kbd>T</Kbd>
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.primary}
+                            aria-expanded={run.showProblems}
+                            aria-keyshortcuts="P"
+                            onClick={run.toggleProblems}
+                        >
+                            <ToggleLabel open={run.showProblems} show="View problems" hide="Hide problems" /> <Kbd>P</Kbd>
                         </button>
                     </div>
                     {run.showTemplate && <Templates leaf={leaf} />}
+                    {run.showProblems && <CommonProblems leaf={leaf} />}
                 </div>
                 <Footer run={run} />
             </>
