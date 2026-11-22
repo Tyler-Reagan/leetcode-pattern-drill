@@ -79,6 +79,26 @@
     &:hover
         color: var(--pd-accent-text)
 
+    // Shimmer: an oversized gradient painted behind the letters (background-clip: text),
+    // with the text color made transparent so it shows through, then slid back and forth.
+    &:hover .title
+        animation: shimmer 3s ease alternate infinite
+        background-clip: text
+        background-image: linear-gradient(135deg, #ffb6c1, #ffcc99, #ffff99, #ccffcc, #99ccff, #cc99ff)
+        background-size: 300% 300%
+        color: transparent
+
+    @media (prefers-reduced-motion: reduce)
+        &:hover .title
+            animation: none
+            background-position: 0% 50%
+
+@keyframes shimmer
+    0%
+        background-position: 0% 50%
+    100%
+        background-position: 100% 50%
+
 .title
     color: inherit
     font-family: var(--pd-font-display)
