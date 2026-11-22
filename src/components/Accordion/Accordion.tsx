@@ -53,7 +53,7 @@ export function AccordionLink({ href, title, hint }: AccordionLinkProps) {
         <div className={styles.accordion}>
             <a
                 href={href}
-                role="button"
+                data-toc-link
                 className={clsx(styles.button, styles.leaf)}
                 aria-current={isCurrent ? 'location' : undefined}
                 aria-keyshortcuts={hint}

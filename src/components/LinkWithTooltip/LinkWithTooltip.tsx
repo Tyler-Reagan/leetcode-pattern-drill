@@ -36,7 +36,7 @@ export default function LinkWithTooltip({ href, description }: LinkWithTooltipPr
                 href={href}
                 className={styles.link}
                 onClick={onClick}
-                role="button"
+                data-toc-link
                 aria-current={isCurrent ? 'location' : undefined}
                 aria-description={description}
                 onMouseEnter={handleMouseEnter}

@@ -1,5 +1,8 @@
+// Table-of-contents links are real links (they navigate) that borrow the button reset, so they
+// opt in with data-toc-link instead of claiming role="button".
 button,
-a[role='button']
+a[role='button'],
+a[data-toc-link]
     display: inline-flex
     align-items: center
     justify-content: center
@@ -27,7 +30,7 @@ a[role='button']
         cursor: not-allowed
         opacity: 0.5
 
-a:not([role='button'])
+a:not([role='button']):not([data-toc-link])
     color: inherit
     cursor: pointer
     text-decoration: underline
