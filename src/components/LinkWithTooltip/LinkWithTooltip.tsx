@@ -1,5 +1,5 @@
 import styles from './LinkWithTooltip.module.sass'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Tooltip from '@components/Tooltip/Tooltip'
 import { useTocLink } from '@components/TableOfContents/useTocLink'
 
@@ -11,23 +11,24 @@ interface LinkWithTooltipProps {
 export default function LinkWithTooltip({ href, description }: LinkWithTooltipProps) {
     const ref = useRef<HTMLAnchorElement>(null)
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
-    let hoverTimer: NodeJS.Timeout
+    // A ref, not a local: a re-render between mouseenter and mouseleave (every link re-renders when the
+    // current section changes) would otherwise lose the timer, and the tooltip would pop up after leaving.
+    const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
-    const { isCurrent, onClick } = useTocLink(href, () => {
-        clearTimeout(hoverTimer)
+    const hideTooltip = () => {
+        clearTimeout(hoverTimer.current)
         setShowTooltip(false)
-    })
+    }
+
+    const { isCurrent, onClick } = useTocLink(href, hideTooltip)
 
     const handleMouseEnter = () => {
-        hoverTimer = setTimeout(() => {
-            setShowTooltip(true)
-        }, 700)
+        clearTimeout(hoverTimer.current)
+        hoverTimer.current = setTimeout(() => setShowTooltip(true), 700)
     }
 
-    const handleMouseLeave = () => {
-        clearTimeout(hoverTimer)
-        setShowTooltip(false)
-    }
+    // Also stop a pending tooltip if the link unmounts (e.g. the view changes) before it fires.
+    useEffect(() => () => clearTimeout(hoverTimer.current), [])
 
     return (
         <div className={styles.linkWrapper}>
@@ -40,7 +41,7 @@ export default function LinkWithTooltip({ href, description }: LinkWithTooltipPr
                 aria-current={isCurrent ? 'location' : undefined}
                 aria-description={description}
                 onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={hideTooltip}
             >
                 {description}
             </a>
