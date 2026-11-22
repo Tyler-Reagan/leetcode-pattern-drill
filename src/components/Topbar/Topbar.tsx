@@ -62,8 +62,8 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         if (next === view) return
         cancelPendingScroll()
         setView(next)
-        // The sidebar indexes the Reference: open it there on wide screens, close it on the Finder.
-        if (next !== 'cheatsheet') hideSidebar()
+        // The sidebar indexes the Reference and the Pareto Set: open it there on wide screens, close it on the Finder.
+        if (next === 'finder') hideSidebar()
         else if (!window.matchMedia('(max-width: 768px)').matches) showSidebar()
         window.scrollTo({ top: 0 })
     }
@@ -75,16 +75,16 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         <header ref={ref} className={styles.topbar}>
             <div className={styles.container}>
                 <div className={styles.leading}>
-                    {/* The sidebar indexes Reference sections, which are unmounted in the Finder.
+                    {/* The sidebar indexes the Reference and Pareto sections, which are unmounted in the Finder.
                         The button stays mounted (hidden, not removed) so its slot never shifts the layout. */}
                     <button
                         ref={forwardedRef}
                         type="button"
-                        className={clsx(styles.hamburger, view !== 'cheatsheet' && styles.inactive)}
+                        className={clsx(styles.hamburger, view === 'finder' && styles.inactive)}
                         onClick={handleHamburgerClick}
-                        aria-label={isSidebarOpen ? 'Hide reference sections' : 'Show reference sections'}
+                        aria-label={isSidebarOpen ? 'Hide sections' : 'Show sections'}
                         aria-expanded={isSidebarOpen}
-                        aria-controls="reference-sections"
+                        aria-controls="sidebar-sections"
                     >
                         <span className={clsx(styles.hamburgerIcon, styles.hamburgerTop, isSidebarOpen && styles.open)} />
                         <span className={clsx(styles.hamburgerIcon, styles.hamburgerMiddle, isSidebarOpen && styles.open)} />

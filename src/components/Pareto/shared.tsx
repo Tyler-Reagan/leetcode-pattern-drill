@@ -7,6 +7,8 @@ export const LEDE =
     'A curated list of LeetCode and data structure/algorithm problems designed around the 80/20 rule, ' +
     'focusing on high-impact topics that deliver 90–95% of the results needed for software engineering coding interviews.'
 
+export const sectionId = (id: string) => `pareto-${id}`
+
 export const CREDIT = 'Credit to Aman Manazir for coming up with this list.'
 
 export function ExternalIcon() {

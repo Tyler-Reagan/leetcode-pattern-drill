@@ -17,7 +17,7 @@ export default function Content() {
     const { view } = useView()
     const classes = clsx(
         styles.main,
-        (!isSidebarOpen || view !== 'cheatsheet') && styles.sidebarHidden
+        (!isSidebarOpen || view === 'finder') && styles.sidebarHidden
     )
 
     return (

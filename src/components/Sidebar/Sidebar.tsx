@@ -7,7 +7,9 @@ import { useSidebar } from '@components/Sidebar/SidebarProvider'
 import { useView } from '@components/View/ViewProvider'
 
 import clsx from '@utils/clsx'
-import SidebarLinks from './SidebarLinks'
+import TableOfContents from '@components/TableOfContents/TableOfContents'
+import { REFERENCE_TOC } from './referenceToc'
+import { PARETO_TOC } from './paretoToc'
 
 interface SidebarProps {
     hamburgerButtonRef: RefObject<HTMLButtonElement | null>
@@ -20,6 +22,8 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
     // Starts hidden when the sidebar starts closed, so it does not play its exit on load.
     const [shouldHide, setShouldHide] = useState<boolean>(() => !isSidebarOpen)
 
+    const title = view === 'pareto' ? 'Pareto Set' : 'Reference'
+
     const classes = clsx(
         styles.sidebar,
         !isSidebarOpen && styles.exit,
@@ -28,12 +32,12 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
 
     const handleMediaQueryChange = (matches: boolean) => {
         if (matches && isSidebarOpen) hideSidebar()
-        else if (!matches && !isSidebarOpen && view === 'cheatsheet') showSidebar()
+        else if (!matches && !isSidebarOpen && view !== 'finder') showSidebar()
     }
 
-    // The sidebar only indexes the Reference; it never stays open on the Finder.
+    // The sidebar indexes the Reference and the Pareto Set; it never stays open on the Finder.
     useEffect(() => {
-        if (view !== 'cheatsheet' && isSidebarOpen) hideSidebar()
+        if (view === 'finder' && isSidebarOpen) hideSidebar()
     }, [view, isSidebarOpen, hideSidebar])
 
     const isScreenMd = useMediaQuery({ maxWidth: 768 }, undefined, handleMediaQueryChange)
@@ -51,15 +55,15 @@ export default function Sidebar({ hamburgerButtonRef }: SidebarProps) {
     return (
         <nav
             ref={ref}
-            id="reference-sections"
-            aria-label="Reference sections"
+            id="sidebar-sections"
+            aria-label={`${title} sections`}
             className={classes}
             onAnimationStart={handleAnimationStart}
             onAnimationEndCapture={handleAnimationEnd}
         >
-            <h2 className={styles.heading}>Reference</h2>
+            <h2 className={styles.heading}>{title}</h2>
             <div className={styles.scrollContainer}>
-                <SidebarLinks />
+                <TableOfContents entries={view === 'pareto' ? PARETO_TOC : REFERENCE_TOC} />
             </div>
         </nav>
     )
