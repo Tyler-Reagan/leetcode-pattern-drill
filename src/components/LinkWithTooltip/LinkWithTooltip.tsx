@@ -1,64 +1,34 @@
 import styles from './LinkWithTooltip.module.sass'
-import { MouseEvent, useEffect, useRef, useState } from 'react'
-import getNavBarHeight from '@utils/getNavBarHeight'
-import scrollTo from '@utils/scrollTo'
-import scrollWhenSettled, { cancelPendingScroll } from '@utils/scrollWhenSettled'
+import { useEffect, useRef, useState } from 'react'
 import Tooltip from '@components/Tooltip/Tooltip'
-import { useView } from '@components/View/ViewProvider'
+import { useTocLink } from '@components/TableOfContents/useTocLink'
 
 interface LinkWithTooltipProps {
     href: string
     description: string
 }
 
-// Fired after a sidebar link writes its hash, so every link can re-read which one is current.
-const NAV_EVENT = 'pd-nav-link'
-
 export default function LinkWithTooltip({ href, description }: LinkWithTooltipProps) {
     const ref = useRef<HTMLAnchorElement>(null)
-    const { view, setView } = useView()
     const [showTooltip, setShowTooltip] = useState<boolean>(false)
-    const [hash, setHash] = useState<string>(() => window.location.hash)
-    let hoverTimer: NodeJS.Timeout
+    // A ref, not a local: a re-render between mouseenter and mouseleave (every link re-renders when the
+    // current section changes) would otherwise lose the timer, and the tooltip would pop up after leaving.
+    const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
-    useEffect(() => {
-        const sync = () => setHash(window.location.hash)
-        window.addEventListener(NAV_EVENT, sync)
-        window.addEventListener('hashchange', sync)
-        return () => {
-            window.removeEventListener(NAV_EVENT, sync)
-            window.removeEventListener('hashchange', sync)
-        }
-    }, [])
-
-    const isCurrent = view === 'cheatsheet' && hash === href
-
-    const handleLinkClick = (event: MouseEvent<HTMLAnchorElement>) => {
-        event.preventDefault()
-        window.history.replaceState({}, '', href)
-        window.dispatchEvent(new Event(NAV_EVENT))
-        clearTimeout(hoverTimer)
+    const hideTooltip = () => {
+        clearTimeout(hoverTimer.current)
         setShowTooltip(false)
-        cancelPendingScroll()
-        const offset = getNavBarHeight() - 2
-        if (view === 'finder') {
-            setView('cheatsheet')
-            scrollWhenSettled(href, offset)
-        } else {
-            scrollTo(href, offset)
-        }
     }
+
+    const { isCurrent, onClick } = useTocLink(href, hideTooltip)
 
     const handleMouseEnter = () => {
-        hoverTimer = setTimeout(() => {
-            setShowTooltip(true)
-        }, 700)
+        clearTimeout(hoverTimer.current)
+        hoverTimer.current = setTimeout(() => setShowTooltip(true), 700)
     }
 
-    const handleMouseLeave = () => {
-        clearTimeout(hoverTimer)
-        setShowTooltip(false)
-    }
+    // Also stop a pending tooltip if the link unmounts (e.g. the view changes) before it fires.
+    useEffect(() => () => clearTimeout(hoverTimer.current), [])
 
     return (
         <div className={styles.linkWrapper}>
@@ -66,12 +36,12 @@ export default function LinkWithTooltip({ href, description }: LinkWithTooltipPr
                 ref={ref}
                 href={href}
                 className={styles.link}
-                onClick={handleLinkClick}
-                role="button"
+                onClick={onClick}
+                data-toc-link
                 aria-current={isCurrent ? 'location' : undefined}
                 aria-description={description}
                 onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={hideTooltip}
             >
                 {description}
             </a>

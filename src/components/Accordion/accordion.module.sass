@@ -3,7 +3,9 @@
     flex-direction: column
     border-bottom: 1px solid var(--pd-rule)
 
-.button
+// `.accordion .button` (not bare `.button`) so it also outranks the global a[data-toc-link] reset
+// that AccordionLink's anchor gets.
+.accordion .button
     align-self: stretch
     justify-content: space-between
     gap: 8px
@@ -40,6 +42,26 @@
 
     &.open svg
         transform: rotate(0)
+
+// A header-styled row with no children (AccordionLink): same type and size, plus the
+// "current" state the sub-links use.
+.leaf
+    &[aria-current='location']
+        background-color: var(--pd-raised)
+        color: var(--pd-accent-text)
+
+// Keyboard shortcut chip on the right.
+.hint
+    align-items: center
+    border: 1px solid var(--pd-rule)
+    border-radius: var(--pd-radius)
+    color: var(--pd-text-muted)
+    display: inline-flex
+    flex-shrink: 0
+    font-size: 0.875rem
+    height: 24px
+    justify-content: center
+    width: 24px
 
 .content
     background-color: var(--accordion-content-background-color)

@@ -14,8 +14,8 @@ interface SidebarProviderProps {
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
 export function SidebarProvider ({ children }: SidebarProviderProps) {
-    // The sidebar belongs to the Reference view. The app opens on the Finder, so it starts closed;
-    // switching views opens or closes it (see Topbar). The hamburger only exists in the Reference.
+    // The sidebar belongs to the Reference and Pareto views. The app opens on the Finder, so it starts closed;
+    // switching views opens or closes it (see Topbar). The hamburger is inert on the Finder.
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
     const showSidebar = () => setIsSidebarOpen(true)
     const hideSidebar = () => setIsSidebarOpen(false)

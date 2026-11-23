@@ -1,23 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styles from './pareto.module.sass'
 
-import clsx from '@utils/clsx'
 import { COUNTS, PATTERNS, lcUrl } from '@/pareto/problems'
-import { CREDIT, Diff, ExternalIcon, LEDE } from './shared'
+import { NAV_EVENT } from '@components/TableOfContents/useTocLink'
+import getNavBarHeight from '@utils/getNavBarHeight'
+import scrollTo from '@utils/scrollTo'
+import { CREDIT, Diff, ExternalIcon, LEDE, sectionId } from './shared'
 
 const KEYS = '1234567890'
-const sectionId = (id: string) => `pareto-${id}`
+
+// The pattern index lives in the sidebar (same links as the Reference); the URL hash is the
+// shared "current section" state, and NAV_EVENT tells every sidebar link to re-read it.
+const markCurrent = (id: string) => {
+    const href = `#${sectionId(id)}`
+    if (window.location.hash === href) return
+    window.history.replaceState({}, '', href)
+    window.dispatchEvent(new Event(NAV_EVENT))
+}
 
 export default function Pareto() {
-    const [active, setActive] = useState(PATTERNS[0].id)
-
     const jump = (id: string) => {
-        const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-        document.getElementById(sectionId(id))?.scrollIntoView({ block: 'start', behavior: calm ? 'auto' : 'smooth' })
-        setActive(id)
+        markCurrent(id)
+        scrollTo(`#${sectionId(id)}`, getNavBarHeight() - 2)
     }
 
-    // Scroll spy: the section crossing the upper third of the viewport is the active one.
+    // Scroll spy: the section crossing the upper third of the viewport is the current one.
     useEffect(() => {
         const seen = new Set<string>()
         const observer = new IntersectionObserver((entries) => {
@@ -27,7 +34,7 @@ export default function Pareto() {
                 else seen.delete(id)
             }
             const first = PATTERNS.find((p) => seen.has(p.id))
-            if (first) setActive(first.id)
+            if (first) markCurrent(first.id)
         }, { rootMargin: '-25% 0px -65% 0px' })
         PATTERNS.forEach((p) => {
             const el = document.getElementById(sectionId(p.id))
@@ -42,7 +49,12 @@ export default function Pareto() {
             const t = e.target as HTMLElement
             if (t.closest('input, textarea, select, [contenteditable]') || e.metaKey || e.ctrlKey || e.altKey) return
             const k = KEYS.indexOf(e.key)
-            if (k >= 0 && k < PATTERNS.length) jump(PATTERNS[k].id)
+            if (k >= 0 && k < PATTERNS.length) {
+                // A shortcut moves the "current" row, so a keyboard-focused table-of-contents link must
+                // not keep its focus ring on a different row.
+                if (t.closest('#sidebar-sections')) t.blur()
+                jump(PATTERNS[k].id)
+            }
         }
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
@@ -62,21 +74,6 @@ export default function Pareto() {
                         <div><dt>Medium</dt><dd>{COUNTS.medium}</dd></div>
                     </dl>
                 </header>
-
-                <nav className={styles.band} aria-label="Patterns">
-                    <ol className={styles.bandList}>
-                        {PATTERNS.map((p, n) => (
-                            <li key={p.id}>
-                                <button type="button" className={clsx(styles.bandItem, p.id === active && styles.bandOn)}
-                                    aria-current={p.id === active ? 'true' : undefined} aria-keyshortcuts={KEYS[n]}
-                                    onClick={() => jump(p.id)}>
-                                    <span className={styles.bandKey}>{KEYS[n]}</span>
-                                    <span className={styles.bandName}>{p.name}</span>
-                                </button>
-                            </li>
-                        ))}
-                    </ol>
-                </nav>
 
                 {PATTERNS.map((g) => (
                     <section key={g.id} id={sectionId(g.id)} className={styles.aSection} aria-labelledby={`${sectionId(g.id)}-h`}>

@@ -62,8 +62,8 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
         if (next === view) return
         cancelPendingScroll()
         setView(next)
-        // The sidebar indexes the Reference: open it there on wide screens, close it on the Finder.
-        if (next !== 'cheatsheet') hideSidebar()
+        // The sidebar indexes the Reference and the Pareto Set: open it there on wide screens, close it on the Finder.
+        if (next === 'finder') hideSidebar()
         else if (!window.matchMedia('(max-width: 768px)').matches) showSidebar()
         window.scrollTo({ top: 0 })
     }
@@ -74,40 +74,41 @@ export default function Topbar({ forwardedRef }: TopbarProps) {
     return (
         <header ref={ref} className={styles.topbar}>
             <div className={styles.container}>
-                {/* The sidebar indexes Reference sections, which are unmounted in the Finder. */}
-                {view === 'cheatsheet' && (
+                <div className={styles.leading}>
+                    {/* The sidebar indexes the Reference and Pareto sections, which are unmounted in the Finder.
+                        The button stays mounted (hidden, not removed) so its slot never shifts the layout. */}
                     <button
                         ref={forwardedRef}
                         type="button"
-                        className={styles.hamburger}
+                        className={clsx(styles.hamburger, view === 'finder' && styles.inactive)}
                         onClick={handleHamburgerClick}
-                        aria-label={isSidebarOpen ? 'Hide reference sections' : 'Show reference sections'}
+                        aria-label={isSidebarOpen ? 'Hide sections' : 'Show sections'}
                         aria-expanded={isSidebarOpen}
-                        aria-controls="reference-sections"
+                        aria-controls="sidebar-sections"
                     >
                         <span className={clsx(styles.hamburgerIcon, styles.hamburgerTop, isSidebarOpen && styles.open)} />
                         <span className={clsx(styles.hamburgerIcon, styles.hamburgerMiddle, isSidebarOpen && styles.open)} />
                         <span className={clsx(styles.hamburgerIcon, styles.hamburgerBottom, isSidebarOpen && styles.open)} />
                     </button>
-                )}
+
+                    <div className={styles.segmented} role="group" aria-label="View">
+                        {VIEWS.map(({ id, label }) => (
+                            <button
+                                key={id}
+                                type="button"
+                                className={styles.segment}
+                                aria-pressed={view === id}
+                                onClick={() => handleViewSelect(id)}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
                 <a href={import.meta.env.BASE_URL} className={styles.wordmark} onClick={handleTitleClick}>
                     <h1 className={styles.title}>Pattern Drill</h1>
                 </a>
-
-                <div className={styles.segmented} role="group" aria-label="View">
-                    {VIEWS.map(({ id, label }) => (
-                        <button
-                            key={id}
-                            type="button"
-                            className={styles.segment}
-                            aria-pressed={view === id}
-                            onClick={() => handleViewSelect(id)}
-                        >
-                            {label}
-                        </button>
-                    ))}
-                </div>
 
                 <div className={styles.tools}>
                     <label className={styles.select}>
