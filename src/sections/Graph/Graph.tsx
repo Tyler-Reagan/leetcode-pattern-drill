@@ -5,6 +5,7 @@ import Tabs from '@components/Tabs/Tabs'
 import DFSrecursivePY from '@code/python/graph/dfs_recursive.py?raw'
 import DFSiterativePY from '@code/python/graph/dfs_iterative.py?raw'
 import BFSPY from '@code/python/graph/bfs.py?raw'
+import MultiSourceBFSPY from '@code/python/graph/multi_source_bfs.py?raw'
 import DijkstraPY from '@code/python/graph/dijkstra.py?raw'
 import BellmanFordPY from '@code/python/graph/bellman_ford.py?raw'
 import KahnPY from '@code/python/graph/kahn.py?raw'
@@ -14,6 +15,7 @@ import PrimPY from '@code/python/graph/prim.py?raw'
 import DFSrecursiveJS from '@code/javascript/graph/dfs_recursive.js?raw'
 import DFSiterativeJS from '@code/javascript/graph/dfs_iterative.js?raw'
 import BFSJS from '@code/javascript/graph/bfs.js?raw'
+import MultiSourceBFSJS from '@code/javascript/graph/multi_source_bfs.js?raw'
 import DijkstraJS from '@code/javascript/graph/dijkstra.js?raw'
 import BellmanFordJS from '@code/javascript/graph/bellman_ford.js?raw'
 import KahnJS from '@code/javascript/graph/kahn.js?raw'
@@ -23,6 +25,7 @@ import PrimJS from '@code/javascript/graph/prim.js?raw'
 import DFSrecursiveJAVA from '@code/java/graph/dfs_recursive.java?raw'
 import DFSiterativeJAVA from '@code/java/graph/dfs_iterative.java?raw'
 import BFSJAVA from '@code/java/graph/bfs.java?raw'
+import MultiSourceBFSJAVA from '@code/java/graph/multi_source_bfs.java?raw'
 import DijkstraJAVA from '@code/java/graph/dijkstra.java?raw'
 import BellmanFordJAVA from '@code/java/graph/bellman_ford.java?raw'
 import KahnJAVA from '@code/java/graph/kahn.java?raw'
@@ -32,6 +35,7 @@ import PrimJAVA from '@code/java/graph/prim.java?raw'
 import DFSrecursiveCPP from '@code/cpp/graph/dfs_recursive.cpp?raw'
 import DFSiterativeCPP from '@code/cpp/graph/dfs_iterative.cpp?raw'
 import BFSCPP from '@code/cpp/graph/bfs.cpp?raw'
+import MultiSourceBFSCPP from '@code/cpp/graph/multi_source_bfs.cpp?raw'
 import DijkstraCPP from '@code/cpp/graph/dijkstra.cpp?raw'
 import BellmanFordCPP from '@code/cpp/graph/bellman_ford.cpp?raw'
 import KahnCPP from '@code/cpp/graph/kahn.cpp?raw'
@@ -64,6 +68,14 @@ export default function Graph() {
                     <Tabs.Tab code={BFSJS} language="javascript" />
                     <Tabs.Tab code={BFSJAVA} language="java" />
                     <Tabs.Tab code={BFSCPP} language="cpp" />
+                </Tabs>
+            </section>
+            <section id="graph-multi-source-bfs">
+                <Tabs title="Multi-source BFS">
+                    <Tabs.Tab code={MultiSourceBFSPY} language="python" />
+                    <Tabs.Tab code={MultiSourceBFSJS} language="javascript" />
+                    <Tabs.Tab code={MultiSourceBFSJAVA} language="java" />
+                    <Tabs.Tab code={MultiSourceBFSCPP} language="cpp" />
                 </Tabs>
             </section>
             <section id="graph-dijkstra">

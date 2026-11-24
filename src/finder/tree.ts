@@ -772,7 +772,7 @@ export const tree: FinderTree = {
                 P(417, 'Pacific Atlantic Water Flow', 'pacific-atlantic-water-flow', true),
                 P(130, 'Surrounded Regions', 'surrounded-regions', true),
             ],
-            templateIds: [],
+            templateIds: ['graph-multi-source-bfs'],
         },
         'shortest-path-weighted': {
             id: 'shortest-path-weighted',
