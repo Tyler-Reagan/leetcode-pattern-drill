@@ -101,6 +101,10 @@ import GraphBfsPY from '@code/python/graph/bfs.py?raw'
 import GraphBfsJS from '@code/javascript/graph/bfs.js?raw'
 import GraphBfsJAVA from '@code/java/graph/bfs.java?raw'
 import GraphBfsCPP from '@code/cpp/graph/bfs.cpp?raw'
+import GraphMultiSourceBfsPY from '@code/python/graph/multi_source_bfs.py?raw'
+import GraphMultiSourceBfsJS from '@code/javascript/graph/multi_source_bfs.js?raw'
+import GraphMultiSourceBfsJAVA from '@code/java/graph/multi_source_bfs.java?raw'
+import GraphMultiSourceBfsCPP from '@code/cpp/graph/multi_source_bfs.cpp?raw'
 import GraphDfsIterativePY from '@code/python/graph/dfs_iterative.py?raw'
 import GraphDfsIterativeJS from '@code/javascript/graph/dfs_iterative.js?raw'
 import GraphDfsIterativeJAVA from '@code/java/graph/dfs_iterative.java?raw'
@@ -220,6 +224,7 @@ const TEMPLATES: Record<string, TemplateEntry> = {
     'graph-dijkstra': entry('Dijkstra (shortest path)', GraphDijkstraPY, GraphDijkstraJS, GraphDijkstraJAVA, GraphDijkstraCPP),
     'graph-kahn': entry('Kahn (topological sort)', GraphKahnPY, GraphKahnJS, GraphKahnJAVA, GraphKahnCPP),
     'graph-kruskal': entry('Kruskal (mst)', GraphKruskalPY, GraphKruskalJS, GraphKruskalJAVA, GraphKruskalCPP),
+    'graph-multi-source-bfs': entry('multi-source BFS', GraphMultiSourceBfsPY, GraphMultiSourceBfsJS, GraphMultiSourceBfsJAVA, GraphMultiSourceBfsCPP),
     'graph-prim': entry('Prim (mst)', GraphPrimPY, GraphPrimJS, GraphPrimJAVA, GraphPrimCPP),
     'hashmap-find-number-of-subarrays': entry('find number of subarrays that fit an exact criteria', HashmapFindNumberOfSubarraysPY, HashmapFindNumberOfSubarraysJS, HashmapFindNumberOfSubarraysJAVA, HashmapFindNumberOfSubarraysCPP),
     'hashmap-sliding-window': entry('sliding window', HashmapSlidingWindowPY, HashmapSlidingWindowJS, HashmapSlidingWindowJAVA, HashmapSlidingWindowCPP),

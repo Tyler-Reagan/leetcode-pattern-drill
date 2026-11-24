@@ -47,7 +47,7 @@ const EXPECTED_LEAVES: Record<string, string[]> = {
     'bst-walk': [],
     'graph-dfs': ['graph-dfs-recursive', 'graph-dfs-iterative'],
     'graph-bfs-shortest-path': ['graph-bfs'],
-    'multi-source-bfs': [],
+    'multi-source-bfs': ['graph-multi-source-bfs'],
     'shortest-path-weighted': ['graph-dijkstra', 'graph-bellman-ford'],
     'topological-sort': ['graph-kahn'],
     'union-find': ['ds-union-find', 'ds-union-find-optimized'],

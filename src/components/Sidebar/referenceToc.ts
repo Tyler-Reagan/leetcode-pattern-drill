@@ -55,6 +55,7 @@ export const REFERENCE_TOC: TocEntry[] = [
             { href: '#graph-dfs-recursive', label: 'DFS (recursive)' },
             { href: '#graph-dfs-iterative', label: 'DFS (iterative)' },
             { href: '#graph-bfs', label: 'BFS' },
+            { href: '#graph-multi-source-bfs', label: 'Multi-source BFS' },
             { href: '#graph-dijkstra', label: 'Dijkstra (shortest path)' },
             { href: '#graph-bellman-ford', label: 'Bellman-Ford (shortest path)' },
             { href: '#graph-kahn', label: 'Kahn (topological sort)' },

@@ -1,6 +1,6 @@
 # Pattern Finder: leaves without templates
 
-16 of 49 leaves in src/finder/tree.ts have `templateIds: []`. Add a template and list its id in the leaf to close each one.
+15 of 49 leaves in src/finder/tree.ts have `templateIds: []`. Add a template and list its id in the leaf to close each one.
 
 ## Two Pointers
 
@@ -36,10 +36,6 @@
 ## Linked List
 
 - [ ] **Linked list, merge sorted** (linked-list-merge-sorted). [docs](https://resources.devweekends.com/dsa-patterns/linked-list)
-
-## BFS
-
-- [ ] **Multi-source BFS** (multi-source-bfs). [docs](https://resources.devweekends.com/dsa-patterns/bfs)
 
 ## Backtracking
 
